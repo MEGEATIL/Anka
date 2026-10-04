@@ -1,0 +1,1054 @@
+cat > /mnt/user-data/outputs/dijidost_v10.html << 'HTMLEOF'
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>DijiDost</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --c0: #00ffcc;
+  --c1: #00e5ff;
+  --c2: #0090ff;
+  --c3: #7b2ff7;
+  --warn: #ffaa00;
+  --danger: #ff3860;
+  --ok: #00e676;
+  --bg: #050810;
+  --bg2: #080d1a;
+  --glass: rgba(0,229,255,0.04);
+  --glass2: rgba(0,229,255,0.08);
+  --border: rgba(0,229,255,0.12);
+  --border2: rgba(0,229,255,0.22);
+  --text: #e8f4ff;
+  --muted: rgba(180,210,240,0.5);
+  --nav-h: 68px;
+  --r: 14px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;}
+html,body{width:100%;height:100%;overflow:hidden;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  display:flex;flex-direction:column;
+  height:100dvh;
+}
+
+/* BG GRID */
+.bg-grid{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+  background-size:40px 40px;
+}
+.bg-corner{
+  position:fixed;z-index:0;pointer-events:none;
+}
+.bg-corner.tl{top:0;left:0;width:200px;height:200px;
+  background:radial-gradient(circle at 0% 0%, rgba(0,144,255,0.12) 0%, transparent 70%);}
+.bg-corner.br{bottom:80px;right:0;width:200px;height:200px;
+  background:radial-gradient(circle at 100% 100%, rgba(123,47,247,0.12) 0%, transparent 70%);}
+
+/* STATUS BAR */
+.sbar{
+  height:36px;padding:0 16px;
+  display:flex;justify-content:space-between;align-items:center;
+  border-bottom:1px solid var(--border);
+  background:rgba(5,8,16,0.95);
+  font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--muted);
+  flex-shrink:0;z-index:100;position:relative;
+}
+.sbar-dot{display:inline-block;width:6px;height:6px;border-radius:50%;
+  background:var(--c0);box-shadow:0 0 8px var(--c0);margin-right:5px;
+  animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.sbar-right{display:flex;gap:12px;align-items:center;}
+.sbar-pill{
+  padding:2px 8px;border-radius:20px;
+  border:1px solid var(--border);
+  background:var(--glass);
+  font-size:0.6rem;letter-spacing:1px;color:var(--c1);
+}
+
+/* SCROLL AREA */
+.scroll{
+  flex:1;overflow-y:auto;overflow-x:hidden;
+  scroll-behavior:smooth;
+  padding-bottom:calc(var(--nav-h) + 24px);
+  position:relative;z-index:1;
+}
+.scroll::-webkit-scrollbar{width:2px;}
+.scroll::-webkit-scrollbar-thumb{background:var(--c1);border-radius:2px;}
+
+/* TABS */
+.tab{display:none;flex-direction:column;gap:14px;padding:14px;}
+.tab.active{display:flex;animation:fadeUp 0.3s ease-out;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* CARD */
+.card{
+  background:var(--glass);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:16px;
+  position:relative;overflow:hidden;
+}
+.card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(0,229,255,0.25),transparent);
+}
+.card-hdr{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.62rem;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;color:var(--muted);
+  margin-bottom:14px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.card-hdr .lbl{display:flex;align-items:center;gap:6px;}
+.card-hdr .lbl::before{content:'';width:3px;height:10px;border-radius:2px;background:var(--c1);}
+
+/* BADGE */
+.badge{
+  font-size:0.58rem;font-weight:700;letter-spacing:1px;
+  padding:2px 8px;border-radius:20px;font-family:'JetBrains Mono',monospace;
+}
+.b-cyan{color:var(--c1);background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.25);}
+.b-green{color:var(--ok);background:rgba(0,230,118,0.1);border:1px solid rgba(0,230,118,0.25);}
+.b-warn{color:var(--warn);background:rgba(255,170,0,0.1);border:1px solid rgba(255,170,0,0.25);}
+.b-red{color:var(--danger);background:rgba(255,56,96,0.1);border:1px solid rgba(255,56,96,0.25);}
+
+/* ================ HOME TAB ================ */
+.hero{text-align:center;padding:20px 0 10px;position:relative;}
+.hero-orb-wrap{
+  width:180px;height:180px;margin:0 auto 20px;
+  position:relative;display:flex;align-items:center;justify-content:center;
+}
+.orb-ring{
+  position:absolute;border-radius:50%;
+  border-style:solid;border-color:transparent;
+}
+.ring1{
+  width:180px;height:180px;
+  border-width:1px;
+  border-top-color:var(--c1);border-right-color:rgba(0,229,255,0.3);
+  animation:spin1 8s linear infinite;
+}
+.ring2{
+  width:148px;height:148px;
+  border-width:1px;
+  border-bottom-color:var(--c0);border-left-color:rgba(0,255,204,0.3);
+  animation:spin1 5s linear infinite reverse;
+}
+.ring3{
+  width:116px;height:116px;
+  border-width:1px;
+  border-top-color:rgba(0,144,255,0.6);border-right-color:transparent;
+  border-left-color:rgba(123,47,247,0.4);
+  animation:spin1 3s linear infinite;
+}
+@keyframes spin1{100%{transform:rotate(360deg)}}
+
+.orb-core{
+  width:72px;height:72px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%, rgba(0,229,255,0.25), rgba(0,144,255,0.08) 60%, transparent);
+  border:1px solid rgba(0,229,255,0.35);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;z-index:2;
+  box-shadow:0 0 30px rgba(0,229,255,0.15), inset 0 0 20px rgba(0,229,255,0.08);
+}
+.orb-core-inner{
+  width:36px;height:36px;border-radius:50%;
+  background:radial-gradient(circle at 40% 40%, rgba(0,229,255,0.5), rgba(0,144,255,0.2));
+  animation:orbPulse 3s ease-in-out infinite;
+}
+@keyframes orbPulse{0%,100%{transform:scale(1);opacity:0.7}50%{transform:scale(1.15);opacity:1}}
+
+.orb-dot{
+  position:absolute;width:5px;height:5px;border-radius:50%;background:var(--c0);
+  box-shadow:0 0 8px var(--c0);
+}
+.od1{top:8px;left:50%;transform:translateX(-50%);}
+.od2{right:12px;top:50%;transform:translateY(-50%);}
+.od3{bottom:8px;right:30%;}
+
+.hero-clock{
+  font-family:'Orbitron',monospace;
+  font-size:3.8rem;font-weight:700;
+  color:var(--text);
+  letter-spacing:3px;line-height:1;
+}
+.hero-clock .sep{color:var(--c1);animation:blink2 1s step-end infinite;}
+@keyframes blink2{50%{opacity:0.2}}
+.hero-date{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.7rem;color:var(--muted);
+  letter-spacing:3px;margin-top:6px;text-transform:uppercase;
+}
+.ai-status{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid var(--border2);background:var(--glass2);
+  padding:6px 16px;border-radius:30px;margin-top:12px;
+  font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--c1);
+}
+.ai-bars{display:flex;gap:3px;align-items:flex-end;height:14px;}
+.ai-bar{width:3px;background:var(--c1);border-radius:2px;animation:barUp 0.9s ease-in-out infinite alternate;}
+.ai-bar:nth-child(1){height:40%;animation-delay:0s;}
+.ai-bar:nth-child(2){height:100%;animation-delay:0.15s;}
+.ai-bar:nth-child(3){height:60%;animation-delay:0.3s;}
+.ai-bar:nth-child(4){height:80%;animation-delay:0.1s;}
+.ai-bar:nth-child(5){height:45%;animation-delay:0.25s;}
+@keyframes barUp{to{height:20%;opacity:0.5}}
+
+/* Mini grid */
+.mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.mw{
+  background:var(--glass);border:1px solid var(--border);
+  border-radius:12px;padding:14px;text-align:center;
+  position:relative;overflow:hidden;
+}
+.mw::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--accent,var(--c1)),transparent);
+}
+.mw-val{font-family:'Orbitron',monospace;font-size:1.25rem;font-weight:700;margin:2px 0;}
+.mw-lbl{font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:var(--muted);letter-spacing:1.5px;}
+
+/* Mood */
+.mood-row{display:flex;gap:8px;}
+.mood-btn{
+  flex:1;background:var(--glass);border:1px solid var(--border);
+  border-radius:12px;padding:10px 2px;text-align:center;cursor:pointer;
+  font-size:1.3rem;transition:all 0.2s;
+}
+.mood-btn span{display:block;font-size:0.55rem;color:var(--muted);margin-top:3px;font-weight:600;font-family:'JetBrains Mono',monospace;letter-spacing:0.5px;}
+.mood-btn.selected,.mood-btn:active{border-color:var(--c1);background:rgba(0,229,255,0.1);transform:scale(1.06);}
+.mood-result{text-align:center;font-size:0.8rem;color:var(--c0);font-weight:600;margin-top:10px;min-height:18px;font-family:'JetBrains Mono',monospace;}
+
+/* Hatırlatıcılar */
+.rem-item{
+  display:flex;align-items:center;gap:12px;
+  background:var(--glass);border:1px solid var(--border);
+  border-radius:10px;padding:11px 13px;margin-bottom:8px;
+}
+.rem-icon{font-size:1.3rem;flex-shrink:0;}
+.rem-t{flex:1;}
+.rem-name{font-size:0.85rem;font-weight:600;}
+.rem-time{font-size:0.68rem;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-top:2px;}
+.rem-tag{font-size:0.6rem;font-family:'JetBrains Mono',monospace;font-weight:700;letter-spacing:1px;padding:2px 8px;border-radius:20px;}
+.tag-due{color:var(--warn);background:rgba(255,170,0,0.1);border:1px solid rgba(255,170,0,0.25);}
+.tag-ok{color:var(--ok);background:rgba(0,230,118,0.1);border:1px solid rgba(0,230,118,0.25);}
+
+/* ================ GÖREV TAB ================ */
+.task-input-row{display:flex;gap:10px;}
+.task-input{
+  flex:1;background:rgba(0,229,255,0.05);border:1px solid var(--border);
+  border-radius:10px;padding:11px 14px;color:var(--text);
+  font-family:'Inter',sans-serif;font-size:0.9rem;outline:none;
+  transition:border-color 0.2s;
+}
+.task-input:focus{border-color:var(--c1);}
+.task-input::placeholder{color:var(--muted);}
+.add-btn{
+  width:44px;height:44px;border-radius:10px;border:none;
+  background:linear-gradient(135deg,var(--c1),var(--c2));
+  color:#050810;font-size:1.4rem;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 16px rgba(0,229,255,0.3);transition:all 0.2s;
+}
+.add-btn:active{transform:scale(0.9);}
+
+.f-row{display:flex;gap:8px;margin-bottom:12px;}
+.f-btn{
+  font-size:0.68rem;font-weight:700;letter-spacing:1px;
+  padding:5px 11px;border-radius:20px;border:1px solid var(--border);
+  background:var(--glass);color:var(--muted);cursor:pointer;
+  font-family:'JetBrains Mono',monospace;transition:all 0.15s;
+}
+.f-btn.active{background:rgba(0,229,255,0.12);color:var(--c1);border-color:rgba(0,229,255,0.35);}
+
+.todo-item{
+  display:flex;align-items:center;gap:10px;
+  background:var(--glass);border:1px solid var(--border);
+  border-radius:10px;padding:12px 13px;margin-bottom:8px;
+  animation:fadeUp 0.25s ease-out;
+}
+.todo-cb{
+  width:20px;height:20px;border-radius:6px;border:1.5px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  flex-shrink:0;transition:all 0.2s;
+}
+.todo-item.done .todo-cb{background:var(--c1);border-color:var(--c1);color:#050810;}
+.todo-text{flex:1;font-size:0.88rem;font-weight:500;}
+.todo-item.done .todo-text{text-decoration:line-through;color:var(--muted);}
+.todo-del{background:none;border:none;color:var(--muted);font-size:1rem;cursor:pointer;padding:3px;transition:color 0.2s;}
+.todo-del:active{color:var(--danger);}
+.todo-stats-row{display:flex;justify-content:space-between;font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;padding:2px 0;}
+
+/* Notlar */
+.note-area{
+  width:100%;min-height:100px;background:rgba(0,229,255,0.04);
+  border:1px solid var(--border);border-radius:10px;
+  padding:12px;color:var(--text);font-family:'Inter',sans-serif;
+  font-size:0.88rem;outline:none;resize:vertical;line-height:1.6;
+  transition:border-color 0.2s;
+}
+.note-area:focus{border-color:var(--c1);}
+.note-area::placeholder{color:var(--muted);}
+.save-btn{
+  float:right;margin-top:8px;padding:9px 20px;border-radius:9px;border:none;
+  background:linear-gradient(135deg,var(--c1),var(--c2));
+  color:#050810;font-family:'JetBrains Mono',monospace;font-size:0.75rem;
+  font-weight:700;letter-spacing:1px;cursor:pointer;
+  box-shadow:0 0 14px rgba(0,229,255,0.25);transition:all 0.2s;
+}
+.save-btn:active{transform:scale(0.95);}
+.note-card{
+  background:var(--glass);border:1px solid var(--border);
+  border-radius:10px;padding:12px;margin-top:8px;animation:fadeUp 0.25s ease-out;
+}
+.note-card-text{font-size:0.85rem;color:var(--text);line-height:1.5;margin-bottom:8px;}
+.note-card-foot{display:flex;justify-content:space-between;align-items:center;}
+.note-time{font-size:0.62rem;color:var(--muted);font-family:'JetBrains Mono',monospace;}
+
+/* ================ ODAK TAB ================ */
+.pomo-ring-wrap{width:200px;height:200px;margin:0 auto 20px;position:relative;}
+.pomo-svg{position:absolute;inset:0;transform:rotate(-90deg);}
+.pomo-ring-bg{fill:none;stroke:rgba(0,229,255,0.08);stroke-width:8;}
+.pomo-ring-fill{
+  fill:none;stroke:url(#pomoGrad);stroke-width:8;
+  stroke-linecap:round;
+  stroke-dasharray:565;stroke-dashoffset:0;
+  transition:stroke-dashoffset 0.5s ease;
+}
+.pomo-inner{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+.pomo-time-txt{
+  font-family:'Orbitron',monospace;font-size:2.5rem;font-weight:700;
+  color:var(--text);letter-spacing:2px;
+}
+.pomo-mode-txt{
+  font-family:'JetBrains Mono',monospace;font-size:0.65rem;
+  color:var(--c1);letter-spacing:2.5px;margin-top:4px;
+}
+.pomo-dots{display:flex;gap:8px;justify-content:center;margin-bottom:14px;}
+.pomo-dot{
+  width:10px;height:10px;border-radius:50%;
+  background:rgba(255,255,255,0.08);border:1px solid var(--border);transition:all 0.3s;
+}
+.pomo-dot.done{background:var(--c1);box-shadow:0 0 8px var(--c1);}
+.pomo-ctrls{display:flex;gap:10px;justify-content:center;margin-bottom:14px;}
+.pc-btn{
+  padding:11px 24px;border-radius:10px;border:1px solid var(--border);
+  background:var(--glass2);color:var(--text);
+  font-family:'JetBrains Mono',monospace;font-size:0.8rem;font-weight:700;
+  letter-spacing:1px;cursor:pointer;transition:all 0.2s;
+}
+.pc-btn.primary{
+  background:linear-gradient(135deg,var(--c1),var(--c2));
+  border:none;color:#050810;box-shadow:0 0 20px rgba(0,229,255,0.3);
+}
+.pc-btn:active{transform:scale(0.95);}
+.pomo-types{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.pt-btn{
+  padding:9px 4px;border-radius:10px;border:1px solid var(--border);
+  background:var(--glass);color:var(--muted);font-size:0.75rem;font-weight:700;
+  cursor:pointer;text-align:center;transition:all 0.2s;
+  font-family:'JetBrains Mono',monospace;letter-spacing:0.5px;
+}
+.pt-btn.active{background:rgba(0,229,255,0.12);color:var(--c1);border-color:rgba(0,229,255,0.35);}
+.pt-btn small{display:block;font-size:0.6rem;color:var(--muted);margin-top:3px;letter-spacing:0.5px;}
+.pt-btn.active small{color:var(--c1);}
+.pomo-log{display:flex;flex-direction:column;gap:8px;max-height:160px;overflow-y:auto;}
+.pomo-log-item{
+  display:flex;justify-content:space-between;align-items:center;
+  background:var(--glass);border:1px solid var(--border);border-radius:8px;
+  padding:9px 11px;font-size:0.78rem;
+}
+.motiv-txt{
+  font-size:0.95rem;font-weight:500;line-height:1.7;
+  text-align:center;padding:10px 0;color:var(--c0);
+  font-style:italic;
+}
+
+/* ================ SİSTEM TAB ================ */
+.sys-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.stat-blk{
+  background:var(--glass);border:1px solid var(--border);
+  border-radius:12px;padding:13px;text-align:center;
+}
+.stat-lbl{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:1.5px;color:var(--muted);}
+.stat-val{font-family:'Orbitron',monospace;font-size:1.3rem;font-weight:700;margin:5px 0 3px;}
+.stat-bar{height:3px;background:rgba(255,255,255,0.05);border-radius:2px;overflow:hidden;}
+.stat-bar-f{height:100%;border-radius:2px;}
+.si-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:9px 0;border-bottom:1px solid var(--border);
+}
+.si-row:last-child{border-bottom:none;}
+.si-k{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--muted);}
+.si-v{font-family:'JetBrains Mono',monospace;font-size:0.78rem;font-weight:700;}
+
+/* Terminal */
+.term{
+  background:#030508;border:1px solid rgba(0,229,255,0.15);
+  border-radius:12px;padding:12px;
+  font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--c1);
+  height:200px;overflow-y:auto;
+  text-shadow:0 0 5px rgba(0,229,255,0.3);
+}
+.term::-webkit-scrollbar{width:2px;}
+.term::-webkit-scrollbar-thumb{background:var(--c1);}
+.t-line{margin-bottom:4px;opacity:0;animation:show 0.05s forwards;line-height:1.5;}
+@keyframes show{to{opacity:1}}
+.t-err{color:var(--danger);}
+.t-warn{color:var(--warn);}
+.t-ok{color:var(--ok);}
+
+/* Kripto */
+.crypto-item{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:10px 0;border-bottom:1px solid var(--border);
+}
+.crypto-item:last-child{border-bottom:none;}
+.crypto-sym{font-family:'Orbitron',monospace;font-size:0.85rem;font-weight:700;color:var(--c1);}
+.crypto-name{font-size:0.68rem;color:var(--muted);margin-top:2px;}
+.crypto-price{text-align:right;}
+.crypto-usd{font-family:'JetBrains Mono',monospace;font-size:0.88rem;font-weight:700;}
+.crypto-chg{font-size:0.65rem;font-family:'JetBrains Mono',monospace;font-weight:700;}
+.up{color:var(--ok);}
+.dn{color:var(--danger);}
+
+/* ================ BOTTOM NAV ================ */
+.bnav{
+  position:fixed;bottom:0;left:0;width:100%;height:var(--nav-h);
+  background:rgba(5,8,16,0.97);
+  border-top:1px solid var(--border);
+  display:flex;justify-content:space-around;align-items:center;
+  z-index:1000;backdrop-filter:blur(20px);
+}
+.nb{
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  color:var(--muted);font-size:0.56rem;font-weight:700;letter-spacing:0.5px;
+  cursor:pointer;transition:all 0.25s;padding:8px 10px;
+  text-transform:uppercase;flex:1;
+  font-family:'JetBrains Mono',monospace;
+}
+.nb-icon{font-size:1.3rem;transition:transform 0.2s;}
+.nb.active{color:var(--c1);}
+.nb.active .nb-icon{transform:translateY(-2px);filter:drop-shadow(0 0 6px var(--c1));}
+
+/* Nav line */
+.nav-line{
+  position:fixed;bottom:var(--nav-h);left:0;width:25%;height:2px;
+  background:linear-gradient(90deg,transparent,var(--c1),transparent);
+  border-radius:2px 2px 0 0;
+  transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  z-index:1001;
+}
+
+/* Adım Ring */
+.step-wrap{display:flex;align-items:center;gap:16px;}
+.step-svg{flex-shrink:0;}
+.step-ring-bg{fill:none;stroke:rgba(255,255,255,0.05);stroke-width:7;}
+.step-ring-fill{fill:none;stroke:url(#stepGrad);stroke-width:7;stroke-linecap:round;stroke-dasharray:283;transition:stroke-dashoffset 0.6s ease;}
+.step-info-r{flex:1;}
+.step-big{font-family:'Orbitron',monospace;font-size:1.6rem;font-weight:700;}
+.step-unit{font-size:0.78rem;color:var(--muted);font-weight:400;}
+.step-goal{font-size:0.72rem;color:var(--muted);margin-top:4px;}
+.step-kcal{font-size:0.72rem;color:var(--warn);font-weight:700;margin-top:5px;}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-corner tl"></div>
+<div class="bg-corner br"></div>
+
+<!-- STATUS BAR -->
+<div class="sbar">
+  <span><span class="sbar-dot"></span>DijiDost AI</span>
+  <span id="sb-time" style="color:var(--text);font-weight:700;">00:00</span>
+  <div class="sbar-right">
+    <span class="sbar-pill" id="sb-battery">⚡ 98%</span>
+    <span class="sbar-pill" style="color:var(--ok);">ONLINE</span>
+  </div>
+</div>
+
+<!-- SCROLL -->
+<div class="scroll" id="scroll">
+
+  <!-- ═══════════ ANA ═══════════ -->
+  <div id="tab-home" class="tab active">
+
+    <div class="hero">
+      <div class="hero-orb-wrap">
+        <div class="orb-ring ring1"></div>
+        <div class="orb-ring ring2"></div>
+        <div class="orb-ring ring3"></div>
+        <div class="orb-core">
+          <div class="orb-core-inner"></div>
+        </div>
+        <div class="orb-dot od1"></div>
+        <div class="orb-dot od2"></div>
+        <div class="orb-dot od3"></div>
+      </div>
+      <div class="hero-clock" id="main-clock">
+        <span id="clk-h">00</span><span class="sep">:</span><span id="clk-m">00</span>
+      </div>
+      <div class="hero-date" id="main-date">YÜKLENIYOR</div>
+      <div class="ai-status">
+        <div class="ai-bars">
+          <div class="ai-bar"></div><div class="ai-bar"></div>
+          <div class="ai-bar"></div><div class="ai-bar"></div>
+          <div class="ai-bar"></div>
+        </div>
+        <span>DİJİDOST AKTİF</span>
+      </div>
+    </div>
+
+    <!-- Mini Widgets -->
+    <div class="mini-grid">
+      <div class="mw" style="--accent:var(--c1)">
+        <div class="mw-val" style="color:var(--c1)" id="weather-val">--°C</div>
+        <div class="mw-lbl">HAVA DURUMU</div>
+      </div>
+      <div class="mw" style="--accent:var(--warn)">
+        <div class="mw-val" style="color:var(--warn)" id="btc-val">--</div>
+        <div class="mw-lbl">BTC / USD</div>
+      </div>
+      <div class="mw" style="--accent:var(--ok)">
+        <div class="mw-val" style="color:var(--ok)" id="steps-mini">4,231</div>
+        <div class="mw-lbl">ADIM</div>
+      </div>
+      <div class="mw" style="--accent:var(--danger)">
+        <div class="mw-val" style="color:var(--danger)" id="cal-mini">186</div>
+        <div class="mw-lbl">KALORİ</div>
+      </div>
+    </div>
+
+    <!-- Adım Sayacı -->
+    <div class="card">
+      <div class="card-hdr">
+        <span class="lbl">ADIM SAYACI</span>
+        <span class="badge b-green">AKTİF</span>
+      </div>
+      <div class="step-wrap">
+        <svg width="90" height="90" class="step-svg">
+          <defs>
+            <linearGradient id="stepGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#00ffcc"/>
+              <stop offset="100%" stop-color="#00e5ff"/>
+            </linearGradient>
+          </defs>
+          <circle class="step-ring-bg" cx="45" cy="45" r="38"/>
+          <circle class="step-ring-fill" id="step-ring" cx="45" cy="45" r="38"
+            stroke-dashoffset="165" transform="rotate(-90 45 45)"/>
+        </svg>
+        <div class="step-info-r">
+          <div><span class="step-big" id="step-num">4,231</span> <span class="step-unit">adım</span></div>
+          <div class="step-goal">Hedef: <b style="color:var(--c1)">10,000</b> adım</div>
+          <div class="step-kcal">⚡ <span id="step-kcal">186</span> kcal yakıldı</div>
+          <div style="height:3px;background:rgba(255,255,255,0.05);border-radius:2px;margin-top:8px;">
+            <div id="step-bar" style="width:42%;height:100%;border-radius:2px;background:linear-gradient(90deg,var(--c0),var(--c1));"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ruh Hali -->
+    <div class="card">
+      <div class="card-hdr">
+        <span class="lbl">BUGÜN NASIL HİSSEDİYORSUN?</span>
+        <span class="badge b-cyan" id="mood-badge">?</span>
+      </div>
+      <div class="mood-row">
+        <div class="mood-btn" onclick="selectMood(this,'😄','HARIKA')">😄<span>HARIKA</span></div>
+        <div class="mood-btn" onclick="selectMood(this,'😊','İYİ')">😊<span>İYİ</span></div>
+        <div class="mood-btn" onclick="selectMood(this,'😐','NORMAL')">😐<span>NORMAL</span></div>
+        <div class="mood-btn" onclick="selectMood(this,'😔','ÜZGÜN')">😔<span>ÜZGÜN</span></div>
+        <div class="mood-btn" onclick="selectMood(this,'😤','SİNİRLİ')">😤<span>SİNİR</span></div>
+      </div>
+      <div class="mood-result" id="mood-result"></div>
+    </div>
+
+    <!-- Hatırlatıcılar -->
+    <div class="card">
+      <div class="card-hdr">
+        <span class="lbl">HATIRLATICILAR</span>
+        <span class="badge b-warn">3 BEKLEYEN</span>
+      </div>
+      <div class="rem-item">
+        <div class="rem-icon">💧</div>
+        <div class="rem-t">
+          <div class="rem-name">Su İç!</div>
+          <div class="rem-time">Her 30 dakikada bir</div>
+        </div>
+        <span class="rem-tag tag-due">YAKLAŞIYOR</span>
+      </div>
+      <div class="rem-item">
+        <div class="rem-icon">🧘</div>
+        <div class="rem-t">
+          <div class="rem-name">Mola Ver</div>
+          <div class="rem-time">Her saat başı kalk, gez</div>
+        </div>
+        <span class="rem-tag tag-ok">TAMAM</span>
+      </div>
+      <div class="rem-item" style="margin-bottom:0">
+        <div class="rem-icon">📚</div>
+        <div class="rem-t">
+          <div class="rem-name">Ders Çalışma</div>
+          <div class="rem-time">20:00'da başla</div>
+        </div>
+        <span class="rem-tag tag-due">YAKLAŞIYOR</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════ GÖREV ═══════════ -->
+  <div id="tab-tasks" class="tab">
+
+    <div class="card">
+      <div class="card-hdr"><span class="lbl">YENİ GÖREV</span></div>
+      <div class="task-input-row">
+        <input class="task-input" id="todo-input" type="text" placeholder="Ne yapacaksın?" maxlength="80"
+          onkeydown="if(event.key==='Enter')addTodo()">
+        <button class="add-btn" onclick="addTodo()">+</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hdr">
+        <span class="lbl">GÖREV LİSTESİ</span>
+        <span class="badge b-cyan" id="todo-count-badge">0 GÖREV</span>
+      </div>
+      <div class="f-row">
+        <div class="f-btn active" onclick="filterTodos('all',this)">TÜMÜ</div>
+        <div class="f-btn" onclick="filterTodos('active',this)">BEKLEYEN</div>
+        <div class="f-btn" onclick="filterTodos('done',this)">TAMAMLANAN</div>
+      </div>
+      <div class="todo-stats-row">
+        <span id="todo-active">0 bekliyor</span>
+        <span id="todo-done">0 tamamlandı</span>
+      </div>
+      <div id="todo-list" style="margin-top:10px;"></div>
+    </div>
+
+    <!-- Hızlı Notlar -->
+    <div class="card">
+      <div class="card-hdr"><span class="lbl">HIZLI NOT</span></div>
+      <textarea class="note-area" id="note-input" placeholder="Bir fikir, link, hatırlatma..."></textarea>
+      <div style="overflow:hidden;margin-top:4px;">
+        <button class="save-btn" onclick="saveNote()">💾 KAYDET</button>
+      </div>
+      <div id="notes-list" style="margin-top:14px;"></div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════ ODAK ═══════════ -->
+  <div id="tab-focus" class="tab">
+
+    <div class="card" style="text-align:center;">
+      <div class="card-hdr" style="justify-content:center;"><span class="lbl">ODAKLANMA MODU</span></div>
+      <div class="pomo-dots" id="pomo-dots">
+        <div class="pomo-dot"></div><div class="pomo-dot"></div>
+        <div class="pomo-dot"></div><div class="pomo-dot"></div>
+      </div>
+      <div class="pomo-ring-wrap">
+        <svg class="pomo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="pomoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#00ffcc"/>
+              <stop offset="100%" stop-color="#0090ff"/>
+            </linearGradient>
+          </defs>
+          <circle class="pomo-ring-bg" cx="100" cy="100" r="90"/>
+          <circle class="pomo-ring-fill" id="pomo-ring-fill" cx="100" cy="100" r="90"/>
+        </svg>
+        <div class="pomo-inner">
+          <div class="pomo-time-txt" id="pomo-time">25:00</div>
+          <div class="pomo-mode-txt" id="pomo-mode">ÇALIŞMA</div>
+        </div>
+      </div>
+      <div class="pomo-ctrls">
+        <button class="pc-btn primary" id="pomo-start" onclick="togglePomodoro()">▶ BAŞLAT</button>
+        <button class="pc-btn" onclick="resetPomodoro()">↺ SIFIRLA</button>
+      </div>
+      <div class="pomo-types">
+        <div class="pt-btn active" onclick="setPomoDur(25,'ÇALIŞMA',this)">25 DK<small>Odak</small></div>
+        <div class="pt-btn" onclick="setPomoDur(5,'KISA MOLA',this)">5 DK<small>Kısa Mola</small></div>
+        <div class="pt-btn" onclick="setPomoDur(15,'UZUN MOLA',this)">15 DK<small>Uzun Mola</small></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hdr"><span class="lbl">OTURUM GEÇMİŞİ</span></div>
+      <div class="pomo-log" id="pomo-log">
+        <div class="pomo-log-item">
+          <span style="color:var(--muted)">Henüz oturum yok</span>
+          <span style="color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:0.7rem">-</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hdr"><span class="lbl">MOTİVASYON</span></div>
+      <div class="motiv-txt" id="motiv-txt">"Bugün bitiremezsin ama başlayabilirsin."</div>
+      <div style="text-align:center;margin-top:10px;">
+        <div class="f-btn" style="display:inline-block" onclick="newMotiv()">✨ YENİ SÖZ</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════ SİSTEM ═══════════ -->
+  <div id="tab-system" class="tab">
+
+    <div class="card">
+      <div class="card-hdr">
+        <span class="lbl">SİSTEM DURUMU</span>
+        <span class="badge b-green" id="sys-badge">NORMAL</span>
+      </div>
+      <div class="sys-grid">
+        <div class="stat-blk">
+          <div class="stat-lbl">CPU</div>
+          <div class="stat-val" style="color:var(--c1)" id="cpu-v">42%</div>
+          <div class="stat-bar"><div class="stat-bar-f" id="cpu-bar" style="width:42%;background:linear-gradient(90deg,var(--c1),var(--c2))"></div></div>
+        </div>
+        <div class="stat-blk">
+          <div class="stat-lbl">RAM</div>
+          <div class="stat-val" style="color:var(--c3)" id="ram-v">6.2 GB</div>
+          <div class="stat-bar"><div class="stat-bar-f" id="ram-bar" style="width:62%;background:linear-gradient(90deg,var(--c3),var(--c2))"></div></div>
+        </div>
+        <div class="stat-blk">
+          <div class="stat-lbl">DEPOLAMA</div>
+          <div class="stat-val" style="color:var(--warn)" id="disk-v">58%</div>
+          <div class="stat-bar"><div class="stat-bar-f" id="disk-bar" style="width:58%;background:linear-gradient(90deg,var(--warn),var(--danger))"></div></div>
+        </div>
+        <div class="stat-blk">
+          <div class="stat-lbl">PİL</div>
+          <div class="stat-val" style="color:var(--ok)" id="bat-v">98%</div>
+          <div class="stat-bar"><div class="stat-bar-f" id="bat-bar" style="width:98%;background:linear-gradient(90deg,var(--ok),var(--c0))"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hdr"><span class="lbl">DONANIM BİLGİSİ</span></div>
+      <div>
+        <div class="si-row"><span class="si-k">İŞLEMCİ</span><span class="si-v" style="color:var(--c1)" id="si-cpu">Octa-Core 3.2GHz</span></div>
+        <div class="si-row"><span class="si-k">ÇEKIRDEK ISI</span><span class="si-v" style="color:var(--warn)" id="si-temp">52°C</span></div>
+        <div class="si-row"><span class="si-k">GPU ISI</span><span class="si-v" style="color:var(--ok)" id="si-gtemp">45°C</span></div>
+        <div class="si-row"><span class="si-k">FAN HIZI</span><span class="si-v" id="si-fan">2.4K RPM</span></div>
+        <div class="si-row"><span class="si-k">PİNG (YEREL)</span><span class="si-v" style="color:var(--ok)" id="si-ping">4 ms</span></div>
+        <div class="si-row"><span class="si-k">PİNG (SUNUCU)</span><span class="si-v" id="si-sping">18 ms</span></div>
+        <div class="si-row"><span class="si-k">AĞ DURUMU</span><span class="si-v" style="color:var(--ok)">GÜVENLİ</span></div>
+        <div class="si-row"><span class="si-k">VERSİYON</span><span class="si-v" style="color:var(--c1)">DijiDost v10</span></div>
+      </div>
+    </div>
+
+    <!-- Terminal -->
+    <div class="card">
+      <div class="card-hdr"><span class="lbl">SİSTEM LOG</span><span class="badge b-cyan">CANLI</span></div>
+      <div class="term" id="terminal"></div>
+    </div>
+
+    <!-- Kripto -->
+    <div class="card">
+      <div class="card-hdr"><span class="lbl">KRİPTO PANELİ</span><span class="badge b-warn">CANLI</span></div>
+      <div id="crypto-list">
+        <div class="crypto-item">
+          <div><div class="crypto-sym">BTC</div><div class="crypto-name">Bitcoin</div></div>
+          <div class="crypto-price">
+            <div class="crypto-usd" id="btc-p">$64,210</div>
+            <div class="crypto-chg up" id="btc-c">+2.41%</div>
+          </div>
+        </div>
+        <div class="crypto-item">
+          <div><div class="crypto-sym">ETH</div><div class="crypto-name">Ethereum</div></div>
+          <div class="crypto-price">
+            <div class="crypto-usd" id="eth-p">$3,421</div>
+            <div class="crypto-chg dn" id="eth-c">-0.82%</div>
+          </div>
+        </div>
+        <div class="crypto-item">
+          <div><div class="crypto-sym">SOL</div><div class="crypto-name">Solana</div></div>
+          <div class="crypto-price">
+            <div class="crypto-usd" id="sol-p">$152</div>
+            <div class="crypto-chg up" id="sol-c">+5.13%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div><!-- /scroll -->
+
+<!-- NAV LINE -->
+<div class="nav-line" id="nav-line"></div>
+
+<!-- BOTTOM NAV -->
+<nav class="bnav">
+  <div class="nb active" onclick="showTab('home',0)" id="nb-home">
+    <span class="nb-icon">⌂</span><span>ANA</span>
+  </div>
+  <div class="nb" onclick="showTab('tasks',1)" id="nb-tasks">
+    <span class="nb-icon">◈</span><span>GÖREV</span>
+  </div>
+  <div class="nb" onclick="showTab('focus',2)" id="nb-focus">
+    <span class="nb-icon">◉</span><span>ODAK</span>
+  </div>
+  <div class="nb" onclick="showTab('system',3)" id="nb-system">
+    <span class="nb-icon">⬡</span><span>SİSTEM</span>
+  </div>
+</nav>
+
+<script>
+/* ── CLOCK ── */
+const DAYS_TR=['PAZAR','PAZARTESİ','SALI','ÇARŞAMBA','PERŞEMBE','CUMA','CUMARTESİ'];
+const MONTHS_TR=['OCA','ŞUB','MAR','NİS','MAY','HAZ','TEM','AĞU','EYL','EKİ','KAS','ARA'];
+function updateClock(){
+  const d=new Date();
+  const hh=String(d.getHours()).padStart(2,'0');
+  const mm=String(d.getMinutes()).padStart(2,'0');
+  document.getElementById('clk-h').textContent=hh;
+  document.getElementById('clk-m').textContent=mm;
+  document.getElementById('sb-time').textContent=hh+':'+mm;
+  document.getElementById('main-date').textContent=
+    DAYS_TR[d.getDay()]+' · '+d.getDate()+' '+MONTHS_TR[d.getMonth()]+' '+d.getFullYear();
+}
+setInterval(updateClock,1000);updateClock();
+
+/* ── NAV ── */
+const TABS=['home','tasks','focus','system'];
+function showTab(name,idx){
+  TABS.forEach(t=>{
+    document.getElementById('tab-'+t).classList.remove('active');
+    document.getElementById('nb-'+t).classList.remove('active');
+  });
+  document.getElementById('tab-'+name).classList.add('active');
+  document.getElementById('nb-'+name).classList.add('active');
+  const navLine=document.getElementById('nav-line');
+  navLine.style.transform='translateX('+idx*100+'%)';
+  document.getElementById('scroll').scrollTop=0;
+}
+
+/* ── MOOD ── */
+function selectMood(el,emoji,label){
+  document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('mood-badge').textContent=emoji;
+  const msgs={
+    'HARIKA':'Harika! Enerjini koruyalım bugün ⚡',
+    'İYİ':'İyi hissediyorsun, bunu değerlendir!',
+    'NORMAL':'Normal bir gün — konsantre ol!',
+    'ÜZGÜN':'Üzülme, her gün yeni bir başlangıç.',
+    'SİNİRLİ':'Derin nefes al, geçecek.'
+  };
+  document.getElementById('mood-result').textContent=msgs[label]||'';
+}
+
+/* ── TODOS ── */
+let todos=[],filterMode='all';
+function addTodo(){
+  const inp=document.getElementById('todo-input');
+  const txt=inp.value.trim();
+  if(!txt)return;
+  todos.push({id:Date.now(),text:txt,done:false});
+  inp.value='';
+  renderTodos();
+}
+function toggleTodo(id){
+  const t=todos.find(x=>x.id===id);
+  if(t)t.done=!t.done;
+  renderTodos();
+}
+function deleteTodo(id){
+  todos=todos.filter(x=>x.id!==id);
+  renderTodos();
+}
+function filterTodos(mode,el){
+  filterMode=mode;
+  document.querySelectorAll('.f-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  renderTodos();
+}
+function renderTodos(){
+  const list=document.getElementById('todo-list');
+  const filtered=filterMode==='all'?todos:
+    filterMode==='active'?todos.filter(t=>!t.done):todos.filter(t=>t.done);
+  list.innerHTML=filtered.map(t=>`
+    <div class="todo-item${t.done?' done':''}" data-id="${t.id}">
+      <div class="todo-cb" onclick="toggleTodo(${t.id})">${t.done?'✓':''}</div>
+      <div class="todo-text">${t.text}</div>
+      <button class="todo-del" onclick="deleteTodo(${t.id})">✕</button>
+    </div>`).join('');
+  const active=todos.filter(x=>!x.done).length;
+  const done=todos.filter(x=>x.done).length;
+  document.getElementById('todo-count-badge').textContent=todos.length+' GÖREV';
+  document.getElementById('todo-active').textContent=active+' bekliyor';
+  document.getElementById('todo-done').textContent=done+' tamamlandı';
+}
+
+/* ── NOTES ── */
+let notes=[];
+function saveNote(){
+  const txt=document.getElementById('note-input').value.trim();
+  if(!txt)return;
+  notes.unshift({id:Date.now(),text:txt,time:new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})});
+  document.getElementById('note-input').value='';
+  renderNotes();
+}
+function renderNotes(){
+  document.getElementById('notes-list').innerHTML=notes.map(n=>`
+    <div class="note-card">
+      <div class="note-card-text">${n.text}</div>
+      <div class="note-card-foot">
+        <span class="note-time">${n.time}</span>
+        <button class="todo-del" onclick="deleteNote(${n.id})">✕</button>
+      </div>
+    </div>`).join('');
+}
+function deleteNote(id){notes=notes.filter(x=>x.id!==id);renderNotes();}
+
+/* ── POMODORO ── */
+let pomoTimer=null,pomoSecs=25*60,pomoRunning=false,pomoMode='ÇALIŞMA',pomoSessions=0;
+const POMO_FULL=565;
+function setPomoDur(mins,mode,el){
+  resetPomodoro();
+  pomoSecs=mins*60;
+  pomoMode=mode;
+  document.querySelectorAll('.pt-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  renderPomo();
+}
+function togglePomodoro(){
+  if(pomoRunning){
+    clearInterval(pomoTimer);pomoRunning=false;
+    document.getElementById('pomo-start').textContent='▶ BAŞLAT';
+  } else {
+    pomoRunning=true;
+    document.getElementById('pomo-start').textContent='⏸ DURDUR';
+    pomoTimer=setInterval(()=>{
+      if(pomoSecs>0){pomoSecs--;renderPomo();}
+      else{
+        clearInterval(pomoTimer);pomoRunning=false;
+        document.getElementById('pomo-start').textContent='▶ BAŞLAT';
+        pomoSessions=Math.min(pomoSessions+1,4);
+        logSession();
+      }
+    },1000);
+  }
+}
+function resetPomodoro(){
+  clearInterval(pomoTimer);pomoRunning=false;
+  document.getElementById('pomo-start').textContent='▶ BAŞLAT';
+  const active=document.querySelector('.pt-btn.active');
+  const mins=active?parseInt(active.textContent):25;
+  pomoSecs=mins*60;
+  renderPomo();
+}
+function renderPomo(){
+  const m=String(Math.floor(pomoSecs/60)).padStart(2,'0');
+  const s=String(pomoSecs%60).padStart(2,'0');
+  document.getElementById('pomo-time').textContent=m+':'+s;
+  document.getElementById('pomo-mode').textContent=pomoMode;
+  const active=document.querySelector('.pt-btn.active');
+  const total=(active?parseInt(active.textContent):25)*60;
+  const pct=pomoSecs/total;
+  const offset=POMO_FULL*(1-pct);
+  document.getElementById('pomo-ring-fill').style.strokeDashoffset=offset;
+  // dots
+  const dots=document.querySelectorAll('.pomo-dot');
+  dots.forEach((d,i)=>d.classList.toggle('done',i<pomoSessions));
+}
+function logSession(){
+  const log=document.getElementById('pomo-log');
+  const now=new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
+  const item=document.createElement('div');
+  item.className='pomo-log-item';
+  item.innerHTML=`<span style="color:var(--c1)">${pomoMode}</span>
+    <span style="color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:0.7rem">${now}</span>`;
+  if(log.querySelector('div')?.textContent?.includes('Henüz'))log.innerHTML='';
+  log.insertBefore(item,log.firstChild);
+}
+
+/* ── MOTİVASYON ── */
+const MOTIVS=[
+  '"Bugün bitiremezsin ama başlayabilirsin."',
+  '"Zorluk, başarının maskesidir."',
+  '"Her büyük yolculuk tek bir adımla başlar."',
+  '"Dünün seni yarına engel olamaz."',
+  '"Düşünce tohumdur, eylem ise meyvedir."',
+  '"Başarı, her gün tekrarlanan küçük çabaların toplamıdır."',
+  '"Bugün acı ver kendine, yarın rahatlarsın."',
+  '"Konfor zonu dışına çıkmak büyümektir."'
+];
+let motivIdx=0;
+function newMotiv(){
+  motivIdx=(motivIdx+1)%MOTIVS.length;
+  document.getElementById('motiv-txt').textContent=MOTIVS[motivIdx];
+}
+
+/* ── TERMINAL ── */
+const LOGS=[
+  {t:'ok',m:'[BOOT] DijiDost v10 başlatılıyor...'},
+  {t:'ok',m:'[SYS] Sistem modülleri yüklendi'},
+  {t:'ok',m:'[NET] Ağ bağlantısı kuruldu — 4G LTE'},
+  {t:'warn',m:'[RAM] Bellek kullanımı %62 — normal'},
+  {t:'ok',m:'[AI] Yapay zeka motoru aktif'},
+  {t:'ok',m:'[CRYPTO] Kripto verileri alındı'},
+  {t:'ok',m:'[GPS] Konum servisi etkin — Bilecik'},
+  {t:'warn',m:'[BAT] Pil: %98 — Şarjda'},
+  {t:'ok',m:'[READY] Tüm sistemler hazır ✓'},
+];
+let logIdx=0;
+function addLog(){
+  if(logIdx>=LOGS.length)return;
+  const term=document.getElementById('terminal');
+  const log=LOGS[logIdx++];
+  const line=document.createElement('div');
+  line.className='t-line t-'+log.t;
+  line.textContent=log.m;
+  term.appendChild(line);
+  term.scrollTop=term.scrollHeight;
+  if(logIdx<LOGS.length)setTimeout(addLog,350+Math.random()*200);
+}
+setTimeout(addLog,500);
+
+/* ── SİSTEM ANİMASYON ── */
+function animateStats(){
+  const cpu=35+Math.random()*25;
+  const ram=55+Math.random()*20;
+  const ping=3+Math.floor(Math.random()*8);
+  document.getElementById('cpu-v').textContent=cpu.toFixed(0)+'%';
+  document.getElementById('cpu-bar').style.width=cpu+'%';
+  document.getElementById('si-ping').textContent=ping+' ms';
+  document.getElementById('si-sping').textContent=(ping+12)+' ms';
+  // sıcaklık
+  const temp=48+Math.floor(Math.random()*10);
+  document.getElementById('si-temp').textContent=temp+'°C';
+}
+setInterval(animateStats,3000);
+
+/* ── HAVA DURUMU (MOCK) ── */
+setTimeout(()=>{
+  document.getElementById('weather-val').textContent='26°C';
+  document.getElementById('btc-val').textContent='$64.2K';
+},800);
+
+/* ── RENDER INIT ── */
+renderPomo();
+renderTodos();
+</script>
+</body>
+</html>
+HTMLEOF
+echo "Done. File size: $(wc -c < /mnt/user-data/outputs/dijidost_v10.html) bytes"

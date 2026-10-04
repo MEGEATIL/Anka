@@ -1,0 +1,2 @@
+"""Guvenlik ve izin denetimleri."""
+

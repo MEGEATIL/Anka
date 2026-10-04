@@ -1,0 +1,7 @@
+{
+  "microphone": true,
+  "camera": false,
+  "files": false,
+  "system": true,
+  "web": true
+}

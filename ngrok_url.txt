@@ -1,0 +1,2 @@
+Kamera Server URL: https://3562-85-100-101-227.ngrok-free.app
+Kamera Feed: https://3562-85-100-101-227.ngrok-free.app/kamera

@@ -1,0 +1,2290 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>DijiDost OS</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* =============================================
+           GLOBAL DEĞİŞKENLER & RESET
+           ============================================= */
+        :root {
+            --pink:    #ff6eb4;
+            --violet:  #a78bfa;
+            --cyan:    #22d3ee;
+            --lime:    #a3e635;
+            --amber:   #fbbf24;
+            --coral:   #fb7185;
+            --mint:    #34d399;
+
+            --bg:      #0d0f1a;
+            --surface: rgba(255,255,255,0.05);
+            --surface2: rgba(255,255,255,0.08);
+            --border:  rgba(255,255,255,0.1);
+            --text:    #f1f5f9;
+            --muted:   rgba(241,245,249,0.5);
+
+            --font:    'Nunito', sans-serif;
+            --mono:    'JetBrains Mono', monospace;
+            --alt:     'Space Grotesk', sans-serif;
+
+            --radius:  16px;
+            --nav-h:   72px;
+            --chat-h:  0px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font);
+            height: 100dvh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Arka plan blob / gradient */
+        .bg-blobs {
+            position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none;
+        }
+        .blob {
+            position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.18;
+        }
+        .blob1 { width: 350px; height: 350px; background: var(--violet); top: -80px; left: -80px; animation: floatBlob 14s ease-in-out infinite; }
+        .blob2 { width: 280px; height: 280px; background: var(--pink); bottom: 100px; right: -60px; animation: floatBlob 18s ease-in-out infinite reverse; }
+        .blob3 { width: 200px; height: 200px; background: var(--cyan); top: 50%; left: 30%; animation: floatBlob 10s ease-in-out infinite 3s; }
+
+        @keyframes floatBlob {
+            0%,100% { transform: translate(0,0) scale(1); }
+            33%      { transform: translate(20px,-20px) scale(1.1); }
+            66%      { transform: translate(-15px,15px) scale(0.95); }
+        }
+
+        /* =============================================
+           STATUS BAR
+           ============================================= */
+        .status-bar {
+            height: 38px;
+            padding: 0 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(13,15,26,0.9);
+            border-bottom: 1px solid var(--border);
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            color: var(--muted);
+            flex-shrink: 0;
+            z-index: 200;
+        }
+        .status-dot {
+            display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+            background: var(--lime); box-shadow: 0 0 6px var(--lime); margin-right: 5px;
+            animation: blink 2s infinite;
+        }
+        @keyframes blink { 50% { opacity: 0.3; } }
+
+        /* =============================================
+           MAIN VIEW CONTAINER
+           ============================================= */
+        .view-container {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            padding-bottom: calc(var(--nav-h) + 20px);
+        }
+        .view-container::-webkit-scrollbar { width: 3px; }
+        .view-container::-webkit-scrollbar-thumb { background: var(--violet); border-radius: 10px; }
+
+        .tab-content {
+            display: none;
+            flex-direction: column;
+            gap: 16px;
+            padding: 16px;
+            animation: fadeUp 0.35s ease-out;
+        }
+        .tab-content.active { display: flex; }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(14px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* =============================================
+           CARD / GLASS
+           ============================================= */
+        .card {
+            background: var(--surface);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px;
+            position: relative;
+            overflow: hidden;
+        }
+        .card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+        }
+        .card-title {
+            font-family: var(--alt);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .badge {
+            font-size: 0.65rem; padding: 2px 9px; border-radius: 20px;
+            font-weight: 800; letter-spacing: 1px;
+        }
+        .badge-green { background: rgba(163,230,53,0.15); color: var(--lime); border: 1px solid rgba(163,230,53,0.3); }
+        .badge-pink  { background: rgba(255,110,180,0.15); color: var(--pink); border: 1px solid rgba(255,110,180,0.3); }
+        .badge-cyan  { background: rgba(34,211,238,0.15);  color: var(--cyan); border: 1px solid rgba(34,211,238,0.3); }
+        .badge-amber { background: rgba(251,191,36,0.15);  color: var(--amber); border: 1px solid rgba(251,191,36,0.3); }
+
+        /* =============================================
+           HOME — SAAT & TARİH
+           ============================================= */
+        .hero-time {
+            text-align: center;
+            padding: 10px 0 6px;
+        }
+        .hero-clock {
+            font-family: var(--mono);
+            font-size: 5rem;
+            font-weight: 700;
+            line-height: 1;
+            background: linear-gradient(135deg, #fff 0%, var(--violet) 60%, var(--pink) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-date {
+            font-size: 0.85rem;
+            color: var(--muted);
+            letter-spacing: 3px;
+            margin-top: 6px;
+            font-weight: 700;
+        }
+
+        /* Dinleniyor İndikatörü */
+        #listen-indicator {
+            display: none;
+            margin: 0 auto;
+            text-align: center;
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            color: var(--lime);
+            border: 1px solid rgba(163,230,53,0.4);
+            background: rgba(163,230,53,0.08);
+            padding: 6px 20px;
+            border-radius: 30px;
+            width: fit-content;
+            animation: pulseOut 1.2s ease-in-out infinite alternate;
+        }
+        @keyframes pulseOut { to { box-shadow: 0 0 14px rgba(163,230,53,0.4); opacity: 0.7; } }
+
+        /* =============================================
+           HOME — MÜZİK DİNLENİYOR KARTI (Büyük)
+           ============================================= */
+        .now-playing-card {
+            background: linear-gradient(135deg, rgba(167,139,250,0.15), rgba(255,110,180,0.15));
+            border: 1px solid rgba(167,139,250,0.3);
+            border-radius: var(--radius);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: all 0.4s ease;
+        }
+        .now-playing-card.hidden { display: none; }
+        .np-cover {
+            width: 72px; height: 72px; border-radius: 14px;
+            background: var(--cover-url, url('')) center/cover no-repeat, linear-gradient(135deg, var(--violet), var(--pink));
+            box-shadow: 0 8px 24px rgba(167,139,250,0.4);
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .np-cover.spinning { animation: vinylSpin 4s linear infinite; }
+        @keyframes vinylSpin { 100% { transform: rotate(360deg); } }
+        .np-cover::after {
+            content: '';
+            position: absolute; inset: 30%; border-radius: 50%;
+            background: rgba(13,15,26,0.6);
+            box-shadow: inset 0 0 0 2px rgba(255,255,255,0.2);
+        }
+        .np-info { flex: 1; min-width: 0; }
+        .np-label { font-size: 0.65rem; font-family: var(--mono); color: var(--violet); letter-spacing: 2px; font-weight: 700; margin-bottom: 4px; }
+        .np-track { font-size: 1.05rem; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .np-artist { font-size: 0.82rem; color: var(--muted); margin-top: 3px; }
+        .np-bars {
+            display: flex; align-items: flex-end; gap: 3px; height: 24px;
+        }
+        .np-bar {
+            width: 4px; background: var(--violet); border-radius: 2px;
+            animation: barDance 0.8s ease-in-out infinite alternate;
+        }
+        .np-bar:nth-child(1) { height: 60%; animation-delay: 0s; }
+        .np-bar:nth-child(2) { height: 100%; animation-delay: 0.15s; }
+        .np-bar:nth-child(3) { height: 40%; animation-delay: 0.3s; }
+        .np-bar:nth-child(4) { height: 80%; animation-delay: 0.1s; }
+        .np-bar:nth-child(5) { height: 55%; animation-delay: 0.25s; }
+        @keyframes barDance { to { height: 25%; } }
+        .np-bars.paused .np-bar { animation-play-state: paused; }
+
+        /* Mini widget'lar */
+        .mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .mini-widget {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px;
+            text-align: center;
+        }
+        .mw-emoji { font-size: 1.6rem; margin-bottom: 6px; }
+        .mw-val { font-size: 1.1rem; font-weight: 800; margin-bottom: 2px; }
+        .mw-label { font-size: 0.65rem; color: var(--muted); font-family: var(--mono); letter-spacing: 1px; }
+
+        /* Mood Tracker */
+        .mood-row { display: flex; justify-content: space-between; gap: 8px; }
+        .mood-btn {
+            flex: 1; background: var(--surface2); border: 1px solid var(--border);
+            border-radius: 14px; padding: 10px 4px; text-align: center; cursor: pointer;
+            transition: all 0.25s; font-size: 1.4rem;
+        }
+        .mood-btn span { display: block; font-size: 0.58rem; color: var(--muted); margin-top: 4px; font-weight: 700; }
+        .mood-btn:active, .mood-btn.selected { transform: scale(1.1); border-color: var(--violet); background: rgba(167,139,250,0.15); }
+        .mood-result { text-align: center; font-size: 0.85rem; color: var(--violet); font-weight: 700; margin-top: 12px; min-height: 20px; }
+
+        /* Adım Sayacı */
+        .step-ring-wrap { display: flex; align-items: center; gap: 18px; }
+        .step-ring {
+            width: 80px; height: 80px; border-radius: 50%; flex-shrink: 0;
+            background: conic-gradient(var(--lime) 0%, var(--cyan) var(--step-pct, 45%), rgba(255,255,255,0.05) var(--step-pct, 45%));
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 20px rgba(163,230,53,0.2);
+            position: relative;
+        }
+        .step-ring::before {
+            content: ''; position: absolute; inset: 8px; background: var(--bg); border-radius: 50%;
+        }
+        .step-count { position: relative; z-index: 1; font-family: var(--mono); font-size: 1.1rem; font-weight: 700; }
+        .step-info { flex: 1; }
+        .step-goal { font-size: 0.78rem; color: var(--muted); margin-top: 4px; }
+        .step-cal { font-size: 0.78rem; color: var(--amber); margin-top: 6px; font-weight: 700; }
+
+        /* Hatırlatıcılar */
+        .reminder-list { display: flex; flex-direction: column; gap: 10px; }
+        .reminder-item {
+            display: flex; align-items: center; gap: 12px;
+            background: var(--surface2); border: 1px solid var(--border);
+            border-radius: 12px; padding: 12px 14px;
+        }
+        .reminder-icon { font-size: 1.4rem; flex-shrink: 0; }
+        .reminder-text { flex: 1; }
+        .reminder-title { font-size: 0.88rem; font-weight: 700; }
+        .reminder-time  { font-size: 0.72rem; color: var(--muted); font-family: var(--mono); margin-top: 2px; }
+        .reminder-status {
+            font-size: 0.65rem; font-weight: 800; font-family: var(--mono); letter-spacing: 1px; padding: 3px 8px; border-radius: 20px;
+        }
+        .rs-ok  { background: rgba(52,211,153,0.15); color: var(--mint); border: 1px solid rgba(52,211,153,0.3); }
+        .rs-due { background: rgba(251,129,74,0.15);  color: var(--coral); border: 1px solid rgba(251,129,74,0.3); animation: urgentPulse 1s infinite alternate; }
+        @keyframes urgentPulse { to { box-shadow: 0 0 10px rgba(251,129,74,0.4); } }
+
+        /* =============================================
+           MÜZİK SEKMESİ
+           ============================================= */
+        .full-player {
+            background: linear-gradient(160deg, rgba(167,139,250,0.12), rgba(255,110,180,0.12));
+            border: 1px solid rgba(167,139,250,0.25);
+            border-radius: var(--radius);
+            padding: 24px;
+        }
+        .full-cover {
+            width: 160px; height: 160px; border-radius: 20px; margin: 0 auto 20px;
+            background: url('') center/cover no-repeat, linear-gradient(135deg, var(--violet), var(--pink));
+            box-shadow: 0 16px 40px rgba(167,139,250,0.35);
+            position: relative; overflow: hidden;
+            transition: all 0.4s;
+        }
+        .full-cover.spinning { animation: vinylSpin 5s linear infinite; }
+        .full-cover::after {
+            content: ''; position: absolute; inset: 38%; background: rgba(13,15,26,0.55);
+            border-radius: 50%; box-shadow: inset 0 0 0 3px rgba(255,255,255,0.25);
+        }
+        .full-track { text-align: center; margin-bottom: 20px; }
+        .full-track-name { font-size: 1.3rem; font-weight: 900; color: #fff; }
+        .full-track-artist { font-size: 0.9rem; color: var(--muted); margin-top: 4px; }
+
+        /* Ses çubuğu animasyonu (büyük) */
+        .sound-wave {
+            display: flex; justify-content: center; align-items: flex-end; gap: 4px; height: 36px; margin-bottom: 16px;
+        }
+        .sw-bar {
+            width: 5px; border-radius: 3px;
+            background: linear-gradient(to top, var(--violet), var(--pink));
+            animation: swDance 0.7s ease-in-out infinite alternate;
+        }
+        .sw-bar:nth-child(1)  { height: 50%;  animation-delay: 0.0s; }
+        .sw-bar:nth-child(2)  { height: 80%;  animation-delay: 0.1s; }
+        .sw-bar:nth-child(3)  { height: 100%; animation-delay: 0.2s; }
+        .sw-bar:nth-child(4)  { height: 65%;  animation-delay: 0.05s; }
+        .sw-bar:nth-child(5)  { height: 40%;  animation-delay: 0.15s; }
+        .sw-bar:nth-child(6)  { height: 90%;  animation-delay: 0.25s; }
+        .sw-bar:nth-child(7)  { height: 55%;  animation-delay: 0.08s; }
+        .sw-bar:nth-child(8)  { height: 75%;  animation-delay: 0.18s; }
+        .sw-bar:nth-child(9)  { height: 35%;  animation-delay: 0.12s; }
+        .sw-bar:nth-child(10) { height: 60%;  animation-delay: 0.22s; }
+        @keyframes swDance { to { height: 15%; } }
+        .sound-wave.paused .sw-bar { animation-play-state: paused; height: 20% !important; }
+
+        /* Progress Bar */
+        .progress-wrap {
+            display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
+        }
+        .progress-time { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); flex-shrink: 0; }
+        .progress-bar {
+            flex: 1; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; position: relative; cursor: pointer;
+        }
+        .progress-fill {
+            height: 100%; border-radius: 2px;
+            background: linear-gradient(90deg, var(--violet), var(--pink));
+            width: 0%; transition: width 0.5s linear;
+        }
+
+        /* Kontroller */
+        .controls-row { display: flex; justify-content: center; align-items: center; gap: 24px; }
+        .ctrl-btn {
+            background: none; border: none; color: var(--muted); font-size: 1.8rem; cursor: pointer;
+            transition: all 0.2s; padding: 8px;
+        }
+        .ctrl-btn:active { transform: scale(0.82); }
+        .ctrl-play {
+            width: 60px; height: 60px; border-radius: 50%; border: none; cursor: pointer;
+            background: linear-gradient(135deg, var(--violet), var(--pink));
+            color: #fff; font-size: 1.5rem;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 24px rgba(167,139,250,0.5); transition: all 0.2s;
+        }
+        .ctrl-play:active { transform: scale(0.88); box-shadow: 0 0 10px rgba(167,139,250,0.3); }
+
+        /* Ses Kontrolü */
+        .vol-row { display: flex; align-items: center; gap: 10px; margin-top: 16px; }
+        .vol-icon { font-size: 1.1rem; flex-shrink: 0; }
+        input[type=range] {
+            -webkit-appearance: none; flex: 1; height: 4px;
+            background: rgba(255,255,255,0.1); border-radius: 2px; outline: none;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%;
+            background: var(--violet); cursor: pointer; box-shadow: 0 0 8px var(--violet);
+        }
+
+        /* Playlist */
+        .playlist { display: flex; flex-direction: column; gap: 8px; }
+        .pl-item {
+            display: flex; align-items: center; gap: 12px;
+            background: var(--surface2); border: 1px solid var(--border);
+            border-radius: 12px; padding: 12px 14px; cursor: pointer; transition: all 0.2s;
+        }
+        .pl-item:active, .pl-item.active { background: rgba(167,139,250,0.15); border-color: rgba(167,139,250,0.4); }
+        .pl-num { font-family: var(--mono); font-size: 0.78rem; color: var(--muted); width: 18px; flex-shrink: 0; }
+        .pl-cover-mini {
+            width: 42px; height: 42px; border-radius: 10px; flex-shrink: 0;
+            background: center/cover no-repeat, linear-gradient(135deg, var(--violet), var(--pink));
+        }
+        .pl-track-name  { font-size: 0.92rem; font-weight: 700; }
+        .pl-track-artist { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+        .pl-dur { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); margin-left: auto; flex-shrink: 0; }
+        .pl-active-bar {
+            display: flex; align-items: flex-end; gap: 2px; height: 16px; margin-left: auto; flex-shrink: 0;
+        }
+        .pab { width: 3px; border-radius: 2px; background: var(--violet); animation: swDance 0.6s ease-in-out infinite alternate; }
+        .pab:nth-child(1) { animation-delay: 0.0s; height: 50%; }
+        .pab:nth-child(2) { animation-delay: 0.2s; height: 100%; }
+        .pab:nth-child(3) { animation-delay: 0.1s; height: 70%; }
+
+        /* =============================================
+           GÖREVLER SEKMESİ
+           ============================================= */
+        .todo-add-row {
+            display: flex; gap: 10px;
+        }
+        .todo-input {
+            flex: 1; background: var(--surface2); border: 1px solid var(--border);
+            border-radius: 12px; padding: 12px 14px; color: var(--text); font-family: var(--font);
+            font-size: 0.9rem; outline: none; transition: border-color 0.2s;
+        }
+        .todo-input:focus { border-color: var(--violet); }
+        .todo-input::placeholder { color: var(--muted); }
+        .todo-add-btn {
+            width: 46px; height: 46px; border-radius: 12px; border: none; cursor: pointer;
+            background: linear-gradient(135deg, var(--violet), var(--pink));
+            color: #fff; font-size: 1.4rem; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .todo-list { display: flex; flex-direction: column; gap: 8px; }
+        .todo-item {
+            display: flex; align-items: center; gap: 12px;
+            background: var(--surface2); border: 1px solid var(--border);
+            border-radius: 12px; padding: 13px 14px; transition: all 0.3s;
+            animation: fadeUp 0.3s ease-out;
+        }
+        .todo-item.done { opacity: 0.5; }
+        .todo-check {
+            width: 24px; height: 24px; border-radius: 8px; border: 2px solid var(--border);
+            flex-shrink: 0; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            font-size: 0.9rem; transition: all 0.2s; background: transparent;
+        }
+        .todo-check.checked { background: var(--mint); border-color: var(--mint); color: #fff; }
+        .todo-text { flex: 1; font-size: 0.92rem; font-weight: 600; }
+        .todo-item.done .todo-text { text-decoration: line-through; color: var(--muted); }
+        .todo-del { background: none; border: none; color: var(--muted); font-size: 1rem; cursor: pointer; padding: 4px; transition: color 0.2s; }
+        .todo-del:active { color: var(--coral); }
+
+        /* Kategori filtreleri */
+        .filter-row { display: flex; gap: 8px; flex-wrap: wrap; }
+        .filter-btn {
+            font-size: 0.72rem; font-weight: 800; font-family: var(--mono); letter-spacing: 1px;
+            padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border);
+            background: var(--surface2); color: var(--muted); cursor: pointer; transition: all 0.2s;
+        }
+        .filter-btn.active { background: rgba(167,139,250,0.2); color: var(--violet); border-color: rgba(167,139,250,0.4); }
+
+        /* Stats bar */
+        .todo-stats { display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--muted); font-family: var(--mono); padding: 2px 0; }
+
+        /* =============================================
+           ODAK (POMODORO) SEKMESİ
+           ============================================= */
+        .pomodoro-ring {
+            width: 200px; height: 200px; margin: 0 auto 20px;
+            border-radius: 50%; position: relative;
+            background: conic-gradient(var(--violet) var(--pomo-pct, 100%), rgba(255,255,255,0.05) var(--pomo-pct, 100%));
+            box-shadow: 0 0 40px rgba(167,139,250,0.25);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .pomodoro-ring::before {
+            content: ''; position: absolute; inset: 14px; background: var(--bg); border-radius: 50%;
+        }
+        .pomo-inner { position: relative; z-index: 1; text-align: center; }
+        .pomo-time { font-family: var(--mono); font-size: 2.6rem; font-weight: 700; color: #fff; }
+        .pomo-mode { font-size: 0.7rem; color: var(--muted); letter-spacing: 2px; margin-top: 4px; font-weight: 700; }
+
+        .pomo-controls { display: flex; justify-content: center; gap: 16px; margin-bottom: 16px; }
+        .pomo-btn {
+            padding: 12px 28px; border-radius: 14px; border: 1px solid var(--border);
+            background: var(--surface2); color: var(--text); font-family: var(--font); font-size: 0.9rem;
+            font-weight: 700; cursor: pointer; transition: all 0.2s;
+        }
+        .pomo-btn.primary { background: linear-gradient(135deg, var(--violet), var(--pink)); border: none; box-shadow: 0 4px 16px rgba(167,139,250,0.3); }
+        .pomo-btn:active { transform: scale(0.95); }
+
+        .pomo-sessions { display: flex; gap: 8px; justify-content: center; margin-bottom: 16px; }
+        .pomo-dot {
+            width: 12px; height: 12px; border-radius: 50%;
+            background: rgba(255,255,255,0.1); border: 1px solid var(--border); transition: all 0.3s;
+        }
+        .pomo-dot.done { background: var(--violet); box-shadow: 0 0 8px var(--violet); }
+
+        .pomo-types { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+        .pomo-type-btn {
+            padding: 10px; border-radius: 12px; border: 1px solid var(--border);
+            background: var(--surface2); color: var(--muted); font-size: 0.78rem;
+            font-weight: 700; cursor: pointer; text-align: center; transition: all 0.2s; font-family: var(--font);
+        }
+        .pomo-type-btn.active { background: rgba(167,139,250,0.2); color: var(--violet); border-color: rgba(167,139,250,0.4); }
+
+        .pomo-log { display: flex; flex-direction: column; gap: 8px; max-height: 180px; overflow-y: auto; }
+        .pomo-log-item {
+            display: flex; justify-content: space-between; align-items: center;
+            background: var(--surface2); border: 1px solid var(--border); border-radius: 10px;
+            padding: 10px 12px; font-size: 0.8rem;
+        }
+
+        /* Notlar */
+        .notes-area {
+            width: 100%; min-height: 120px; background: var(--surface2); border: 1px solid var(--border);
+            border-radius: 12px; padding: 14px; color: var(--text); font-family: var(--font);
+            font-size: 0.9rem; outline: none; resize: vertical; line-height: 1.6;
+            transition: border-color 0.2s;
+        }
+        .notes-area:focus { border-color: var(--violet); }
+        .notes-area::placeholder { color: var(--muted); }
+
+        .notes-saved-list { display: flex; flex-direction: column; gap: 8px; }
+        .note-card {
+            background: var(--surface2); border: 1px solid var(--border);
+            border-radius: 12px; padding: 13px 14px; animation: fadeUp 0.3s ease-out;
+        }
+        .note-card-text { font-size: 0.88rem; color: var(--text); line-height: 1.5; margin-bottom: 8px; }
+        .note-card-footer { display: flex; justify-content: space-between; align-items: center; }
+        .note-card-time { font-size: 0.68rem; color: var(--muted); font-family: var(--mono); }
+        .note-del { background: none; border: none; color: var(--muted); font-size: 0.85rem; cursor: pointer; }
+
+        /* =============================================
+           SİSTEM SEKMESİ
+           ============================================= */
+        .sys-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .stat-block {
+            background: var(--surface2); border: 1px solid var(--border);
+            border-radius: 14px; padding: 14px; text-align: center;
+        }
+        .stat-val { font-family: var(--mono); font-size: 1.4rem; font-weight: 700; margin: 6px 0 2px; }
+        .stat-label { font-size: 0.65rem; color: var(--muted); font-family: var(--mono); letter-spacing: 1.5px; }
+        .stat-bar { height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px; margin-top: 8px; overflow: hidden; }
+        .stat-bar-fill { height: 100%; border-radius: 2px; }
+
+        .sys-info-list { display: flex; flex-direction: column; gap: 10px; }
+        .si-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding-bottom: 10px; border-bottom: 1px solid var(--border);
+        }
+        .si-key { font-size: 0.8rem; color: var(--muted); font-family: var(--mono); }
+        .si-val { font-size: 0.85rem; font-weight: 700; font-family: var(--mono); }
+
+        /* =============================================
+           LOGS SEKMESİ
+           ============================================= */
+        .terminal {
+            background: #07090f; border: 1px solid rgba(34,211,238,0.2);
+            border-radius: 14px; padding: 14px;
+            font-family: var(--mono); font-size: 0.76rem; color: var(--cyan);
+            height: 420px; overflow-y: auto;
+            text-shadow: 0 0 6px rgba(34,211,238,0.4);
+        }
+        .terminal::-webkit-scrollbar { width: 3px; }
+        .terminal::-webkit-scrollbar-thumb { background: var(--cyan); }
+        .t-line { margin-bottom: 5px; opacity: 0; animation: typeLine 0.1s forwards; line-height: 1.5; }
+        .t-err  { color: var(--coral); }
+        .t-warn { color: var(--amber); }
+        .t-ok   { color: var(--mint); }
+        @keyframes typeLine { to { opacity: 1; } }
+
+        /* =============================================
+           CHAT DOCK
+           ============================================= */
+        .chat-dock {
+            position: fixed; bottom: var(--nav-h); left: 0; width: 100%;
+            background: linear-gradient(to top, rgba(13,15,26,1) 50%, transparent);
+            padding: 16px 16px 8px; z-index: 50; pointer-events: none;
+        }
+        #chat-history {
+            max-height: 130px; overflow-y: auto; pointer-events: auto;
+            display: flex; flex-direction: column; gap: 7px; padding-right: 4px;
+        }
+        .msg {
+            max-width: 85%; padding: 10px 14px; border-radius: 14px; font-size: 0.88rem; line-height: 1.45;
+            animation: fadeUp 0.3s ease-out; backdrop-filter: blur(8px);
+        }
+        .msg-bot  { background: rgba(167,139,250,0.12); border: 1px solid rgba(167,139,250,0.25); align-self: flex-start; }
+        .msg-user { background: rgba(255,110,180,0.12);  border: 1px solid rgba(255,110,180,0.25);  align-self: flex-end; }
+
+        /* =============================================
+           ALT NAVİGASYON
+           ============================================= */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%; height: var(--nav-h);
+            background: rgba(13,15,26,0.97);
+            border-top: 1px solid var(--border);
+            display: flex; justify-content: space-around; align-items: center;
+            z-index: 1000; backdrop-filter: blur(20px);
+        }
+        .nav-btn {
+            display: flex; flex-direction: column; align-items: center; gap: 4px;
+            color: var(--muted); font-size: 0.58rem; font-weight: 800; letter-spacing: 0.5px;
+            cursor: pointer; transition: all 0.25s; padding: 8px 10px;
+            text-transform: uppercase; flex: 1;
+        }
+        .nav-icon { font-size: 1.35rem; transition: transform 0.2s; }
+        .nav-btn.active { color: var(--violet); }
+        .nav-btn.active .nav-icon { transform: translateY(-2px); filter: drop-shadow(0 0 8px var(--violet)); }
+
+        /* Nav indicator */
+        .nav-indicator {
+            position: absolute; bottom: 0; height: 2px; background: linear-gradient(90deg, var(--violet), var(--pink));
+            border-radius: 2px 2px 0 0; transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1); z-index: 1001;
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-blobs">
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+    <div class="blob blob3"></div>
+</div>
+
+<!-- Status Bar -->
+<div class="status-bar">
+    <span><span class="status-dot"></span>DijiDost OS</span>
+    <span id="top-time" style="color: var(--text); font-weight:700;">00:00</span>
+    <span id="battery-status">🔋 98%</span>
+</div>
+
+<!-- Ana içerik alanı -->
+<div class="view-container">
+
+    <!-- ======================== HOME ======================== -->
+    <div id="tab-home" class="tab-content active">
+
+        <div class="hero-time">
+            <div class="hero-clock" id="main-clock">00:00</div>
+            <div class="hero-date" id="main-date">YÜKLENİYOR</div>
+        </div>
+
+        <div id="listen-indicator"><span id="txt-listening">🎙 DİNLENİYOR...</span></div>
+
+        <!-- Mini widgetlar -->
+        <div class="mini-grid">
+            <div class="mini-widget">
+                <div class="mw-emoji">⛅</div>
+                <div class="mw-val" style="color: var(--cyan);" id="weather-val">22°C</div>
+                <div class="mw-label" id="txt-weather">HAVA DURUMU</div>
+            </div>
+            <div class="mini-widget">
+                <div class="mw-emoji">₿</div>
+                <div class="mw-val" style="color: var(--amber);" id="btc-val">$64,210</div>
+                <div class="mw-label">BTC / USD</div>
+            </div>
+            <div class="mini-widget">
+                <div class="mw-emoji">👟</div>
+                <div class="mw-val" style="color: var(--lime);" id="steps-mini">4,231</div>
+                <div class="mw-label" id="txt-steps">ADIM SAYISI</div>
+            </div>
+            <div class="mini-widget">
+                <div class="mw-emoji">🔥</div>
+                <div class="mw-val" style="color: var(--coral);" id="cal-mini">186 kcal</div>
+                <div class="mw-label" id="txt-calories">KALORİ</div>
+            </div>
+        </div>
+
+        <!-- Mood Tracker -->
+        <div class="card">
+            <div class="card-title">
+                <span id="txt-mood-title">BUGÜN NASIL HİSSEDİYORSUN?</span>
+                <span class="badge badge-pink" id="mood-badge">?</span>
+            </div>
+            <div class="mood-row">
+                <div class="mood-btn" onclick="selectMood(this,'😄',0)">😄<span id="txt-mood-0">Harika</span></div>
+                <div class="mood-btn" onclick="selectMood(this,'😊',1)">😊<span id="txt-mood-1">İyi</span></div>
+                <div class="mood-btn" onclick="selectMood(this,'😐',2)">😐<span id="txt-mood-2">Normal</span></div>
+                <div class="mood-btn" onclick="selectMood(this,'😔',3)">😔<span id="txt-mood-3">Üzgün</span></div>
+                <div class="mood-btn" onclick="selectMood(this,'😤',4)">😤<span id="txt-mood-4">Sinirli</span></div>
+            </div>
+            <div class="mood-result" id="mood-result"></div>
+        </div>
+
+        <!-- Adım Sayacı -->
+        <div class="card">
+            <div class="card-title"><span id="txt-steps-title">ADIM SAYACI</span><span class="badge badge-green" id="txt-steps-badge">AKTIF</span></div>
+            <div class="step-ring-wrap">
+                <div class="step-ring" id="step-ring" style="--step-pct: 42%;">
+                    <div class="step-count" id="step-count-display">4.2K</div>
+                </div>
+                <div class="step-info">
+                    <div style="font-size:1.5rem; font-weight:800;">
+                        <span id="step-num">4,231</span> <span style="font-size:0.8rem; color:var(--muted); font-weight:600;" id="txt-step-unit">adım</span>
+                    </div>
+                    <div class="step-goal" id="txt-step-goal">Hedef: <b>10,000</b> adım</div>
+                    <div class="step-cal">🔥 <span id="step-kcal">186</span> <span id="txt-kcal-burned">kcal yakıldı</span></div>
+                    <div style="margin-top:8px;">
+                        <div style="height:4px; background:rgba(255,255,255,0.05); border-radius:2px;">
+                            <div id="step-bar" style="width:42%; height:100%; border-radius:2px; background: linear-gradient(90deg, var(--lime), var(--cyan));"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hatırlatıcılar -->
+        <div class="card">
+            <div class="card-title"><span id="txt-reminders-title">HATIRLATICILAR</span><span class="badge badge-amber" id="txt-reminders-badge">3 BEKLEYEN</span></div>
+            <div class="reminder-list">
+                <div class="reminder-item">
+                    <div class="reminder-icon">💧</div>
+                    <div class="reminder-text">
+                        <div class="reminder-title" id="txt-water-title">Su İç!</div>
+                        <div class="reminder-time" id="water-time">Her 30 dakikada bir</div>
+                    </div>
+                    <div class="reminder-status rs-due" id="water-status">YAKLAŞIYOR</div>
+                </div>
+                <div class="reminder-item">
+                    <div class="reminder-icon">🧘</div>
+                    <div class="reminder-text">
+                        <div class="reminder-title" id="txt-break-title">Mola Ver</div>
+                        <div class="reminder-time" id="txt-break-desc">Her saat başı kalk, gez</div>
+                    </div>
+                    <div class="reminder-status rs-ok" id="txt-break-status">TAMAM</div>
+                </div>
+                <div class="reminder-item">
+                    <div class="reminder-icon">📚</div>
+                    <div class="reminder-text">
+                        <div class="reminder-title" id="txt-study-title">Ders Çalışma</div>
+                        <div class="reminder-time" id="study-time">20:00'da başla</div>
+                    </div>
+                    <div class="reminder-status rs-ok" id="txt-study-status">PLANLANDI</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ======================== MÜZİK ======================== -->
+    <div id="tab-music" class="tab-content">
+
+        <!-- Last.fm kullanıcı adı giriş kutusu -->
+        <div class="card" style="padding:14px 16px;">
+            <div class="card-title" style="margin-bottom:10px;">
+                <span id="txt-music-lastfm-title">LAST.FM HESABI</span>
+                <span class="badge badge-pink">SON.FM</span>
+            </div>
+            <div style="display:flex; gap:10px; align-items:center;">
+                <input id="lfm-user-input" class="todo-input" type="text"
+                    placeholder="Last.fm kullanıcı adın"
+                    style="flex:1; height:42px; font-size:0.88rem;"
+                    onkeydown="if(event.key==='Enter') setLastFMUser()">
+                <button class="todo-add-btn" onclick="setLastFMUser()" title="Bağlan" style="font-size:1rem;">✓</button>
+            </div>
+            <div style="margin-top:8px; font-size:0.7rem; color:var(--muted); font-family:var(--mono);">
+                <span id="txt-music-lastfm-desc">Last.fm hesabına YouTube Music, Spotify veya herhangi bir müzik uygulamasını bağlayarak şu an ne dinlediğini görebilirsin.</span>
+                <a href="https://www.last.fm/join" target="_blank" style="color:var(--pink); text-decoration:none; margin-left:4px;" id="txt-music-open-account">Hesap aç →</a>
+            </div>
+        </div>
+
+        <!-- Şu an çalıyor büyük kart -->
+        <div class="full-player">
+            <div style="text-align:center; margin-bottom:10px;">
+                <span id="lfm-now-label" style="font-family:var(--mono); font-size:0.7rem; letter-spacing:2px; color:var(--muted); font-weight:700;">— BEKLENIYOR —</span>
+            </div>
+            <div class="full-cover" id="full-cover" style="cursor:default;"></div>
+            <div class="full-track">
+                <div class="full-track-name" id="full-track-name">Kullanıcı adı gir</div>
+                <div class="full-track-artist" id="full-track-artist">Last.fm bağlantısı bekleniyor</div>
+            </div>
+
+            <div class="sound-wave paused" id="sound-wave">
+                <div class="sw-bar"></div><div class="sw-bar"></div><div class="sw-bar"></div>
+                <div class="sw-bar"></div><div class="sw-bar"></div><div class="sw-bar"></div>
+                <div class="sw-bar"></div><div class="sw-bar"></div><div class="sw-bar"></div>
+                <div class="sw-bar"></div>
+            </div>
+
+            <!-- Yenile butonu -->
+            <div style="display:flex; justify-content:center; margin-top:8px;">
+                <button class="filter-btn" onclick="fetchLastFM()" style="cursor:pointer; padding:8px 22px;" id="txt-refresh-btn">🔄 Yenile</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">
+                <span id="txt-recent-tracks">SON DİNLENENLER</span>
+                <span class="badge badge-cyan">LAST.FM</span>
+            </div>
+            <div class="playlist" id="playlist">
+                <div style="text-align:center;color:var(--muted);font-size:0.85rem;padding:20px;" id="txt-playlist-empty">Kullanıcı adı girince geçmiş burada görünür</div>
+            </div>
+        </div>
+
+        <audio id="audio-core" preload="none"></audio>
+    </div>
+
+    <!-- ======================== GÖREVLER ======================== -->
+    <div id="tab-tasks" class="tab-content">
+
+        <div class="card">
+            <div class="card-title"><span id="txt-new-task-title">YENİ GÖREV EKLE</span></div>
+            <div class="todo-add-row">
+                <input class="todo-input" id="todo-input" type="text" placeholder="Ne yapacaksın?" maxlength="80">
+                <button class="todo-add-btn" onclick="addTodo()">+</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">
+                <span id="txt-task-list-title">GÖREV LİSTESİ</span>
+                <span class="badge badge-cyan" id="todo-count-badge">0 GÖREV</span>
+            </div>
+            <div class="filter-row" style="margin-bottom:12px;">
+                <div class="filter-btn active" onclick="filterTodos('all',this)" id="txt-filter-all">TÜMÜ</div>
+                <div class="filter-btn" onclick="filterTodos('active',this)" id="txt-filter-active">BEKLEYEN</div>
+                <div class="filter-btn" onclick="filterTodos('done',this)" id="txt-filter-done">TAMAMLANAN</div>
+            </div>
+            <div class="todo-stats">
+                <span id="todo-active-count">0 bekliyor</span>
+                <span id="todo-done-count">0 tamamlandı</span>
+            </div>
+            <div class="todo-list" id="todo-list" style="margin-top:12px;"></div>
+        </div>
+
+        <!-- Hızlı Notlar -->
+        <div class="card">
+            <div class="card-title"><span id="txt-quick-notes-title">HIZLI NOTLAR</span></div>
+            <textarea class="notes-area" id="note-input" placeholder="Bir şey yaz... (örn: fikir, link, hatırlatma)"></textarea>
+            <div style="display:flex; justify-content:flex-end; margin-top:10px;">
+                <button class="pomo-btn primary" onclick="saveNote()" style="padding:10px 22px; font-size:0.85rem;" id="txt-save-note-btn">💾 Kaydet</button>
+            </div>
+            <div class="notes-saved-list" id="notes-list" style="margin-top:14px;"></div>
+        </div>
+
+    </div>
+
+    <!-- ======================== ODAK ======================== -->
+    <div id="tab-focus" class="tab-content">
+
+        <div class="card" style="text-align:center;">
+            <div class="card-title" style="justify-content:center;"><span id="txt-focus-title">ODAKLANMA MODU</span></div>
+            <div class="pomo-sessions" id="pomo-sessions">
+                <div class="pomo-dot"></div>
+                <div class="pomo-dot"></div>
+                <div class="pomo-dot"></div>
+                <div class="pomo-dot"></div>
+            </div>
+            <div class="pomodoro-ring" id="pomo-ring">
+                <div class="pomo-inner">
+                    <div class="pomo-time" id="pomo-time">25:00</div>
+                    <div class="pomo-mode" id="pomo-mode">ÇALIŞMA</div>
+                </div>
+            </div>
+            <div class="pomo-controls">
+                <button class="pomo-btn primary" id="pomo-start" onclick="togglePomodoro()">▶ Başlat</button>
+                <button class="pomo-btn" onclick="resetPomodoro()" id="txt-pomo-reset">↺ Sıfırla</button>
+            </div>
+            <div class="pomo-types">
+                <div class="pomo-type-btn active" onclick="setPomoDuration(25,'WORK',this)" id="pomo-type-0">25 dk<br><small id="txt-pomo-focus">Odaklanma</small></div>
+                <div class="pomo-type-btn" onclick="setPomoDuration(5,'SHORT_BREAK',this)" id="pomo-type-1">5 dk<br><small id="txt-pomo-short">Kısa Mola</small></div>
+                <div class="pomo-type-btn" onclick="setPomoDuration(15,'LONG_BREAK',this)" id="pomo-type-2">15 dk<br><small id="txt-pomo-long">Uzun Mola</small></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><span id="txt-session-history">OTURUM GEÇMİŞİ</span></div>
+            <div class="pomo-log" id="pomo-log">
+                <div class="pomo-log-item">
+                    <span id="txt-no-session">Bugün henüz oturum yok</span>
+                    <span style="color:var(--muted); font-family:var(--mono); font-size:0.72rem;">-</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Motivasyon Sözleri -->
+        <div class="card">
+            <div class="card-title"><span id="txt-motivation-title">MOTİVASYON</span></div>
+            <div id="motivation-text" style="font-size:1rem; font-weight:700; line-height:1.6; text-align:center; padding:10px 0; color:var(--violet);">
+                "Bugün bitiremezsin ama başlayabilirsin."
+            </div>
+            <div style="text-align:center; margin-top:8px;">
+                <button class="filter-btn" onclick="newMotivation()" id="txt-new-motivation">Yeni Söz ✨</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ======================== SİSTEM ======================== -->
+    <div id="tab-system" class="tab-content">
+
+        <div class="card">
+            <div class="card-title"><span id="txt-sys-status-title">SISTEM DURUMU</span><span class="badge badge-green" id="txt-sys-status-badge">NORMAL</span></div>
+            <div class="sys-stats">
+                <div class="stat-block">
+                    <div class="stat-label">CPU</div>
+                    <div class="stat-val" style="color:var(--cyan);" id="cpu-val">42%</div>
+                    <div class="stat-bar"><div class="stat-bar-fill" id="cpu-bar" style="width:42%; background: linear-gradient(90deg, var(--cyan), var(--violet));"></div></div>
+                </div>
+                <div class="stat-block">
+                    <div class="stat-label">RAM</div>
+                    <div class="stat-val" style="color:var(--violet);" id="ram-val">6.2 GB</div>
+                    <div class="stat-bar"><div class="stat-bar-fill" id="ram-bar" style="width:62%; background: linear-gradient(90deg, var(--violet), var(--pink));"></div></div>
+                </div>
+                <div class="stat-block">
+                    <div class="stat-label" id="txt-storage-label">DEPOLAMA</div>
+                    <div class="stat-val" style="color:var(--amber);" id="disk-val">58%</div>
+                    <div class="stat-bar"><div class="stat-bar-fill" id="disk-bar" style="width:58%; background: linear-gradient(90deg, var(--amber), var(--coral));"></div></div>
+                </div>
+                <div class="stat-block">
+                    <div class="stat-label" id="txt-battery-label">PİL</div>
+                    <div class="stat-val" style="color:var(--lime);" id="bat-val">98%</div>
+                    <div class="stat-bar"><div class="stat-bar-fill" id="bat-bar" style="width:98%; background: linear-gradient(90deg, var(--lime), var(--mint));"></div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><span id="txt-hardware-title">DONANIM BİLGİSİ</span></div>
+            <div class="sys-info-list">
+                <div class="si-row"><span class="si-key" id="txt-si-cpu">İŞLEMCİ</span><span class="si-val" style="color:var(--cyan);" id="si-cpu">Octa-Core 3.2GHz</span></div>
+                <div class="si-row"><span class="si-key" id="txt-si-temp">ÇEKIRDEK ISI</span><span class="si-val" style="color:var(--amber);" id="si-temp">52°C</span></div>
+                <div class="si-row"><span class="si-key" id="txt-si-gtemp">GPU ISI</span><span class="si-val" style="color:var(--lime);" id="si-gtemp">45°C</span></div>
+                <div class="si-row"><span class="si-key" id="txt-si-fan">FAN HIZI</span><span class="si-val" id="si-fan">2.4K RPM</span></div>
+                <div class="si-row"><span class="si-key" id="txt-si-ping">PİNG (YEREL)</span><span class="si-val" style="color:var(--mint);" id="si-ping">4 ms</span></div>
+                <div class="si-row"><span class="si-key" id="txt-si-sping">PİNG (SUNUCU)</span><span class="si-val" id="si-sping">18 ms</span></div>
+                <div class="si-row"><span class="si-key" id="txt-si-net">AĞ DURUMU</span><span class="si-val" style="color:var(--mint);" id="txt-si-net-val">GÜVENLİ</span></div>
+                <div class="si-row"><span class="si-key" id="txt-si-os">OS VERSİYON</span><span class="si-val">DijiDost v9.0</span></div>
+            </div>
+        </div>
+
+        <!-- Kripto Paneli -->
+        <div class="card">
+            <div class="card-title"><span id="txt-crypto-title">KRİPTO PANELI</span><span class="badge badge-amber" id="txt-crypto-badge">CANLI</span></div>
+            <div id="crypto-list" style="display:flex; flex-direction:column; gap:10px;">
+                <!-- JS ile doldurulacak -->
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ======================== AYARLAR ======================== -->
+    <div id="tab-settings" class="tab-content">
+
+        <div class="card">
+            <div class="card-title">
+                <span id="settings-lang-title">DİL / LANGUAGE</span>
+                <span class="badge badge-violet" style="background:rgba(167,139,250,0.15);color:var(--violet);border:1px solid rgba(167,139,250,0.3);">BETA</span>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:4px;">
+                <div class="pomo-type-btn lang-btn" onclick="setLang('tr',this)" id="lang-tr" style="padding:14px;">
+                    <div style="font-size:1.5rem;">🇹🇷</div>
+                    <div style="margin-top:6px; font-size:0.85rem; font-weight:800;">Türkçe</div>
+                </div>
+                <div class="pomo-type-btn lang-btn" onclick="setLang('en',this)" id="lang-en" style="padding:14px;">
+                    <div style="font-size:1.5rem;">🇬🇧</div>
+                    <div style="margin-top:6px; font-size:0.85rem; font-weight:800;">English</div>
+                </div>
+                <div class="pomo-type-btn lang-btn" onclick="setLang('fr',this)" id="lang-fr" style="padding:14px;">
+                    <div style="font-size:1.5rem;">🇫🇷</div>
+                    <div style="margin-top:6px; font-size:0.85rem; font-weight:800;">Français</div>
+                </div>
+                <div class="pomo-type-btn lang-btn" onclick="setLang('de',this)" id="lang-de" style="padding:14px;">
+                    <div style="font-size:1.5rem;">🇩🇪</div>
+                    <div style="margin-top:6px; font-size:0.85rem; font-weight:800;">Deutsch</div>
+                </div>
+                    <div class="pomo-type-btn lang-btn" onclick="setLang('es',this)" id="lang-es" style="padding:14px;">
+                        <div style="font-size:1.4rem;">🇪🇸</div>
+                        <div style="font-size:0.75rem; margin-top:6px; font-weight:700;">Español</div>
+                    </div>
+                    <div class="pomo-type-btn lang-btn" onclick="setLang('ar',this)" id="lang-ar" style="padding:14px;">
+                        <div style="font-size:1.4rem;">🇸🇦</div>
+                        <div style="font-size:0.75rem; margin-top:6px; font-weight:700;">العربية</div>
+                    </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title" id="settings-lastfm-title">LAST.FM HESABI</div>
+            <div style="font-size:0.82rem; color:var(--muted); line-height:1.6;" id="settings-lastfm-desc">
+                YouTube Music, Spotify veya herhangi bir müzik uygulamasını Last.fm hesabına bağla. Müzik sekmesinde şu an ne dinlediğin görünür.
+            </div>
+            <div style="margin-top:12px; display:flex; gap:10px;">
+                <input id="settings-lfm-input" class="todo-input" type="text"
+                    placeholder="Last.fm kullanıcı adı"
+                    style="flex:1; height:42px; font-size:0.88rem;"
+                    onkeydown="if(event.key==='Enter') saveSettingsLFM()">
+                <button class="todo-add-btn" onclick="saveSettingsLFM()" style="font-size:0.9rem; width:auto; padding:0 14px;">✓</button>
+            </div>
+            <div id="settings-lfm-feedback" style="margin-top:8px; font-size:0.75rem; color:var(--lime); font-family:var(--mono); min-height:16px;"></div>
+        </div>
+
+        <div class="card">
+            <div class="card-title" id="settings-about-title">HAKKINDA</div>
+            <div style="font-size:0.85rem; color:var(--muted); line-height:1.8;">
+                <div>DijiDost OS <span style="color:var(--violet); font-weight:800;">v9.0</span></div>
+                <div id="settings-about-desc">Kişisel yapay zeka asistanın. Müzik, görev, odak ve daha fazlası.</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ======================== LOGS ======================== -->
+    <div id="tab-logs" class="tab-content">
+        <div class="card-title" style="padding:0 0 8px;">
+            <span>KERNEL LOGS</span>
+            <button class="filter-btn" onclick="addFakeLog()" style="cursor:pointer;">🔄 YENİLE</button>
+        </div>
+        <div class="terminal" id="term-out">
+            <div class="t-line t-ok">DijiDost OS v9.0 başlatılıyor...</div>
+            <div class="t-line">Neural engine yükleniyor [OK]</div>
+            <div class="t-line">Ses motoru başlatıldı [OK]</div>
+            <div class="t-line">Dosya sistemleri bağlandı [OK]</div>
+            <div class="t-line t-warn">UYARI: Node 4'te yüksek gecikme tespit edildi.</div>
+            <div class="t-line">Güvenli bağlantı kuruluyor...</div>
+            <div class="t-line t-ok">Bağlantı kuruldu. Komut bekleniyor.</div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Chat Dock -->
+<div class="chat-dock">
+    <div id="chat-history">
+        <div class="msg msg-bot">Merhaba! DijiDost hazır. Müzik çal, görev ekle ya da odaklanma modunu başlat! 🎵</div>
+    </div>
+</div>
+
+<!-- Alt Navigasyon -->
+<div class="bottom-nav" id="bottom-nav">
+    <div class="nav-indicator" id="nav-indicator" style="width:20%; left:0%;"></div>
+    <div class="nav-btn active" onclick="switchTab('home',this,0)">
+        <span class="nav-icon">🏠</span><span>Ana</span>
+    </div>
+    <div class="nav-btn" onclick="switchTab('music',this,1)">
+        <span class="nav-icon">🎵</span><span>Müzik</span>
+    </div>
+    <div class="nav-btn" onclick="switchTab('tasks',this,2)">
+        <span class="nav-icon">✅</span><span>Görev</span>
+    </div>
+    <div class="nav-btn" onclick="switchTab('focus',this,3)">
+        <span class="nav-icon">⏱</span><span>Odak</span>
+    </div>
+    <div class="nav-btn" onclick="switchTab('system',this,4)">
+        <span class="nav-icon">⚙️</span><span>Sistem</span>
+    </div>
+    <div class="nav-btn" onclick="switchTab('logs',this,5)">
+        <span class="nav-icon">📟</span><span>Logs</span>
+    </div>
+    <div class="nav-btn" onclick="switchTab('settings',this,6)">
+        <span class="nav-icon">🌐</span><span id="nav-settings-label">Ayarlar</span>
+    </div>
+</div>
+
+<script>
+// ==========================================================
+//  GLOBAL DEĞİŞKENLER VE DİL AYARLARI
+// ==========================================================
+const LANGS = {
+    tr: {
+        nav: ['Ana','Müzik','Görev','Odak','Sistem','Logs','Ayarlar'],
+        // Settings
+        settingsTitle: 'DİL / LANGUAGE',
+        lastfmTitle: 'LAST.FM HESABI',
+        lastfmDesc: 'YouTube Music, Spotify veya herhangi bir müzik uygulamasını Last.fm hesabına bağla. Müzik sekmesinde şu an ne dinlediğin görünür.',
+        lastfmPlaceholder: 'Last.fm kullanıcı adı',
+        aboutTitle: 'HAKKINDA',
+        aboutDesc: 'Kişisel yapay zeka asistanın. Müzik, görev, odak ve daha fazlası.',
+        lfmSaved: '✓ Kaydedildi ve yenileniyor...',
+        // Home
+        listening: '🎙 DİNLENİYOR...',
+        weatherLabel: 'HAVA DURUMU',
+        stepsLabel: 'ADIM SAYISI',
+        caloriesLabel: 'KALORİ',
+        moodTitle: 'BUGÜN NASIL HİSSEDİYORSUN?',
+        moodLabels: ['Harika','İyi','Normal','Üzgün','Sinirli'],
+        moodMessages: [
+            'Süper! Bu enerjiyle her şeyi başarabilirsin! 🚀',
+            'Güzel! Güzel bir gün geçiriyorsun 😊',
+            'Sorun değil, bazen böyle günler de olur.',
+            'Geçer. Bir nefes al, iyi şeyler geliyor 💙',
+            'Anladım. Müzik aç ya da biraz yürü, geçer 🎧'
+        ],
+        stepsTitle: 'ADIM SAYACI', stepsBadge: 'AKTİF',
+        stepUnit: 'adım', stepGoal: 'Hedef: <b>10,000</b> adım', kcalBurned: 'kcal yakıldı',
+        remindersTitle: 'HATIRLATICILAR', remindersBadge: '3 BEKLEYEN',
+        waterTitle: 'Su İç!', waterEvery: 'Her 30 dakikada bir', waterApproaching: 'YAKLAŞIYOR',
+        waterDrink: 'SU İÇ!', waterOk: 'TAMAM', waterCountdown: 'sonra',
+        waterMessage: '💧 Su içme vakti geldi! Düzenli su içmek konsantrasyonu artırır.',
+        breakTitle: 'Mola Ver', breakDesc: 'Her saat başı kalk, gez', breakOk: 'TAMAM',
+        studyTitle: 'Ders Çalışma', studyPlanned: 'PLANLANDI',
+        // Music
+        musicLastfmTitle: 'LAST.FM HESABI',
+        musicLastfmDesc: 'Last.fm hesabına YouTube Music, Spotify veya herhangi bir müzik uygulamasını bağlayarak şu an ne dinlediğini görebilirsin.',
+        openAccount: 'Hesap aç →',
+        musicWaiting: '— BEKLENIYOR —', musicNow: '▶ ŞU AN DİNLENİYOR', musicLast: '⏸ SON DİNLENEN',
+        trackNotFound: 'Şarkı bulunamadı', enterUser: 'Last.fm kullanıcı adını gir',
+        connectionError: 'Bağlantı hatası', checkInternet: 'İnternet bağlantısını kontrol et',
+        userNotFound: 'Kullanıcı bulunamadı', recentEmpty: 'Henüz geçmiş yok',
+        playlistEmpty: 'Kullanıcı adı girince geçmiş burada görünür',
+        refreshBtn: '🔄 Yenile', recentTracksTitle: 'SON DİNLENENLER',
+        lfmUserPlaceholder: 'Last.fm kullanıcı adın',
+        // Tasks
+        newTaskTitle: 'YENİ GÖREV EKLE', todoPlaceholder: 'Ne yapacaksın?',
+        taskListTitle: 'GÖREV LİSTESİ',
+        filterAll: 'TÜMÜ', filterActive: 'BEKLEYEN', filterDone: 'TAMAMLANAN',
+        taskCount: 'GÖREV', taskPending: 'bekliyor', taskDone: 'tamamlandı',
+        quickNotesTitle: 'HIZLI NOTLAR', notePlaceholder: 'Bir şey yaz... (örn: fikir, link, hatırlatma)',
+        saveNoteBtn: '💾 Kaydet', delete: 'Sil',
+        // Focus
+        focusTitle: 'ODAKLANMA MODU',
+        pomoStart: 'Başlat', pomoPause: 'Duraklat', pomoContinue: 'Devam Et',
+        pomoReset: '↺ Sıfırla',
+        pomoModes: { WORK: 'ÇALIŞMA', SHORT_BREAK: 'KISA MOLA', LONG_BREAK: 'UZUN MOLA' },
+        pomoFocus: 'Odaklanma', pomoShort: 'Kısa Mola', pomoLong: 'Uzun Mola',
+        pomoCompleted: 'tamamlandı',
+        sessionHistoryTitle: 'OTURUM GEÇMİŞİ', noSession: 'Bugün henüz oturum yok',
+        motivationTitle: 'MOTİVASYON', newMotivationBtn: 'Yeni Söz ✨',
+        motivations: [
+            '"Bugün bitiremezsin ama başlayabilirsin."',
+            '"Küçük adımlar büyük yolculuklar yaratır."',
+            '"Başarı, her gün biraz daha iyi olmaktır."',
+            '"Odaklan. Sonuçlanır."',
+            '"Kendinle yarış, başkasıyla değil."',
+            '"Zorluklar seni güçlendirir."',
+            '"Bir saatten oluşur her gün. Kullan onu."',
+            '"Şimdi başla. Mükemmel zaman diye bir şey yok."',
+            '"Konsantrasyon süper güçtür."',
+            '"Bugünün emeği yarının özgürlüğüdür."'
+        ],
+        // System
+        sysStatusTitle: 'SİSTEM DURUMU', sysStatusBadge: 'NORMAL',
+        storageLabel: 'DEPOLAMA', batteryLabel: 'PİL',
+        hardwareTitle: 'DONANIM BİLGİSİ',
+        siCpu: 'İŞLEMCİ', siTemp: 'ÇEKIRDEK ISI', siGtemp: 'GPU ISI',
+        siFan: 'FAN HIZI', siPing: 'PİNG (YEREL)', siSping: 'PİNG (SUNUCU)',
+        siNet: 'AĞ DURUMU', siNetVal: 'GÜVENLİ',
+        cryptoTitle: 'KRİPTO PANELİ', cryptoBadge: 'CANLI',
+        clockLocale: 'tr-TR',
+    },
+    en: {
+        nav: ['Home','Music','Tasks','Focus','System','Logs','Settings'],
+        settingsTitle: 'LANGUAGE',
+        lastfmTitle: 'LAST.FM ACCOUNT',
+        lastfmDesc: 'Connect YouTube Music, Spotify or any music app to your Last.fm account. The music tab shows what you\'re currently listening to.',
+        lastfmPlaceholder: 'Last.fm username',
+        aboutTitle: 'ABOUT',
+        aboutDesc: 'Your personal AI assistant. Music, tasks, focus and more.',
+        lfmSaved: '✓ Saved and refreshing...',
+        listening: '🎙 LISTENING...',
+        weatherLabel: 'WEATHER',
+        stepsLabel: 'STEPS',
+        caloriesLabel: 'CALORIES',
+        moodTitle: 'HOW ARE YOU FEELING TODAY?',
+        moodLabels: ['Great','Good','Okay','Sad','Angry'],
+        moodMessages: [
+            'Awesome! You can achieve anything with this energy! 🚀',
+            'Nice! You\'re having a great day 😊',
+            'That\'s okay, some days are like that.',
+            'It will pass. Take a breath, good things are coming 💙',
+            'Got it. Put on music or take a walk, it\'ll pass 🎧'
+        ],
+        stepsTitle: 'STEP COUNTER', stepsBadge: 'ACTIVE',
+        stepUnit: 'steps', stepGoal: 'Goal: <b>10,000</b> steps', kcalBurned: 'kcal burned',
+        remindersTitle: 'REMINDERS', remindersBadge: '3 PENDING',
+        waterTitle: 'Drink Water!', waterEvery: 'Every 30 minutes', waterApproaching: 'UPCOMING',
+        waterDrink: 'DRINK WATER!', waterOk: 'OK', waterCountdown: 'left',
+        waterMessage: '💧 Time to drink water! Staying hydrated improves focus.',
+        breakTitle: 'Take a Break', breakDesc: 'Get up and walk every hour', breakOk: 'OK',
+        studyTitle: 'Study Session', studyPlanned: 'PLANNED',
+        musicLastfmTitle: 'LAST.FM ACCOUNT',
+        musicLastfmDesc: 'Connect YouTube Music, Spotify or any music app to your Last.fm account to see what you\'re listening to.',
+        openAccount: 'Open account →',
+        musicWaiting: '— WAITING —', musicNow: '▶ NOW PLAYING', musicLast: '⏸ LAST PLAYED',
+        trackNotFound: 'No track found', enterUser: 'Enter your Last.fm username',
+        connectionError: 'Connection error', checkInternet: 'Check your internet connection',
+        userNotFound: 'User not found', recentEmpty: 'No history yet',
+        playlistEmpty: 'History will appear here after entering a username',
+        refreshBtn: '🔄 Refresh', recentTracksTitle: 'RECENT TRACKS',
+        lfmUserPlaceholder: 'Your Last.fm username',
+        newTaskTitle: 'ADD NEW TASK', todoPlaceholder: 'What will you do?',
+        taskListTitle: 'TASK LIST',
+        filterAll: 'ALL', filterActive: 'PENDING', filterDone: 'COMPLETED',
+        taskCount: 'TASKS', taskPending: 'pending', taskDone: 'completed',
+        quickNotesTitle: 'QUICK NOTES', notePlaceholder: 'Write something... (idea, link, reminder)',
+        saveNoteBtn: '💾 Save', delete: 'Delete',
+        focusTitle: 'FOCUS MODE',
+        pomoStart: 'Start', pomoPause: 'Pause', pomoContinue: 'Continue',
+        pomoReset: '↺ Reset',
+        pomoModes: { WORK: 'WORK', SHORT_BREAK: 'SHORT BREAK', LONG_BREAK: 'LONG BREAK' },
+        pomoFocus: 'Focus', pomoShort: 'Short Break', pomoLong: 'Long Break',
+        pomoCompleted: 'completed',
+        sessionHistoryTitle: 'SESSION HISTORY', noSession: 'No sessions today yet',
+        motivationTitle: 'MOTIVATION', newMotivationBtn: 'New Quote ✨',
+        motivations: [
+            '"You can\'t finish today, but you can start."',
+            '"Small steps create great journeys."',
+            '"Success is getting a little better every day."',
+            '"Focus. It will be done."',
+            '"Race yourself, not others."',
+            '"Challenges make you stronger."',
+            '"Every day is made of hours. Use them."',
+            '"Start now. There\'s no such thing as the perfect time."',
+            '"Concentration is a superpower."',
+            '"Today\'s effort is tomorrow\'s freedom."'
+        ],
+        sysStatusTitle: 'SYSTEM STATUS', sysStatusBadge: 'NORMAL',
+        storageLabel: 'STORAGE', batteryLabel: 'BATTERY',
+        hardwareTitle: 'HARDWARE INFO',
+        siCpu: 'PROCESSOR', siTemp: 'CORE TEMP', siGtemp: 'GPU TEMP',
+        siFan: 'FAN SPEED', siPing: 'PING (LOCAL)', siSping: 'PING (SERVER)',
+        siNet: 'NETWORK', siNetVal: 'SECURE',
+        cryptoTitle: 'CRYPTO PANEL', cryptoBadge: 'LIVE',
+        clockLocale: 'en-US',
+    },
+    fr: {
+        nav: ['Accueil','Musique','Tâches','Focus','Système','Logs','Réglages'],
+        settingsTitle: 'LANGUE',
+        lastfmTitle: 'COMPTE LAST.FM',
+        lastfmDesc: 'Connecte YouTube Music, Spotify ou toute autre appli musicale à ton compte Last.fm. L\'onglet musique affiche ce que tu écoutes.',
+        lastfmPlaceholder: 'Nom d\'utilisateur Last.fm',
+        aboutTitle: 'À PROPOS',
+        aboutDesc: 'Ton assistant IA personnel. Musique, tâches, focus et plus encore.',
+        lfmSaved: '✓ Sauvegardé et en cours...',
+        listening: '🎙 À L\'ÉCOUTE...',
+        weatherLabel: 'MÉTÉO',
+        stepsLabel: 'PAS',
+        caloriesLabel: 'CALORIES',
+        moodTitle: 'COMMENT TE SENS-TU AUJOURD\'HUI?',
+        moodLabels: ['Super','Bien','Normal','Triste','Énervé'],
+        moodMessages: [
+            'Super ! Tu peux tout accomplir avec cette énergie ! 🚀',
+            'Bien ! Tu passes une bonne journée 😊',
+            'Pas de souci, certains jours sont comme ça.',
+            'Ça passera. Respire, de bonnes choses arrivent 💙',
+            'Compris. Mets de la musique ou marche un peu 🎧'
+        ],
+        stepsTitle: 'PODOMÈTRE', stepsBadge: 'ACTIF',
+        stepUnit: 'pas', stepGoal: 'Objectif : <b>10 000</b> pas', kcalBurned: 'kcal brûlées',
+        remindersTitle: 'RAPPELS', remindersBadge: '3 EN ATTENTE',
+        waterTitle: 'Bois de l\'eau !', waterEvery: 'Toutes les 30 minutes', waterApproaching: 'BIENTÔT',
+        waterDrink: 'BOIS !', waterOk: 'OK', waterCountdown: 'restantes',
+        waterMessage: '💧 C\'est l\'heure de boire de l\'eau ! Rester hydraté améliore la concentration.',
+        breakTitle: 'Faire une pause', breakDesc: 'Lève-toi et marche chaque heure', breakOk: 'OK',
+        studyTitle: 'Session d\'étude', studyPlanned: 'PLANIFIÉ',
+        musicLastfmTitle: 'COMPTE LAST.FM',
+        musicLastfmDesc: 'Connecte YouTube Music, Spotify ou toute autre appli musicale à ton compte Last.fm pour voir ce que tu écoutes.',
+        openAccount: 'Ouvrir un compte →',
+        musicWaiting: '— EN ATTENTE —', musicNow: '▶ EN COURS DE LECTURE', musicLast: '⏸ DERNIÈRE LECTURE',
+        trackNotFound: 'Aucune piste trouvée', enterUser: 'Entre ton nom d\'utilisateur Last.fm',
+        connectionError: 'Erreur de connexion', checkInternet: 'Vérifie ta connexion internet',
+        userNotFound: 'Utilisateur introuvable', recentEmpty: 'Pas encore d\'historique',
+        playlistEmpty: 'L\'historique apparaîtra ici après avoir entré un nom d\'utilisateur',
+        refreshBtn: '🔄 Actualiser', recentTracksTitle: 'TITRES RÉCENTS',
+        lfmUserPlaceholder: 'Ton nom d\'utilisateur Last.fm',
+        newTaskTitle: 'AJOUTER UNE TÂCHE', todoPlaceholder: 'Que feras-tu ?',
+        taskListTitle: 'LISTE DES TÂCHES',
+        filterAll: 'TOUT', filterActive: 'EN ATTENTE', filterDone: 'TERMINÉES',
+        taskCount: 'TÂCHES', taskPending: 'en attente', taskDone: 'terminées',
+        quickNotesTitle: 'NOTES RAPIDES', notePlaceholder: 'Écris quelque chose... (idée, lien, rappel)',
+        saveNoteBtn: '💾 Sauvegarder', delete: 'Supprimer',
+        focusTitle: 'MODE FOCUS',
+        pomoStart: 'Démarrer', pomoPause: 'Pause', pomoContinue: 'Reprendre',
+        pomoReset: '↺ Réinitialiser',
+        pomoModes: { WORK: 'TRAVAIL', SHORT_BREAK: 'COURTE PAUSE', LONG_BREAK: 'LONGUE PAUSE' },
+        pomoFocus: 'Concentration', pomoShort: 'Courte Pause', pomoLong: 'Longue Pause',
+        pomoCompleted: 'terminé',
+        sessionHistoryTitle: 'HISTORIQUE', noSession: 'Pas encore de session aujourd\'hui',
+        motivationTitle: 'MOTIVATION', newMotivationBtn: 'Nouvelle Citation ✨',
+        motivations: [
+            '"Tu ne peux pas finir aujourd\'hui, mais tu peux commencer."',
+            '"Les petits pas créent de grands voyages."',
+            '"Le succès, c\'est s\'améliorer un peu chaque jour."',
+            '"Concentre-toi. Ça se terminera."',
+            '"Course contre toi-même, pas gegen les autres."',
+            '"Les défis te rendent plus fort."',
+            '"Chaque journée est faite d\'heures. Utilise-les."',
+            '"Commence maintenant. Le moment parfait n\'existe pas."',
+            '"La concentration est un super-pouvoir."',
+            '"L\'effort d\'aujourd\'hui est la liberté de demain."'
+        ],
+        sysStatusTitle: 'ÉTAT DU SYSTÈME', sysStatusBadge: 'NORMAL',
+        storageLabel: 'STOCKAGE', batteryLabel: 'BATTERIE',
+        hardwareTitle: 'INFO MATÉRIEL',
+        siCpu: 'PROCESSEUR', siTemp: 'TEMP. CŒUR', siGtemp: 'TEMP. GPU',
+        siFan: 'VENTILATEUR', siPing: 'PING (LOCAL)', siSping: 'PING (SERVEUR)',
+        siNet: 'RÉSEAU', siNetVal: 'SÉCURISÉ',
+        cryptoTitle: 'PANEL CRYPTO', cryptoBadge: 'EN DIRECT',
+        clockLocale: 'fr-FR',
+    },
+    de: {
+        nav: ['Start','Musik','Aufgaben','Fokus','System','Logs','Einstellungen'],
+        settingsTitle: 'SPRACHE',
+        lastfmTitle: 'LAST.FM KONTO',
+        lastfmDesc: 'Verbinde YouTube Music, Spotify oder eine andere Musik-App mit deinem Last.fm-Konto. Der Musik-Tab zeigt, was du gerade hörst.',
+        lastfmPlaceholder: 'Last.fm-Benutzername',
+        aboutTitle: 'ÜBER',
+        aboutDesc: 'Dein persönlicher KI-Assistent. Musik, Aufgaben, Fokus und mehr.',
+        lfmSaved: '✓ Gespeichert und wird geladen...',
+        listening: '🎙 HÖRT ZU...',
+        weatherLabel: 'WETTER',
+        stepsLabel: 'SCHRITTE',
+        caloriesLabel: 'CALORIEN',
+        moodTitle: 'WIE FÜHLST DU DICH HEUTE?',
+        moodLabels: ['Super','Gut','Normal','Traurig','Wütend'],
+        moodMessages: [
+            'Super! Mit dieser Energie kannst du alles erreichen! 🚀',
+            'Schön! Du hast einen guten Tag 😊',
+            'Kein Problem, manche Tage sind eben so.',
+            'Es geht vorbei. Atme durch, gute Dinge kommen 💙',
+            'Verstanden. Musik an oder ein bisschen spazieren gehen 🎧'
+        ],
+        stepsTitle: 'SCHRITTZÄHLER', stepsBadge: 'AKTIV',
+        stepUnit: 'Schritte', stepGoal: 'Ziel: <b>10.000</b> Schritte', kcalBurned: 'kcal verbrannt',
+        remindersTitle: 'ERINNERUNGEN', remindersBadge: '3 AUSSTEHEND',
+        waterTitle: 'Wasser trinken!', waterEvery: 'Alle 30 Minuten', waterApproaching: 'BALD',
+        waterDrink: 'TRINK WASSER!', waterOk: 'OK', waterCountdown: 'übrig',
+        waterMessage: '💧 Zeit, Wasser zu trinken! Gut hydriert zu bleiben verbessert die Konzentration.',
+        breakTitle: 'Pause machen', breakDesc: 'Jede Stunde aufstehen und gehen', breakOk: 'OK',
+        studyTitle: 'Lernsitzung', studyPlanned: 'GEPLANT',
+        musicLastfmTitle: 'LAST.FM KONTO',
+        musicLastfmDesc: 'Verbinde YouTube Music, Spotify oder eine andere Musik-App mit deinem Last.fm-Konto, um zu sehen, was du hörst.',
+        openAccount: 'Konto öffnen →',
+        musicWaiting: '— WARTEN —', musicNow: '▶ WIRD GESPIELT', musicLast: '⏸ ZULETZT GESPIELT',
+        trackNotFound: 'Kein Titel gefunden', enterUser: 'Last.fm-Benutzername eingeben',
+        connectionError: 'Verbindungsfehler', checkInternet: 'Prüfe deine Internetverbindung',
+        userNotFound: 'Benutzer nicht gefunden', recentEmpty: 'Noch kein Verlauf',
+        playlistEmpty: 'Der Verlauf erscheint hier nach Eingabe eines Benutzernamens',
+        refreshBtn: '🔄 Aktualisieren', recentTracksTitle: 'LETZTE TITEL',
+        lfmUserPlaceholder: 'Dein Last.fm-Benutzername',
+        newTaskTitle: 'NEUE AUFGABE HINZUFÜGEN', todoPlaceholder: 'Was wirst du tun?',
+        taskListTitle: 'AUFGABENLISTE',
+        filterAll: 'ALLE', filterActive: 'AUSSTEHEND', filterDone: 'ABGESCHLOSSEN',
+        taskCount: 'AUFGABEN', taskPending: 'ausstehend', taskDone: 'abgeschlossen',
+        quickNotesTitle: 'SCHNELLNOTIZEN', notePlaceholder: 'Schreib etwas... (Idee, Link, Erinnerung)',
+        saveNoteBtn: '💾 Speichern', delete: 'Löschen',
+        focusTitle: 'FOKUSMODUS',
+        pomoStart: 'Starten', pomoPause: 'Pause', pomoContinue: 'Fortsetzen',
+        pomoReset: '↺ Zurücksetzen',
+        pomoModes: { WORK: 'ARBEIT', SHORT_BREAK: 'KURZE PAUSE', LONG_BREAK: 'LANGE PAUSE' },
+        pomoFocus: 'Fokus', pomoShort: 'Kurze Pause', pomoLong: 'Lange Pause',
+        pomoCompleted: 'abgeschlossen',
+        sessionHistoryTitle: 'SITZUNGSVERLAUF', noSession: 'Heute noch keine Sitzung',
+        motivationTitle: 'MOTIVATION', newMotivationBtn: 'Neues Zitat ✨',
+        motivations: [
+            '"Du kannst heute nicht fertig werden, aber anfangen."',
+            '"Kleine Schritte schaffen große Reisen."',
+            '"Erfolg bedeutet, jeden Tag ein bisschen besser zu werden."',
+            '"Konzentriere dich. Es wird fertig."',
+            '"Wettbewerb mit dir selbst, nicht mit anderen."',
+            '"Herausforderungen machen dich stärker."',
+            '"Jeder Tag besteht aus Stunden. Nutze sie."',
+            '"Fang jetzt an. Den perfekten Zeitpunkt gibt es nicht."',
+            '"Konzentration ist eine Superkraft."',
+            '"Die Mühe von heute ist die Freiheit von morgen."'
+        ],
+        sysStatusTitle: 'SYSTEMSTATUS', sysStatusBadge: 'NORMAL',
+        storageLabel: 'SPEICHER', batteryLabel: 'AKKU',
+        hardwareTitle: 'HARDWARE-INFO',
+        siCpu: 'PROZESSOR', siTemp: 'KERNTEMPERATUR', siGtemp: 'GPU-TEMPERATUR',
+        siFan: 'LÜFTERGESCHWINDIGKEIT', siPing: 'PING (LOKAL)', siSping: 'PING (SERVER)',
+        siNet: 'NETZWERK', siNetVal: 'SICHER',
+        cryptoTitle: 'KRYPTO-PANEL', cryptoBadge: 'LIVE',
+        clockLocale: 'de-DE',
+    },
+    es: {
+        nav: ['Inicio','Música','Tareas','Foco','Sistema','Logs','Ajustes'],
+        settingsTitle: 'IDIOMA',
+        lastfmTitle: 'CUENTA LAST.FM',
+        lastfmDesc: 'Conecta YouTube Music, Spotify o cualquier aplicación de música a tu cuenta de Last.fm. La pestaña de música muestra lo que estás escuchando.',
+        lastfmPlaceholder: 'Nombre de usuario Last.fm',
+        aboutTitle: 'ACERCA DE',
+        aboutDesc: 'Tu asistente personal de IA. Música, tareas, concentración y más.',
+        lfmSaved: '✓ Guardado y actualizando...',
+        listening: '🎙 ESCUCHANDO...',
+        weatherLabel: 'CLIMA',
+        stepsLabel: 'PASOS',
+        caloriesLabel: 'CALORÍAS',
+        moodTitle: '¿CÓMO TE SIENTES HOY?',
+        moodLabels: ['Genial','Bien','Normal','Triste','Enojado'],
+        moodMessages: [
+            '¡Increíble! ¡Puedes lograr cualquier cosa con esta energía! 🚀',
+            '¡Bien! Estás teniendo un buen día 😊',
+            'Está bien, algunos días son así.',
+            'Pasará. Respira, vienen cosas buenas 💙',
+            'Entendido. Pon música o sal a caminar, pasará 🎧'
+        ],
+        stepsTitle: 'PODÓMETRO', stepsBadge: 'ACTIVO',
+        stepUnit: 'pasos', stepGoal: 'Meta: <b>10,000</b> pasos', kcalBurned: 'kcal quemadas',
+        remindersTitle: 'RECORDATORIOS', remindersBadge: '3 PENDIENTES',
+        waterTitle: '¡Toma Agua!', waterEvery: 'Cada 30 minutos', waterApproaching: 'PRÓXIMO',
+        waterDrink: '¡TOMA AGUA!', waterOk: 'OK', waterCountdown: 'restantes',
+        waterMessage: '💧 ¡Es hora de tomar agua! Mantenerse hidratado mejora la concentración.',
+        breakTitle: 'Toma un descanso', breakDesc: 'Levántate y camina cada hora', breakOk: 'OK',
+        studyTitle: 'Sesión de estudio', studyPlanned: 'PLANEADO',
+        musicLastfmTitle: 'CUENTA LAST.FM',
+        musicLastfmDesc: 'Conecta YouTube Music, Spotify o cualquier aplicación de música a tu cuenta de Last.fm para ver lo que estás escuchando.',
+        openAccount: 'Abrir cuenta →',
+        musicWaiting: '— ESPERANDO —', musicNow: '▶ REPRODUCIENDO AHORA', musicLast: '⏸ ÚLTIMA REPRODUCCIÓN',
+        trackNotFound: 'No se encontró la pista', enterUser: 'Ingresa tu nombre de usuario de Last.fm',
+        connectionError: 'Error de conexión', checkInternet: 'Revisa tu conexión a internet',
+        userNotFound: 'Usuario no encontrado', recentEmpty: 'Aún no hay historial',
+        playlistEmpty: 'El historial aparecerá aquí después de ingresar un nombre de usuario',
+        refreshBtn: '🔄 Actualizar', recentTracksTitle: 'PISTAS RECIENTES',
+        lfmUserPlaceholder: 'Tu nombre de usuario Last.fm',
+        newTaskTitle: 'AGREGAR NUEVA TAREA', todoPlaceholder: '¿Qué harás?',
+        taskListTitle: 'LISTA DE TAREAS',
+        filterAll: 'TODOS', filterActive: 'PENDIENTES', filterDone: 'COMPLETADOS',
+        taskCount: 'TAREAS', taskPending: 'pendientes', taskDone: 'completados',
+        quickNotesTitle: 'NOTAS RÁPIDAS', notePlaceholder: 'Escribe algo... (idea, enlace, recordatorio)',
+        saveNoteBtn: '💾 Guardar', delete: 'Eliminar',
+        focusTitle: 'MODO CONCENTRACIÓN',
+        pomoStart: 'Iniciar', pomoPause: 'Pausar', pomoContinue: 'Continuar',
+        pomoReset: '↺ Reiniciar',
+        pomoModes: { WORK: 'TRABAJO', SHORT_BREAK: 'DESCANSO CORTO', LONG_BREAK: 'DESCANSO LARGO' },
+        pomoFocus: 'Concentración', pomoShort: 'Descanso Corto', pomoLong: 'Descanso Largo',
+        pomoCompleted: 'completado',
+        sessionHistoryTitle: 'HISTORIAL DE SESIONES', noSession: 'Aún no hay sesiones hoy',
+        motivationTitle: 'MOTIVACIÓN', newMotivationBtn: 'Nueva Cita ✨',
+        motivations: [
+            '"No puedes terminar hoy, pero puedes empezar."',
+            '"Pequeños pasos crean grandes viajes."',
+            '"El éxito es mejorar un poco cada día."',
+            '"Concéntrate. Se logrará."',
+            '"Compite contigo mismo, no con los demás."',
+            '"Los desafíos te hacen más fuerte."',
+            '"Cada día está hecho de horas. Úsalas."',
+            '"Empieza ahora. No existe el momento perfecto."',
+            '"La concentración es un superpoder."',
+            '"El esfuerzo de hoy es la libertad del mañana."'
+        ],
+        sysStatusTitle: 'ESTADO DEL SISTEMA', sysStatusBadge: 'NORMAL',
+        storageLabel: 'ALMACENAMIENTO', batteryLabel: 'BATERÍA',
+        hardwareTitle: 'INFORMACIÓN DE HARDWARE',
+        siCpu: 'PROCESADOR', siTemp: 'TEMP. NÚCLEO', siGtemp: 'TEMP. GPU',
+        siFan: 'VENTILADOR', siPing: 'PING (LOCAL)', siSping: 'PING (SERVIDOR)',
+        siNet: 'RED', siNetVal: 'SEGURO',
+        cryptoTitle: 'PANEL CRYPTO', cryptoBadge: 'EN VIVO',
+        clockLocale: 'es-ES',
+    },
+    ar: {
+        nav: ['الرئيسية','الموسيقى','المهام','التركيز','النظام','السجلات','الإعدادات'],
+        settingsTitle: 'اللغة',
+        lastfmTitle: 'حساب LAST.FM',
+        lastfmDesc: 'اربط YouTube Music أو Spotify أو أي تطبيق موسيقى بحساب Last.fm الخاص بك. تُظهر علامة تبويب الموسيقى ما تستمع إليه حاليًا.',
+        lastfmPlaceholder: 'اسم مستخدم Last.fm',
+        aboutTitle: 'حول',
+        aboutDesc: 'مساعد الذكاء الاصطناعي الشخصي. موسيقى، مهام، تركيز والمزيد.',
+        lfmSaved: '✓ تم الحفظ وجاري التحديث...',
+        listening: '🎙 جاري الاستماع...',
+        weatherLabel: 'الطقس',
+        stepsLabel: 'خطوات',
+        caloriesLabel: 'السعرات الحرارية',
+        moodTitle: 'كيف تشعر اليوم؟',
+        moodLabels: ['رائع','جيد','عادي','حزين','غاضب'],
+        moodMessages: [
+            'رائع! يمكنك تحقيق أي شيء بهذه الطاقة! 🚀',
+            'جيد! إنك تحظى بيوم جيد 😊',
+            'لا بأس، بعض الأيام تكون هكذا.',
+            'سوف تمر. خذ نفساً، الأشياء الجيدة قادمة 💙',
+            'مفهوم. شغل بعض الموسيقى أو اخرج للمشي، سوف يمر 🎧'
+        ],
+        stepsTitle: 'عداد الخطوات', stepsBadge: 'نشط',
+        stepUnit: 'خطوات', stepGoal: 'الهدف: <b>10,000</b> خطوة', kcalBurned: 'سعرة حرارية',
+        remindersTitle: 'التذكيرات', remindersBadge: '3 قيد الانتظار',
+        waterTitle: 'اشرب ماء!', waterEvery: 'كل 30 دقيقة', waterApproaching: 'قادم',
+        waterDrink: 'اشرب ماء!', waterOk: 'حسنا', waterCountdown: 'متبقية',
+        waterMessage: '💧 حان وقت شرب الماء! البقاء رطباً يحسن التركيز.',
+        breakTitle: 'خذ استراحة', breakDesc: 'قم وامش كل ساعة', breakOk: 'حسنا',
+        studyTitle: 'جلسة دراسة', studyPlanned: 'مُخطط',
+        musicLastfmTitle: 'حساب LAST.FM',
+        musicLastfmDesc: 'اربط YouTube Music أو Spotify أو أي تطبيق موسيقى بحساب Last.fm الخاص بك لرؤية ما تستمع إليه.',
+        openAccount: 'افتح حساب →',
+        musicWaiting: '— في الانتظار —', musicNow: '▶ قيد التشغيل الآن', musicLast: '⏸ آخر ما تم تشغيله',
+        trackNotFound: 'لم يتم العثور على المقطع', enterUser: 'أدخل اسم مستخدم Last.fm',
+        connectionError: 'خطأ في الاتصال', checkInternet: 'تحقق من اتصالك بالإنترنت',
+        userNotFound: 'المستخدم غير موجود', recentEmpty: 'لا يوجد سجل بعد',
+        playlistEmpty: 'سيظهر السجل هنا بعد إدخال اسم المستخدم',
+        refreshBtn: '🔄 تحديث', recentTracksTitle: 'المقاطع الحديثة',
+        lfmUserPlaceholder: 'اسم مستخدم Last.fm الخاص بك',
+        newTaskTitle: 'أضف مهمة جديدة', todoPlaceholder: 'ماذا ستفعل؟',
+        taskListTitle: 'قائمة المهام',
+        filterAll: 'الكل', filterActive: 'قيد الانتظار', filterDone: 'مكتمل',
+        taskCount: 'المهام', taskPending: 'قيد الانتظار', taskDone: 'مكتمل',
+        quickNotesTitle: 'ملاحظات سريعة', notePlaceholder: 'اكتب شيئاً... (فكرة، رابط، تذكير)',
+        saveNoteBtn: '💾 حفظ', delete: 'حذف',
+        focusTitle: 'وضع التركيز',
+        pomoStart: 'ابدأ', pomoPause: 'إيقاف مؤقت', pomoContinue: 'استمر',
+        pomoReset: '↺ إعادة ضبط',
+        pomoModes: { WORK: 'عمل', SHORT_BREAK: 'استراحة قصيرة', LONG_BREAK: 'استراحة طويلة' },
+        pomoFocus: 'تركيز', pomoShort: 'استراحة قصيرة', pomoLong: 'استراحة طويلة',
+        pomoCompleted: 'اكتمل',
+        sessionHistoryTitle: 'سجل الجلسات', noSession: 'لا توجد جلسات اليوم بعد',
+        motivationTitle: 'التحفيز', newMotivationBtn: 'اقتباس جديد ✨',
+        motivations: [
+            '"لا يمكنك الإنهاء اليوم، ولكن يمكنك البدء."',
+            '"الخطوات الصغيرة تخلق رحلات عظيمة."',
+            '"النجاح هو أن تصبح أفضل قليلاً كل يوم."',
+            '"ركز. سيتم إنجازه."',
+            '"سابق نفسك، ليس الآخرين."',
+            '"التحديات تجعلك أقوى."',
+            '"كل يوم يتكون من ساعات. استغلها."',
+            '"ابدأ الآن. لا يوجد شيء اسمه الوقت المثالي."',
+            '"التركيز قوة خارقة."',
+            '"جهد اليوم هو حرية الغد."'
+        ],
+        sysStatusTitle: 'حالة النظام', sysStatusBadge: 'طبيعي',
+        storageLabel: 'التخزين', batteryLabel: 'البطارية',
+        hardwareTitle: 'معلومات الأجهزة',
+        siCpu: 'المعالج', siTemp: 'حرارة النواة', siGtemp: 'حرارة المعالج الرسومي',
+        siFan: 'سرعة المروحة', siPing: 'الاستجابة (محلي)', siSping: 'الاستجابة (الخادم)',
+        siNet: 'الشبكة', siNetVal: 'آمن',
+        cryptoTitle: 'لوحة العملات الرقمية', cryptoBadge: 'مباشر',
+        clockLocale: 'ar-SA',
+    }
+};
+
+let currentLang = 'tr';
+
+
+// ==========================================================
+//  1. SAAT & TARİH
+// ==========================================================
+function updateClock() {
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2,'0');
+    const m = String(now.getMinutes()).padStart(2,'0');
+    const s = String(now.getSeconds()).padStart(2,'0');
+    document.getElementById('main-clock').textContent = h + ':' + m;
+    document.getElementById('top-time').textContent = h + ':' + m + ':' + s;
+    const L = LANGS[currentLang] || LANGS['tr'];
+    const opts = { weekday:'long', month:'long', day:'numeric' };
+    document.getElementById('main-date').textContent = now.toLocaleDateString(L.clockLocale, opts).toUpperCase();
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// ==========================================================
+//  2. SEKME GEÇİŞİ
+// ==========================================================
+function switchTab(name, btn, idx) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    btn.classList.add('active');
+    const total = 7;
+    const pct = (idx / total * 100) + '%';
+    const w = (1 / total * 100) + '%';
+    const ind = document.getElementById('nav-indicator');
+    ind.style.left = pct;
+    ind.style.width = w;
+    document.querySelector('.view-container').scrollTop = 0;
+    if(name === 'logs') setTimeout(addFakeLog, 300);
+    if(name === 'system') updateSysStats();
+}
+
+// ==========================================================
+//  3. YOUTUBE MUSIC / LAST.FM — ŞU AN DİNLENİYOR
+// ==========================================================
+
+// ⚙️ AYARLAR — kullanıcı adını buraya gir veya müzik sekmesindeki kutudan değiştir
+let LASTFM_USER = '';  // pywebview'de localStorage çalışmadığı için in-memory kullanıyoruz
+const LASTFM_API_KEY = '2a2a64b29de95022e5b7736e0b7a2da0'; // Last.fm ücretsiz API key
+
+// pywebview güvenli kullanıcı adı kaydetme
+function _saveUser(val) {
+    LASTFM_USER = val;
+    try { localStorage.setItem('lastfm_user', val); } catch(e) {}
+}
+function _loadUser() {
+    try { return localStorage.getItem('lastfm_user') || ''; } catch(e) { return ''; }
+}
+
+let nowPlayingTrack = null;
+let recentTracks = [];
+let lfmPollInterval = null;
+
+// Ana ekran "şu an dinleniyor" kartını güncelle
+function updateNowPlayingCard(track) {
+    const card = document.getElementById('np-card');
+    const cover = document.getElementById('np-cover-home');
+    const name  = document.getElementById('np-track-home');
+    const artist= document.getElementById('np-artist-home');
+    const bars  = document.getElementById('np-bars-home');
+    if (!track) {
+        card.classList.add('hidden');
+        return;
+    }
+    card.classList.remove('hidden');
+    cover.style.backgroundImage = track.cover ? `url('${track.cover}')` : '';
+    name.textContent   = track.name;
+    artist.textContent = track.artist;
+    if (track.nowPlaying) {
+        cover.classList.add('spinning');
+        bars.classList.remove('paused');
+    } else {
+        cover.classList.remove('spinning');
+        bars.classList.add('paused');
+    }
+}
+
+// Müzik sekmesi büyük kartını güncelle
+function updateMusicTab(track, history) {
+    if (track) {
+        document.getElementById('full-cover').style.backgroundImage = track.cover ? `url('${track.cover}')` : '';
+        document.getElementById('full-track-name').textContent   = track.name;
+        document.getElementById('full-track-artist').textContent = track.artist;
+        document.getElementById('lfm-now-label').textContent     = track.nowPlaying ? '▶ ŞU AN DİNLENİYOR' : '⏸ SON DİNLENEN';
+        document.getElementById('lfm-now-label').style.color     = track.nowPlaying ? 'var(--lime)' : 'var(--muted)';
+        const sw = document.getElementById('sound-wave');
+        const fc = document.getElementById('full-cover');
+        if (track.nowPlaying) { sw.classList.remove('paused'); fc.classList.add('spinning'); }
+        else                  { sw.classList.add('paused');    fc.classList.remove('spinning'); }
+    } else {
+        document.getElementById('full-track-name').textContent   = 'Şarkı bulunamadı';
+        document.getElementById('full-track-artist').textContent = 'Last.fm kullanıcı adını gir';
+        document.getElementById('lfm-now-label').textContent     = '—';
+        document.getElementById('sound-wave').classList.add('paused');
+        document.getElementById('full-cover').classList.remove('spinning');
+    }
+    // Geçmiş listesi
+    buildRecentList(history || []);
+}
+
+function buildRecentList(tracks) {
+    const pl = document.getElementById('playlist');
+    pl.innerHTML = '';
+    if (!tracks.length) {
+        pl.innerHTML = '<div style="text-align:center;color:var(--muted);font-size:0.85rem;padding:20px;">Henüz geçmiş yok</div>';
+        return;
+    }
+    tracks.forEach((t, i) => {
+        const div = document.createElement('div');
+        div.className = 'pl-item' + (i === 0 && t.nowPlaying ? ' active' : '');
+        div.innerHTML = `
+            <span class="pl-num" style="font-size:0.7rem;">${t.nowPlaying ? '▶' : (i+1)}</span>
+            <div class="pl-cover-mini" style="background-image:url('${t.cover || ''}'); background-color: rgba(167,139,250,0.15);"></div>
+            <div style="flex:1; min-width:0;">
+                <div class="pl-track-name">${t.name}</div>
+                <div class="pl-track-artist">${t.artist}${t.album ? ' · ' + t.album : ''}</div>
+            </div>
+            ${t.nowPlaying
+                ? `<div class="pl-active-bar"><div class="pab"></div><div class="pab"></div><div class="pab"></div></div>`
+                : `<span class="pl-dur" style="font-size:0.65rem;">${t.date || ''}</span>`
+            }
+        `;
+        pl.appendChild(div);
+    });
+}
+
+// Last.fm API çağrısı
+async function fetchLastFM() {
+    const user = LASTFM_USER.trim();
+    if (!user) {
+        updateMusicTab(null, []);
+        updateNowPlayingCard(null);
+        return;
+    }
+    try {
+        const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${encodeURIComponent(user)}&api_key=${LASTFM_API_KEY}&format=json&limit=10`;
+        const res  = await fetch(url);
+        const data = await res.json();
+        if (data.error) {
+            document.getElementById('full-track-name').textContent   = 'Kullanıcı bulunamadı';
+            document.getElementById('full-track-artist').textContent = data.message || '';
+            buildRecentList([]);
+            return;
+        }
+        const rawTracks = data.recenttracks?.track || [];
+        const parsed = rawTracks.map((t, i) => {
+            const isNow = t['@attr']?.nowplaying === 'true';
+            const imgs   = t.image || [];
+            const cover  = (imgs.find(im => im.size === 'large') || imgs[imgs.find(im=>im.size==='extralarge')?3:2] || {})['#text'] || '';
+            const date   = t.date?.['#text'] || '';
+            // Tarihi kısalt
+            let dateShort = '';
+            if (date) {
+                const parts = date.split(', ');
+                dateShort = parts[1] ? parts[1].replace(' UTC','') : date;
+            }
+            return {
+                name: t.name || '—',
+                artist: (t.artist?.['#text'] || t.artist || '—'),
+                album: t.album?.['#text'] || '',
+                cover: cover,
+                nowPlaying: isNow,
+                date: dateShort
+            };
+        });
+        const current = parsed[0] || null;
+        recentTracks  = parsed;
+        nowPlayingTrack = current;
+        updateNowPlayingCard(current);
+        updateMusicTab(current, parsed);
+    } catch(e) {
+        console.error('Last.fm hata:', e);
+        document.getElementById('full-track-name').textContent   = 'Bağlantı hatası';
+        document.getElementById('full-track-artist').textContent = 'İnternet bağlantısını kontrol et';
+        buildRecentList([]);
+    }
+}
+
+// Kullanıcı adı değişince
+function setLastFMUser() {
+    const inp = document.getElementById('lfm-user-input');
+    const val = inp.value.trim();
+    _saveUser(val);
+    fetchLastFM();
+}
+
+// Polling: 15 saniyede bir güncelle
+function startLFMPolling() {
+    clearInterval(lfmPollInterval);
+    fetchLastFM();
+    lfmPollInterval = setInterval(fetchLastFM, 15000);
+}
+
+// Sayfa yüklenince başlat
+startLFMPolling();
+
+// Eski audio elementini koru (boş — artık sadece Last.fm gösterimi)
+const audio = document.getElementById('audio-core');
+let isPlaying = false;
+
+// Python köprüsü için eski setPlaying stub'u
+function setPlaying(state) { isPlaying = state; }
+
+// ==========================================================
+//  4. GÖREV LİSTESİ (TO-DO)
+// ==========================================================
+let todos = [
+    { id:1, text:'Matematik ödevini bitir', done:false },
+    { id:2, text:'Akşam sporu yap', done:false },
+    { id:3, text:'Kitap: 20 sayfa oku', done:true }
+];
+let todoFilter = 'all';
+let nextTodoId = 4;
+
+function renderTodos() {
+    const L = LANGS[currentLang] || LANGS['tr'];
+    const list = document.getElementById('todo-list');
+    list.innerHTML = '';
+    let filtered = todos;
+    if(todoFilter === 'active') filtered = todos.filter(t => !t.done);
+    if(todoFilter === 'done')   filtered = todos.filter(t =>  t.done);
+
+    filtered.forEach(t => {
+        const div = document.createElement('div');
+        div.className = 'todo-item' + (t.done ? ' done' : '');
+        div.id = 'todo-' + t.id;
+        div.innerHTML = `
+            <div class="todo-check ${t.done ? 'checked' : ''}" onclick="toggleTodo(${t.id})">${t.done ? '✓' : ''}</div>
+            <span class="todo-text">${t.text}</span>
+            <button class="todo-del" onclick="deleteTodo(${t.id})">🗑</button>
+        `;
+        list.appendChild(div);
+    });
+
+    const active = todos.filter(t=>!t.done).length;
+    const done   = todos.filter(t=> t.done).length;
+    document.getElementById('todo-count-badge').textContent = todos.length + ' ' + L.taskCount;
+    document.getElementById('todo-active-count').textContent = active + ' ' + L.taskPending;
+    document.getElementById('todo-done-count').textContent   = done + ' ' + L.taskDone;
+}
+
+function addTodo() {
+    const inp = document.getElementById('todo-input');
+    const text = inp.value.trim();
+    if(!text) return;
+    todos.unshift({ id: nextTodoId++, text, done: false });
+    inp.value = '';
+    renderTodos();
+}
+
+function toggleTodo(id) {
+    const t = todos.find(t=>t.id===id);
+    if(t) t.done = !t.done;
+    renderTodos();
+}
+
+function deleteTodo(id) {
+    todos = todos.filter(t=>t.id!==id);
+    renderTodos();
+}
+
+function filterTodos(f, btn) {
+    todoFilter = f;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderTodos();
+}
+
+document.getElementById('todo-input').addEventListener('keydown', e => { if(e.key==='Enter') addTodo(); });
+renderTodos();
+
+// ==========================================================
+//  5. HIZLI NOTLAR
+// ==========================================================
+let notes = [];
+let nextNoteId = 1;
+
+function saveNote() {
+    const inp = document.getElementById('note-input');
+    const text = inp.value.trim();
+    if(!text) return;
+    const now = new Date();
+    const L = LANGS[currentLang] || LANGS['tr'];
+    notes.unshift({ id: nextNoteId++, text, time: now.toLocaleString(L.clockLocale) });
+    inp.value = '';
+    renderNotes();
+}
+
+function deleteNote(id) {
+    notes = notes.filter(n=>n.id!==id);
+    renderNotes();
+}
+
+function renderNotes() {
+    const L = LANGS[currentLang] || LANGS['tr'];
+    const list = document.getElementById('notes-list');
+    list.innerHTML = '';
+    notes.forEach(n => {
+        const div = document.createElement('div');
+        div.className = 'note-card';
+        div.innerHTML = `
+            <div class="note-card-text">${n.text}</div>
+            <div class="note-card-footer">
+                <span class="note-card-time">${n.time}</span>
+                <button class="note-del" onclick="deleteNote(${n.id})">🗑 ${L.delete}</button>
+            </div>
+        `;
+        list.appendChild(div);
+    });
+}
+
+// ==========================================================
+//  6. MOOD TRACKER
+// ==========================================================
+function selectMood(btn, emoji, idx) {
+    document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    document.getElementById('mood-badge').textContent = emoji;
+    const L = LANGS[currentLang] || LANGS['tr'];
+    document.getElementById('mood-result').textContent = L.moodMessages[idx] || '';
+}
+
+// ==========================================================
+//  7. ADIM SAYACI (Simülasyon)
+// ==========================================================
+let stepCount = 4231;
+function updateSteps(n) {
+    stepCount = n;
+    const pct = Math.min(n / 10000 * 100, 100);
+    document.getElementById('step-num').textContent = n.toLocaleString('tr-TR');
+    document.getElementById('steps-mini').textContent = n.toLocaleString('tr-TR');
+    document.getElementById('step-bar').style.width = pct + '%';
+    document.getElementById('step-ring').style.setProperty('--step-pct', pct + '%');
+    document.getElementById('step-count-display').textContent = n >= 1000 ? (n/1000).toFixed(1)+'K' : n;
+    const kcal = Math.round(n * 0.044);
+    document.getElementById('step-kcal').textContent = kcal;
+    document.getElementById('cal-mini').textContent = kcal + ' kcal';
+}
+// Sahte adım simülasyonu
+setInterval(() => {
+    if(Math.random() > 0.6) {
+        stepCount += Math.floor(Math.random() * 8);
+        updateSteps(stepCount);
+    }
+}, 3000);
+updateSteps(stepCount);
+
+// ==========================================================
+//  8. POMODORO ZAMANLAYICI
+// ==========================================================
+let pomoDuration = 25 * 60;
+let pomoRemaining = pomoDuration;
+let pomoRunning = false;
+let pomoInterval = null;
+let pomoSessions = 0;
+let pomoMode = 'ÇALIŞMA';
+
+function setPomoDuration(mins, modeKey, btn) {
+    resetPomodoro();
+    pomoDuration = mins * 60;
+    pomoRemaining = pomoDuration;
+    pomoMode = modeKey;
+    const L = LANGS[currentLang] || LANGS['tr'];
+    document.getElementById('pomo-mode').textContent = L.pomoModes[modeKey] || modeKey;
+    updatePomoDisplay();
+    document.querySelectorAll('.pomo-type-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+}
+
+function togglePomodoro() {
+    if(pomoRunning) {
+        clearInterval(pomoInterval);
+        pomoRunning = false;
+        document.getElementById('pomo-start').textContent = '▶ ' + (LANGS[currentLang]||LANGS['tr']).pomoContinue;
+    } else {
+        pomoRunning = true;
+        document.getElementById('pomo-start').textContent = '⏸ ' + (LANGS[currentLang]||LANGS['tr']).pomoPause;
+        pomoInterval = setInterval(() => {
+            if(pomoRemaining > 0) {
+                pomoRemaining--;
+                updatePomoDisplay();
+            } else {
+                clearInterval(pomoInterval);
+                pomoRunning = false;
+                pomoComplete();
+            }
+        }, 1000);
+    }
+}
+
+function resetPomodoro() {
+    clearInterval(pomoInterval);
+    pomoRunning = false;
+    pomoRemaining = pomoDuration;
+    document.getElementById('pomo-start').textContent = '▶ ' + (LANGS[currentLang]||LANGS['tr']).pomoStart;
+    updatePomoDisplay();
+}
+
+function pomoComplete() {
+    const L = LANGS[currentLang] || LANGS['tr'];
+    if(pomoMode === 'WORK') {
+        pomoSessions = Math.min(pomoSessions + 1, 4);
+        updatePomoSessions();
+        const item = document.createElement('div');
+        item.className = 'pomo-log-item';
+        const now = new Date();
+        item.innerHTML = `<span>✅ ${L.pomoModes['WORK']} ${L.pomoCompleted}</span><span style="color:var(--muted);font-family:var(--mono);font-size:0.72rem;">${now.toLocaleTimeString(L.clockLocale)}</span>`;
+        const log = document.getElementById('pomo-log');
+        if(log.children[0] && (log.children[0].textContent.includes('henüz') || log.children[0].textContent.includes('yet') || log.children[0].textContent.includes('encore') || log.children[0].textContent.includes('noch'))) log.innerHTML = '';
+        log.prepend(item);
+    }
+    addFakeLog();
+}
+
+function updatePomoDisplay() {
+    const m = Math.floor(pomoRemaining / 60);
+    const s = pomoRemaining % 60;
+    document.getElementById('pomo-time').textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+    const pct = ((pomoDuration - pomoRemaining) / pomoDuration * 100);
+    document.getElementById('pomo-ring').style.setProperty('--pomo-pct', (100 - pct) + '%');
+}
+
+function updatePomoSessions() {
+    const dots = document.querySelectorAll('.pomo-dot');
+    dots.forEach((d,i) => { d.className = 'pomo-dot' + (i < pomoSessions ? ' done' : ''); });
+}
+
+// Motivasyon sözleri
+const motivations = [
+    '"Bugün bitiremezsin ama başlayabilirsin."',
+    '"Küçük adımlar büyük yolculuklar yaratır."',
+    '"Başarı, her gün biraz daha iyi olmaktır."',
+    '"Odaklan. Sonuçlanır."',
+    '"Kendinle yarış, başkasıyla değil."',
+    '"Zorluklar seni güçlendirir."',
+    '"Bir saatten oluşur her gün. Kullan onu."',
+    '"Şimdi başla. Mükemmel zaman diye bir şey yok."',
+    '"Konsantrasyon süper güçtür."',
+    '"Bugünün emeği yarının özgürlüğüdür."'
+];
+let motiIdx = 0;
+function newMotivation() {
+    const L = LANGS[currentLang] || LANGS['tr'];
+    motiIdx = (motiIdx + 1) % L.motivations.length;
+    document.getElementById('motivation-text').textContent = L.motivations[motiIdx];
+}
+
+// ==========================================================
+//  9. SİSTEM İSTATİSTİKLERİ (Sahte ama dinamik)
+// ==========================================================
+function updateSysStats() {
+    const cpu = 35 + Math.floor(Math.random() * 30);
+    const ram = 55 + Math.floor(Math.random() * 20);
+    const temp = 48 + Math.floor(Math.random() * 15);
+    const ping = 3 + Math.floor(Math.random() * 5);
+    document.getElementById('cpu-val').textContent = cpu + '%';
+    document.getElementById('cpu-bar').style.width = cpu + '%';
+    document.getElementById('ram-val').textContent = (ram * 0.12).toFixed(1) + ' GB';
+    document.getElementById('ram-bar').style.width = ram + '%';
+    document.getElementById('si-temp').textContent = temp + '°C';
+    document.getElementById('si-ping').textContent = ping + ' ms';
+    document.getElementById('si-sping').textContent = (ping + 12 + Math.floor(Math.random()*6)) + ' ms';
+
+    // Renk değişimi sıcaklığa göre
+    const tempEl = document.getElementById('si-temp');
+    if(temp > 58) tempEl.style.color = 'var(--coral)';
+    else if(temp > 50) tempEl.style.color = 'var(--amber)';
+    else tempEl.style.color = 'var(--lime)';
+}
+
+// Kripto widgetı
+const cryptos = [
+    { sym:'BTC', name:'Bitcoin', color:'var(--amber)' },
+    { sym:'ETH', name:'Ethereum', color:'var(--violet)' },
+    { sym:'SOL', name:'Solana', color:'var(--cyan)' },
+    { sym:'BNB', name:'BNB', color:'var(--amber)' }
+];
+function buildCryptoList() {
+    const prices = { BTC: 64210, ETH: 3450, SOL: 175, BNB: 590 };
+    const changes = { BTC: +2.3, ETH: -1.1, SOL: +5.2, BNB: +0.8 };
+    const list = document.getElementById('crypto-list');
+    if(!list) return;
+    list.innerHTML = '';
+    cryptos.forEach(c => {
+        const chg = changes[c.sym];
+        const chgCol = chg >= 0 ? 'var(--mint)' : 'var(--coral)';
+        const chgSign = chg >= 0 ? '+' : '';
+        const div = document.createElement('div');
+        div.style.cssText = 'display:flex;align-items:center;gap:12px;padding:10px;background:var(--surface2);border:1px solid var(--border);border-radius:12px;';
+        div.innerHTML = `
+            <div style="width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.75rem;font-family:var(--mono);color:${c.color};">${c.sym}</div>
+            <div style="flex:1;">
+                <div style="font-size:0.88rem;font-weight:700;">${c.name}</div>
+                <div style="font-size:0.7rem;color:var(--muted);font-family:var(--mono);">${c.sym}/USD</div>
+            </div>
+            <div style="text-align:right;">
+                <div style="font-family:var(--mono);font-size:0.88rem;font-weight:700;">$${prices[c.sym].toLocaleString()}</div>
+                <div style="font-family:var(--mono);font-size:0.72rem;color:${chgCol};">${chgSign}${chg}%</div>
+            </div>
+        `;
+        list.appendChild(div);
+    });
+}
+buildCryptoList();
+setInterval(buildCryptoList, 10000);
+
+// ==========================================================
+//  10. TERMINAL LOGS
+// ==========================================================
+const logPool = [
+    { msg:"Ağ paketleri taranıyor...", cls:"" },
+    { msg:"192.168.1.1 → ping 3ms [OK]", cls:"t-ok" },
+    { msg:"Güvenlik duvarı güncelleniyor...", cls:"" },
+    { msg:"Ses paketi analiz ediliyor...", cls:"" },
+    { msg:"HATA: Paket kaybı tespit edildi!", cls:"t-err" },
+    { msg:"RAM temizleme rutini çalıştırıldı.", cls:"t-ok" },
+    { msg:"UYARI: Yüksek CPU kullanımı!", cls:"t-warn" },
+    { msg:"Şifreli çıkış akışı gönderiliyor...", cls:"" },
+    { msg:"DijiDost sinir ağları aktif.", cls:"t-ok" },
+    { msg:"Kullanıcı girişi bekleniyor...", cls:"" },
+    { msg:"Sistem zamanı senkronize edildi.", cls:"t-ok" },
+    { msg:"HATA: Node 7 bağlantısı kesildi!", cls:"t-err" },
+    { msg:"Yapay zeka motoru hazır.", cls:"t-ok" },
+    { msg:"UYARI: Disk kullanımı %80 üzerinde.", cls:"t-warn" },
+    { msg:"Görev zamanlayıcı devrede.", cls:"" },
+];
+
+function addFakeLog() {
+    const term = document.getElementById('term-out');
+    const entry = logPool[Math.floor(Math.random() * logPool.length)];
+    const div = document.createElement('div');
+    div.className = 't-line ' + entry.cls;
+    const now = new Date();
+    div.textContent = `[${now.toLocaleTimeString('tr-TR')}] ${entry.msg}`;
+    term.appendChild(div);
+    term.scrollTop = term.scrollHeight;
+    // Max 80 satır
+    while(term.children.length > 80) term.removeChild(term.firstChild);
+}
+
+setInterval(() => {
+    if(document.getElementById('tab-logs').classList.contains('active')) addFakeLog();
+}, 2500);
+
+// ==========================================================
+//  11. HATIRLATICI ZAMANLAYICI (Su İçme)
+// ==========================================================
+let waterTimer = 30 * 60; // 30 dakika saniye cinsinden
+setInterval(() => {
+    waterTimer--;
+    if(waterTimer <= 0) {
+        waterTimer = 30 * 60;
+        const L = LANGS[currentLang] || LANGS['tr'];
+        document.getElementById('water-status').textContent = L.waterDrink;
+        document.getElementById('water-status').className = 'reminder-status rs-due';
+        mesajEkle('DijiDost', L.waterMessage);
+        setTimeout(() => {
+            document.getElementById('water-status').textContent = L.waterOk;
+            document.getElementById('water-status').className = 'reminder-status rs-ok';
+        }, 15000);
+    }
+    const m = Math.floor(waterTimer/60);
+    const s = waterTimer%60;
+    const L = LANGS[currentLang] || LANGS['tr'];
+    document.getElementById('water-time').textContent = `${m}:${String(s).padStart(2,'0')} ${L.waterCountdown}`;
+}, 1000);
+
+// ==========================================================
+//  12. PİL & DURUM ÇUBUĞU
+// ==========================================================
+let fakeBat = 98;
+setInterval(() => {
+    fakeBat = Math.max(10, fakeBat - (Math.random() > 0.95 ? 1 : 0));
+    document.getElementById('battery-status').textContent = '🔋 ' + fakeBat + '%';
+    document.getElementById('bat-val').textContent = fakeBat + '%';
+    document.getElementById('bat-bar').style.width = fakeBat + '%';
+    if(fakeBat < 20) document.getElementById('bat-val').style.color = 'var(--coral)';
+}, 30000);
+
+// ==========================================================
+//  13. PYTHON KÖPRÜ FONKSİYONLARI
+// ==========================================================
+function setListening(isActive) {
+    document.getElementById('listen-indicator').style.display = isActive ? 'block' : 'none';
+}
+
+function mesajEkle(gonderen, metin) {
+    const chatBox = document.getElementById('chat-history');
+    const isBot = gonderen.toLowerCase().includes('diji') || gonderen.toLowerCase().includes('os');
+    const div = document.createElement('div');
+    div.className = 'msg ' + (isBot ? 'msg-bot' : 'msg-user');
+    div.textContent = metin;
+    chatBox.appendChild(div);
+    chatBox.scrollTop = chatBox.scrollHeight;
+    // Max 20 mesaj
+    while(chatBox.children.length > 20) chatBox.removeChild(chatBox.firstChild);
+}
+
+// Müzik durumunu Python'a bildir (opsiyonel)
+audio.addEventListener('play',  () => { if(typeof pywebview !== 'undefined' && pywebview.api) pywebview.api.muzik_durumu('PLAYING'); });
+audio.addEventListener('pause', () => { if(typeof pywebview !== 'undefined' && pywebview.api) pywebview.api.muzik_durumu('PAUSED'); });
+
+// ==========================================================
+//  14. BAŞLANGIÇ ANİMASYONU
+// ==========================================================
+window.addEventListener('load', () => {
+    // Last.fm kullanıcı adı varsa inputa yaz
+    const savedUser = _loadUser();
+    if (savedUser) {
+        LASTFM_USER = savedUser;
+        const inp = document.getElementById('lfm-user-input');
+        if (inp) inp.value = savedUser;
+    }
+    setTimeout(() => {
+        const user = LASTFM_USER.trim();
+        if (user) {
+            mesajEkle('DijiDost', `🎵 Last.fm hesabı: ${user} — Şu an dinlediğin şarkı 15sn\'de bir güncelleniyor!`);
+        } else {
+            mesajEkle('DijiDost', '🎵 Müzik sekmesine gidip Last.fm kullanıcı adını gir — ne dinlediğini göstereyim!');
+        }
+    }, 1500);
+    setTimeout(() => {
+        mesajEkle('DijiDost', '✅ Görev eklemek için Görev sekmesini dene. Odak modunu unutma!');
+    }, 4000);
+    // Dil ayarını uygula
+    applyLanguage(currentLang);
+});
+// ==========================================================
+//  15. DİL SİSTEMİ — setLang / applyLanguage
+// ==========================================================
+function setLang(lang, btn) {
+    currentLang = lang;
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    if(btn) btn.classList.add('active');
+    applyLanguage(lang);
+    try { localStorage.setItem('dijidost_lang', lang); } catch(e) {}
+}
+
+function applyLanguage(lang) {
+    const L = LANGS[lang] || LANGS['tr'];
+    // Nav labels
+    const navBtns = document.querySelectorAll('.nav-btn span:not(.nav-icon)');
+    L.nav.forEach((label, i) => { if(navBtns[i]) navBtns[i].textContent = label; });
+    // Settings tab
+    const st = document.getElementById('settings-lang-title'); if(st) st.textContent = L.settingsTitle;
+    const lt = document.getElementById('settings-lastfm-title'); if(lt) lt.textContent = L.lastfmTitle;
+    const ld = document.getElementById('settings-lastfm-desc'); if(ld) ld.textContent = L.lastfmDesc;
+    const lp = document.getElementById('settings-lfm-input'); if(lp) lp.placeholder = L.lastfmPlaceholder;
+    const at = document.getElementById('settings-about-title'); if(at) at.textContent = L.aboutTitle;
+    const ad = document.getElementById('settings-about-desc'); if(ad) ad.textContent = L.aboutDesc;
+    
+    // --- HOME TAB ---
+    const tl = document.getElementById('txt-listening'); if(tl) tl.textContent = L.listening;
+    const tw = document.getElementById('txt-weather'); if(tw) tw.textContent = L.weatherLabel;
+    const ts = document.getElementById('txt-steps'); if(ts) ts.textContent = L.stepsLabel;
+    const tc = document.getElementById('txt-calories'); if(tc) tc.textContent = L.caloriesLabel;
+    const tmt = document.getElementById('txt-mood-title'); if(tmt) tmt.textContent = L.moodTitle;
+    for(let i=0; i<5; i++) {
+        const tm = document.getElementById('txt-mood-'+i);
+        if(tm && L.moodLabels && L.moodLabels[i]) tm.textContent = L.moodLabels[i];
+    }
+    const tst = document.getElementById('txt-steps-title'); if(tst) tst.textContent = L.stepsTitle;
+    const tsb = document.getElementById('txt-steps-badge'); if(tsb) tsb.textContent = L.stepsBadge;
+    const tsu = document.getElementById('txt-step-unit'); if(tsu) tsu.textContent = L.stepUnit;
+    const tsg = document.getElementById('txt-step-goal'); if(tsg) tsg.innerHTML = L.stepGoal;
+    const tkb = document.getElementById('txt-kcal-burned'); if(tkb) tkb.textContent = L.kcalBurned;
+    const trt = document.getElementById('txt-reminders-title'); if(trt) trt.textContent = L.remindersTitle;
+    const trb = document.getElementById('txt-reminders-badge'); if(trb) trb.textContent = L.remindersBadge;
+    const twt = document.getElementById('txt-water-title'); if(twt) twt.textContent = L.waterTitle;
+    const twtime = document.getElementById('water-time'); if(twtime) twtime.textContent = L.waterEvery;
+    const tbt = document.getElementById('txt-break-title'); if(tbt) tbt.textContent = L.breakTitle;
+    const tbd = document.getElementById('txt-break-desc'); if(tbd) tbd.textContent = L.breakDesc;
+    const tstdt = document.getElementById('txt-study-title'); if(tstdt) tstdt.textContent = L.studyTitle;
+    
+    // --- MUSIC TAB ---
+    const tmlt = document.getElementById('txt-music-lastfm-title'); if(tmlt) tmlt.textContent = L.musicLastfmTitle;
+    const lmi = document.getElementById('lfm-user-input'); if(lmi) lmi.placeholder = L.lfmUserPlaceholder;
+    const tmld = document.getElementById('txt-music-lastfm-desc'); if(tmld) tmld.textContent = L.musicLastfmDesc;
+    const tmoa = document.getElementById('txt-music-open-account'); if(tmoa) tmoa.textContent = L.openAccount;
+    const trf = document.getElementById('txt-refresh-btn'); if(trf) trf.textContent = L.refreshBtn;
+    const trtks = document.getElementById('txt-recent-tracks'); if(trtks) trtks.textContent = L.recentTracksTitle;
+    const tple = document.getElementById('txt-playlist-empty'); if(tple) tple.textContent = L.playlistEmpty;
+    
+    // --- TASKS TAB ---
+    const tntt = document.getElementById('txt-new-task-title'); if(tntt) tntt.textContent = L.newTaskTitle;
+    const tpi = document.getElementById('todo-input'); if(tpi) tpi.placeholder = L.todoPlaceholder;
+    const ttlt = document.getElementById('txt-task-list-title'); if(ttlt) ttlt.textContent = L.taskListTitle;
+    const tfa = document.getElementById('txt-filter-all'); if(tfa) tfa.textContent = L.filterAll;
+    const tfac = document.getElementById('txt-filter-active'); if(tfac) tfac.textContent = L.filterActive;
+    const tfd = document.getElementById('txt-filter-done'); if(tfd) tfd.textContent = L.filterDone;
+    
+    // --- FOCUS TAB ---
+    const tft = document.getElementById('txt-focus-title'); if(tft) tft.textContent = L.focusTitle;
+    const tpr = document.getElementById('txt-pomo-reset'); if(tpr) tpr.textContent = L.pomoReset;
+    const tpf = document.getElementById('txt-pomo-focus'); if(tpf) tpf.textContent = L.pomoFocus;
+    const tps = document.getElementById('txt-pomo-short'); if(tps) tps.textContent = L.pomoShort;
+    const tpl = document.getElementById('txt-pomo-long'); if(tpl) tpl.textContent = L.pomoLong;
+    const tsh = document.getElementById('txt-session-history'); if(tsh) tsh.textContent = L.sessionHistoryTitle;
+    const tns = document.getElementById('txt-no-session'); if(tns) tns.textContent = L.noSession;
+    const tmott = document.getElementById('txt-motivation-title'); if(tmott) tmott.textContent = L.motivationTitle;
+    const tnm = document.getElementById('txt-new-motivation'); if(tnm) tnm.textContent = L.newMotivationBtn;
+    
+    // --- SYSTEM TAB ---
+    const tsys = document.getElementById('txt-sys-status-title'); if(tsys) tsys.textContent = L.sysStatusTitle;
+    const tsysb = document.getElementById('txt-sys-status-badge'); if(tsysb) tsysb.textContent = L.sysStatusBadge;
+    const tsl = document.getElementById('txt-storage-label'); if(tsl) tsl.textContent = L.storageLabel;
+    const tbl = document.getElementById('txt-battery-label'); if(tbl) tbl.textContent = L.batteryLabel;
+    const tht = document.getElementById('txt-hardware-title'); if(tht) tht.textContent = L.hardwareTitle;
+    const tsc = document.getElementById('txt-si-cpu'); if(tsc) tsc.textContent = L.siCpu;
+    const tstemp = document.getElementById('txt-si-temp'); if(tstemp) tstemp.textContent = L.siTemp;
+    const tsgt = document.getElementById('txt-si-gtemp'); if(tsgt) tsgt.textContent = L.siGtemp;
+    const tsf = document.getElementById('txt-si-fan'); if(tsf) tsf.textContent = L.siFan;
+    const tsp = document.getElementById('txt-si-ping'); if(tsp) tsp.textContent = L.siPing;
+    const tssp = document.getElementById('txt-si-sping'); if(tssp) tssp.textContent = L.siSping;
+    const tsn = document.getElementById('txt-si-net'); if(tsn) tsn.textContent = L.siNet;
+    const tsnv = document.getElementById('txt-si-net-val'); if(tsnv) tsnv.textContent = L.siNetVal;
+    const tct = document.getElementById('txt-crypto-title'); if(tct) tct.textContent = L.cryptoTitle;
+    const tcb = document.getElementById('txt-crypto-badge'); if(tcb) tcb.textContent = L.cryptoBadge;
+    
+    // Music tab static texts
+    const ftName = document.getElementById('full-track-name');
+    const ftArtist = document.getElementById('full-track-artist');
+    if(ftName && ftName.textContent === LANGS[currentLang === lang ? 'tr' : currentLang]?.trackNotFound || ftName?.textContent === 'Şarkı bulunamadı' || ftName?.textContent === 'No track found' || ftName?.textContent === 'Aucune piste trouvée' || ftName?.textContent === 'Kein Titel gefunden') {
+        if(ftName) ftName.textContent = L.trackNotFound;
+        if(ftArtist) ftArtist.textContent = L.enterUser;
+    }
+    // Sync settings input with current lastfm user
+    const si = document.getElementById('settings-lfm-input');
+    if(si && LASTFM_USER) si.value = LASTFM_USER;
+    // Active lang button
+    const activeBtn = document.getElementById('lang-' + lang);
+    if(activeBtn) { document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active')); activeBtn.classList.add('active'); }
+    
+    // YENİ: Saat lokalizasyonunu güncelle
+    updateClock();
+}
+
+function saveSettingsLFM() {
+    const inp = document.getElementById('settings-lfm-input');
+    const val = inp.value.trim();
+    _saveUser(val);
+    // Also sync music tab input
+    const mi = document.getElementById('lfm-user-input');
+    if(mi) mi.value = val;
+    fetchLastFM();
+    const fb = document.getElementById('settings-lfm-feedback');
+    if(fb) { fb.textContent = (LANGS[currentLang]||LANGS['tr']).lfmSaved; setTimeout(()=>{ fb.textContent=''; },3000); }
+}
+
+// Sayfa yüklenince dil yükle
+try {
+    const savedLang = localStorage.getItem('dijidost_lang');
+    if(savedLang && LANGS[savedLang]) currentLang = savedLang;
+} catch(e) {}
+
+</script>
+</body>
+</html>

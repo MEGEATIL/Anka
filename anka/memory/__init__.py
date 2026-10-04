@@ -1,0 +1,2 @@
+"""Kalici ve yonetilebilir hafiza."""
+

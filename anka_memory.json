@@ -1,0 +1,1643 @@
+{
+  "version": 1,
+  "items": [
+    {
+      "id": "57ea2bc16ed44b5c97b43fc1d140a308",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet ege"
+      },
+      "created_at": "2026-09-07T16:49:25.200199+00:00"
+    },
+    {
+      "id": "cb170d5afcec4d07bf5e540bcfbf9e0a",
+      "kind": "conversation",
+      "content": "nasılsın",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-07T16:49:48.862874+00:00"
+    },
+    {
+      "id": "7bed9d90c1a540b0b2a6ebc25462f907",
+      "kind": "conversation",
+      "content": "Ben iyiyim, sen nasılsın?",
+      "metadata": {
+        "speaker": "Mehmet ege"
+      },
+      "created_at": "2026-09-07T16:49:48.865174+00:00"
+    },
+    {
+      "id": "e4d2be918aa241a49baecc0381de4ac7",
+      "kind": "conversation",
+      "content": "ben de iyiyim",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-07T16:49:58.721803+00:00"
+    },
+    {
+      "id": "e7120c63db4343e7a6d376f75af71cff",
+      "kind": "conversation",
+      "content": "Allah iyilik versin!",
+      "metadata": {
+        "speaker": "Mehmet ege"
+      },
+      "created_at": "2026-09-07T16:49:58.725266+00:00"
+    },
+    {
+      "id": "3f2df01dbd0f424282a0e8fea9f4f993",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet ege"
+      },
+      "created_at": "2026-09-07T16:50:18.735908+00:00"
+    },
+    {
+      "id": "647a211957dc40a59f5b3a0aee3f303a",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet ege"
+      },
+      "created_at": "2026-09-07T16:50:58.734721+00:00"
+    },
+    {
+      "id": "73de1bc5429744b990d5212752c30672",
+      "kind": "conversation",
+      "content": "nasılsın",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-07T16:52:48.784369+00:00"
+    },
+    {
+      "id": "1703d5770476451d91af2258fcde5d6e",
+      "kind": "conversation",
+      "content": "Ben iyiyim, sen nasılsın?",
+      "metadata": {
+        "speaker": "Mehmet ege"
+      },
+      "created_at": "2026-09-07T16:52:48.786354+00:00"
+    },
+    {
+      "id": "7e28b6eb80084712b7cc47880841e0b5",
+      "kind": "conversation",
+      "content": "yardım",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-07T16:53:01.201905+00:00"
+    },
+    {
+      "id": "47007b65b7c74178aa0a31cc44f24bcc",
+      "kind": "conversation",
+      "content": "Yapabileceğim bazı komutlar:\n- dosya oluştur\n- selam\n- saat\n- dosya öğret\n- saat kaç\n- tarih ne\n- tarih\n- Bugünün tarihi nedir\n- arama yap\n- google'da ara\n- ip adresim\n- rastgele kelime\n- faktoriyel\n- karekök\n- not al\n- notları göster\n- alışveriş ekle\n- alışverişi göster\n- görev ekle\n- görevler\n- Bugün hava nasıl acaba\n- Bugün bilecikte hava nasıl\n- Bugün Bilecikte hava nasıl acaba\n- Bugün Bilecik'te hava nasıl acaba\n- Bugün Bilecikte hava nasıl \n- gugün hava nasıl acaba\n- bugün hava nasıl\n- çeviri yap\n- benim yerime\n- görevi hallet\n- gorevi hallet\n- kelime oyunu\n- kelime\n- dosya aç\n- bugün güncel haberleri sıralayabilir misin\n- bugün haberlerde ne var\n- yapacaklarım\n- şaka yap\n- alarm kur\n- rastgele sayı",
+      "metadata": {
+        "speaker": "Mehmet ege"
+      },
+      "created_at": "2026-09-07T16:53:01.204400+00:00"
+    },
+    {
+      "id": "b2fa1ac72f7d44f08b466563463641fd",
+      "kind": "conversation",
+      "content": "dur",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-07T16:53:20.372347+00:00"
+    },
+    {
+      "id": "296a3981f2ac4b29828c7ae0e97dcf38",
+      "kind": "conversation",
+      "content": "bilgisayar kapat",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-07T16:54:49.739528+00:00"
+    },
+    {
+      "id": "acb39f47be4144d1997faf64b846ca4c",
+      "kind": "conversation",
+      "content": "nasılsın",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-07T16:54:56.410643+00:00"
+    },
+    {
+      "id": "b34c40b9dcfe4c73ac1d5d0d0b86fdd3",
+      "kind": "conversation",
+      "content": "Ben iyiyim, sen nasılsın?",
+      "metadata": {
+        "speaker": "Mehmet ege"
+      },
+      "created_at": "2026-09-07T16:54:56.413271+00:00"
+    },
+    {
+      "id": "8e88c5d3c9f74113bf4ab3063cd6e9b4",
+      "kind": "conversation",
+      "content": "bilgisayar kapat",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-07T16:55:02.729265+00:00"
+    },
+    {
+      "id": "d60d1f1c41cf475c94c9a1578fddba43",
+      "kind": "conversation",
+      "content": "Müzik durduruldu.",
+      "metadata": {
+        "speaker": "Mehmet ege"
+      },
+      "created_at": "2026-09-07T16:55:02.732308+00:00"
+    },
+    {
+      "id": "cc797e0070ce4e77b05e4e8efafb83ea",
+      "kind": "conversation",
+      "content": "bilgisayarımı kapat",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-07T16:55:08.691917+00:00"
+    },
+    {
+      "id": "773fbcf36b2940ac9c3991212145b3a6",
+      "kind": "conversation",
+      "content": "Müzik durduruldu.",
+      "metadata": {
+        "speaker": "Mehmet ege"
+      },
+      "created_at": "2026-09-07T16:55:08.693916+00:00"
+    },
+    {
+      "id": "ffbadc656a944e1c976db421f167916d",
+      "kind": "conversation",
+      "content": "türk hack team kimdir",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-07T16:59:29.082241+00:00"
+    },
+    {
+      "id": "1e91345db2e642c7945afeb89cc7f8c8",
+      "kind": "conversation",
+      "content": "Anladım, öğrendim: türk hack team bir kimdir.",
+      "metadata": {
+        "speaker": "Mehmet ege"
+      },
+      "created_at": "2026-09-07T16:59:29.093787+00:00"
+    },
+    {
+      "id": "7109b67dc3294389a58b6afe783101b7",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet ege"
+      },
+      "created_at": "2026-09-07T18:09:56.707500+00:00"
+    },
+    {
+      "id": "7e2460f195794306a93527d542dd4d2d",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet ege"
+      },
+      "created_at": "2026-09-07T18:10:17.924328+00:00"
+    },
+    {
+      "id": "56f8c2f091a24dcebfdccc12726735de",
+      "kind": "conversation",
+      "content": "Merhaba Ebru, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Ebru"
+      },
+      "created_at": "2026-09-07T18:10:53.705089+00:00"
+    },
+    {
+      "id": "535e62299dc44d8b90ec51db0319efba",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet Ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-07T18:11:12.367403+00:00"
+    },
+    {
+      "id": "09c0b03165fa44ce95238f82df937657",
+      "kind": "conversation",
+      "content": "hava nasıl",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-07T18:11:26.406568+00:00"
+    },
+    {
+      "id": "6b279f6342b640288fe44432645192f0",
+      "kind": "conversation",
+      "content": "Hangi il için hava durumunu istiyorsunuz?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-07T18:11:26.408569+00:00"
+    },
+    {
+      "id": "af39e9fcc4234c94afbaf7c8c070d210",
+      "kind": "conversation",
+      "content": "i̇stanbul",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-07T18:11:36.926092+00:00"
+    },
+    {
+      "id": "c7b73e20b41a4cad9fb2bc475b19ad25",
+      "kind": "conversation",
+      "content": "İstanbul hava durumu: Çoğunlukla açık, sıcaklık 22.1°C, rüzgar 14.5 km/s",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-07T18:11:37.479185+00:00"
+    },
+    {
+      "id": "c29c9e42fc084a0d8fa469cf3366e866",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet Ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-08T17:15:00.859604+00:00"
+    },
+    {
+      "id": "94a03071bb724e47897338e9df4319d4",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet Ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-08T17:16:00.744578+00:00"
+    },
+    {
+      "id": "2511f61ab01b46c3a7c4ec1251e7a2cd",
+      "kind": "conversation",
+      "content": "bilgisayarı kapat",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-08T17:16:21.504764+00:00"
+    },
+    {
+      "id": "9838fc8c8a0e4d9095fc3cdd4511f17d",
+      "kind": "conversation",
+      "content": "Emin misiniz? Bilgisayar kapatılacak. Risk seviyesi: CRITICAL. Devam etmek için 'evet' veya 'onayla', vazgeçmek için 'hayır' veya 'iptal' deyin.",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-08T17:16:21.508256+00:00"
+    },
+    {
+      "id": "ea89c9e460d943c6a5cbce3dc76be0b5",
+      "kind": "conversation",
+      "content": "evet",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-08T17:16:43.211653+00:00"
+    },
+    {
+      "id": "8cb2cc152e3e446aa40e3a9e2753f969",
+      "kind": "conversation",
+      "content": "İşlem tamamlandı: Bilgisayarın kapatılması başlatıldı.",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-08T17:16:43.222128+00:00"
+    },
+    {
+      "id": "9dd36ce3f3c549d886b8e2382394142f",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet Ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-08T17:20:29.031129+00:00"
+    },
+    {
+      "id": "b7a1247bbbca46fc8ab5d0e800a2a6bd",
+      "kind": "conversation",
+      "content": "nasılsın aşko",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-08T17:20:42.833941+00:00"
+    },
+    {
+      "id": "23309eb8f39a468997e2f1ff67dfcf85",
+      "kind": "conversation",
+      "content": "Ben iyiyim, sen nasılsın?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-08T17:20:42.837936+00:00"
+    },
+    {
+      "id": "83d178d0b93544738a679391a9ac22c6",
+      "kind": "conversation",
+      "content": "kameramı aç",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-08T17:20:50.930121+00:00"
+    },
+    {
+      "id": "e1a2e3318072439a8b97f46a02580b88",
+      "kind": "conversation",
+      "content": "Emin misiniz? Bir uygulama veya bağlantı açılacak. Risk seviyesi: MEDIUM. Devam etmek için 'evet' veya 'onayla', vazgeçmek için 'hayır' veya 'iptal' deyin.",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-08T17:20:50.935834+00:00"
+    },
+    {
+      "id": "334dcdb1df464fac918bcad7c4d7ffc1",
+      "kind": "conversation",
+      "content": "evet",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-08T17:21:01.485155+00:00"
+    },
+    {
+      "id": "ffa980183a1c4aee9d16dc0b8991c517",
+      "kind": "conversation",
+      "content": "İşlem sırasında hata oluştu: 'kameramı' isimli bir uygulama bulamadım. Tarayıcı listesini yenilemeyi dene: 'uygulamaları yenile'.",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-08T17:21:01.500206+00:00"
+    },
+    {
+      "id": "b5e8c5d17c6541aea265844be777ff1f",
+      "kind": "conversation",
+      "content": "uygulamalarımı yenile",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-08T17:21:13.885460+00:00"
+    },
+    {
+      "id": "18758c04fed94674921613ee039d787c",
+      "kind": "conversation",
+      "content": "Uygulamalarınızı yenilemek için Google Play'de güncellemeleri kontrol edebilir ve en son sürüme güncelleyebilirsiniz. Bu, en yeni özelliklere erişmenizi ve uygulama güvenliği ile kararlılığını iyileştirmenizi sağlar. Ayrıca, Microsoft Store'da otomatik uygulama güncelleştirmelerini açarak uygulamalarınızı otomatik olarak yenileyebilirsiniz.",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-08T17:21:18.464707+00:00"
+    },
+    {
+      "id": "cd975bcf6cc84ae5b9131c4185100ee8",
+      "kind": "conversation",
+      "content": "sus",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-08T17:21:24.368526+00:00"
+    },
+    {
+      "id": "7315a94fbfe54d44b9c283d7fd0db7c9",
+      "kind": "conversation",
+      "content": "bmw arabası ilk nerde yapıldı",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-08T17:23:04.245767+00:00"
+    },
+    {
+      "id": "3062f1853fb846eab31b4cb8560c770e",
+      "kind": "conversation",
+      "content": "merhaba",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-08T17:24:25.447609+00:00"
+    },
+    {
+      "id": "451d363bf78d4d5c81c8c3ef22affed9",
+      "kind": "conversation",
+      "content": "Merhaba! Sana nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-08T17:24:25.450230+00:00"
+    },
+    {
+      "id": "d859b5d62e4b48928914503505398266",
+      "kind": "conversation",
+      "content": "bmw arabası ilk nerede yapıldı",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-08T17:24:37.069850+00:00"
+    },
+    {
+      "id": "942efd6404d9468f8db46860934ba3fc",
+      "kind": "conversation",
+      "content": "BMW Z3, Atlas Okyanusu'nun diğer tarafındaki Spartanburg'da üretilen ilk BMW modeli. Piyasaya sunulmasından önce bile Z3, çarpıcı tasarımıyla büyük heyecan uyandırmış ve bir James Bond serisi olan \"GoldenEye\" filminde yer almıştır. BMW otomobillerindeki günümüz teknolojileri alt bölümünü aç/kapa. 4.1Elektronik Süspansiyon Sertlik Kontrolü (EDC)[3] 4.2iDrive. 4.3Aktif hız kontrolü.\n\nKaynaklar:\n- BMW Tarihinin Dönüm Noktaları | BMW Türkiye (www.bmw.com.tr)\n- BMW - Vikipedi (tr.wikipedia.org)\n- Otomobil Hikayeleri: BMW'nin Tarihi - OtoSOR (www.otosor.com.tr)\n- Bmw Hangi Ülkenin Markası Ve Nerede Üretiliyor? Bmw Ne ... - Hürriyet (www.hurriyet.com.tr)",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-08T17:24:37.940548+00:00"
+    },
+    {
+      "id": "836d9466109c49d480b947831b9820aa",
+      "kind": "conversation",
+      "content": "sus",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-08T17:25:09.806212+00:00"
+    },
+    {
+      "id": "a5e393976725488a9e89a0aa8dd01513",
+      "kind": "conversation",
+      "content": "canım",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-08T17:28:31.882863+00:00"
+    },
+    {
+      "id": "a9c710b8eb9d4b42ae1d497520fee42b",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet Ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-08T17:32:05.969390+00:00"
+    },
+    {
+      "id": "9a8af4510ed04886b962c80dd296ba44",
+      "kind": "conversation",
+      "content": "nasılsın",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-08T17:32:19.695081+00:00"
+    },
+    {
+      "id": "833123481520426c858ee2c001ce8e3e",
+      "kind": "conversation",
+      "content": "Ben iyiyim, sen nasılsın?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-08T17:32:19.697472+00:00"
+    },
+    {
+      "id": "9cae4d2ad6e54e70b89b8b7fdea4d8c8",
+      "kind": "conversation",
+      "content": "iyi be ne olsun iş güç",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-08T17:32:28.533060+00:00"
+    },
+    {
+      "id": "666ea4cd38724baf8e94bf27486853a5",
+      "kind": "conversation",
+      "content": "Sizin için de aynı etkiyi yaratması umuduyla, bu makalemizde ünlü düşünürler, bilim insanları, sporcular, yöneticiler ve tarihi kişiliklerin söylediği motivasyon sözlerini derledik. Bu kısa, güçlü cümleler sizi ilham almanız, üretkenliğinizi artırmanız ve...\n\nKaynaklar:\n- İlham Veren Motivasyon Sözleri (En İyi 150+ Söz) - ikas (ikas.com)\n- Motivasyon sözleri: İş ve kariyer başarısı için en iyi 160 (www.tutkit.com)",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-08T17:32:41.172148+00:00"
+    },
+    {
+      "id": "95802bff4bfd45b29bd4931f7e5a9924",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet Ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-13T16:06:38.175362+00:00"
+    },
+    {
+      "id": "c81cbd3c27bd424c9afb72ef703e6009",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet Ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-13T16:15:57.654055+00:00"
+    },
+    {
+      "id": "47a3db38f994421aa41c2634b8e7601a",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet Ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-13T16:17:22.302928+00:00"
+    },
+    {
+      "id": "94a9a092d5ea4fa0b66e75d47a100403",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet Ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-13T16:23:14.538452+00:00"
+    },
+    {
+      "id": "6bbe9f74e5b44588bb3e972a82575d99",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet Ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-13T16:35:59.452978+00:00"
+    },
+    {
+      "id": "7237ba28d47d4309997efcee0fea18ef",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet Ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-13T16:36:51.142827+00:00"
+    },
+    {
+      "id": "72c4897daee14bdbb46ea12871970b6e",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet Ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-13T16:41:41.669250+00:00"
+    },
+    {
+      "id": "0b3221e2686e438789b24cc516541dd1",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet Ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-13T16:47:34.903055+00:00"
+    },
+    {
+      "id": "d0376dc307484964bc9b76fb883f2b3a",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet Ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-13T16:53:49.999891+00:00"
+    },
+    {
+      "id": "31e69b27d27d475ab167353945936925",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet Ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-14T17:30:05.080815+00:00"
+    },
+    {
+      "id": "a73a8711b0b2447286e6fd7a9e199871",
+      "kind": "conversation",
+      "content": "bugün moralim çok bozuk ya zorbalığa uğrandım.",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-14T17:30:28.961796+00:00"
+    },
+    {
+      "id": "6dcce46bab7d471bb325bbaf020a9e14",
+      "kind": "conversation",
+      "content": "Moralinin bozuk olduğunu duyuyorum. Ne oldu, biraz konuşmak ister misin?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-14T17:30:28.970971+00:00"
+    },
+    {
+      "id": "5caca8b8e7374c9ba2ad2851132af228",
+      "kind": "conversation",
+      "content": "isterim tabiikide ya işte zorbalığa uğrandım öyle başka birşey olmadı",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-14T17:30:51.013096+00:00"
+    },
+    {
+      "id": "7895591b241e49bd86604c20cfa94eae",
+      "kind": "conversation",
+      "content": "Bunu yaşamak zor gelmiş olabilir. İstersen biraz daha anlat; seni yargılamadan dinliyorum.",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-14T17:30:51.017066+00:00"
+    },
+    {
+      "id": "dfbf0daeb077448dac450c23f5f39d30",
+      "kind": "conversation",
+      "content": "Böyle ya fazla birşey olmadı",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-14T17:31:05.531907+00:00"
+    },
+    {
+      "id": "fd92b51c5f47422b854cea9e3b1687a8",
+      "kind": "conversation",
+      "content": "Bunu yaşamak zor gelmiş olabilir. İstersen biraz daha anlat; seni yargılamadan dinliyorum.",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-14T17:31:05.535189+00:00"
+    },
+    {
+      "id": "8b9045e0376f40e4a6b984c4daf3d441",
+      "kind": "conversation",
+      "content": "bugün çok mutluyum",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-14T17:31:17.650188+00:00"
+    },
+    {
+      "id": "c8875a4c0b784f18baf1fba682b627d2",
+      "kind": "conversation",
+      "content": "Bunu yaşamak zor gelmiş olabilir. İstersen biraz daha anlat; seni yargılamadan dinliyorum.",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-14T17:31:17.653830+00:00"
+    },
+    {
+      "id": "46c7303152304ffa89857d9eb14384b7",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet Ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-15T16:52:35.741078+00:00"
+    },
+    {
+      "id": "77104358ffbd4d1cbf0a1a5692f118db",
+      "kind": "conversation",
+      "content": "bugün çok mutluyum olley",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-15T16:52:49.295391+00:00"
+    },
+    {
+      "id": "1e48e3cc533547b5a11255414587413c",
+      "kind": "conversation",
+      "content": "kurallar ve cezalar modların inisiyatifine göre esneklik gösterebilir, değişebilir ve eklenme yapılıp çıkarılabilir. Bugün cok mutluyum .\n\nKaynaklar:\n- Bugün Çok Mutluyum - YouTube (www.youtube.com)\n- Bugün cok mutluyum. Şiiri - Sevda Öz - Antoloji.com (www.antoloji.com)",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-15T16:52:52.871369+00:00"
+    },
+    {
+      "id": "bb4a980553784ef8bb50c31382a4bdbe",
+      "kind": "conversation",
+      "content": "dur",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-15T16:53:05.882243+00:00"
+    },
+    {
+      "id": "39a007aee63f4dc88939e0ceec636b4e",
+      "kind": "conversation",
+      "content": "bugün üzgünüm",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-15T16:53:12.429113+00:00"
+    },
+    {
+      "id": "98974eec07ae4414beb440e8fa47c89f",
+      "kind": "conversation",
+      "content": "bugün üzgünüm",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-15T16:53:23.216307+00:00"
+    },
+    {
+      "id": "95f8b9bcedc440dd8d902af673358613",
+      "kind": "conversation",
+      "content": "Moralinin bozuk olduğunu duyuyorum. Ne oldu, biraz konuşmak ister misin?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-15T16:53:23.220043+00:00"
+    },
+    {
+      "id": "f0b14f27884d4f87a0f637f157ad6a82",
+      "kind": "conversation",
+      "content": "beni dövdüler",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-15T16:53:35.329111+00:00"
+    },
+    {
+      "id": "4e795ec2c3c3457ea1957383768994cf",
+      "kind": "conversation",
+      "content": "Bunu yaşamak zor gelmiş olabilir. İstersen biraz daha anlat; seni yargılamadan dinliyorum.",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-15T16:53:35.333979+00:00"
+    },
+    {
+      "id": "25fff78c7284420c8aa236f04fca97f0",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet Ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-16T18:04:38.057598+00:00"
+    },
+    {
+      "id": "72f68b76f01247a38abb799d59f76ba1",
+      "kind": "conversation",
+      "content": "nasılsın",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-16T18:04:58.631703+00:00"
+    },
+    {
+      "id": "c4947dfb5230423cb5dfeb1f99ef0c65",
+      "kind": "conversation",
+      "content": "Ben iyiyim, sen nasılsın?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-16T18:04:58.635093+00:00"
+    },
+    {
+      "id": "8ba63e8789d64260baee870f21e69250",
+      "kind": "conversation",
+      "content": "Bugün çok mutluyum",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-16T18:05:05.010256+00:00"
+    },
+    {
+      "id": "dfcde297ab584cd5b6531dd2adf838da",
+      "kind": "conversation",
+      "content": "Çok güzel, mutlu olduğunu duymak sevindirdi. Seni mutlu eden ne oldu?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-16T18:05:05.012826+00:00"
+    },
+    {
+      "id": "ad82d245fb8f444893e315461529d75f",
+      "kind": "conversation",
+      "content": "Bana hediye aldılar",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-16T18:05:23.734412+00:00"
+    },
+    {
+      "id": "ce32efcc4b814d839fa6a3ad3c62098a",
+      "kind": "conversation",
+      "content": "Bunu yaşamak zor gelmiş olabilir. İstersen biraz daha anlat; seni yargılamadan dinliyorum.",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-16T18:05:23.735961+00:00"
+    },
+    {
+      "id": "fc452122ee8c4250b7c1f1f96a426a56",
+      "kind": "conversation",
+      "content": "aşko naber",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-16T18:06:10.296916+00:00"
+    },
+    {
+      "id": "e559695bdee04f6a946da1e3ec1bb96f",
+      "kind": "conversation",
+      "content": "Bunu yaşamak zor gelmiş olabilir. İstersen biraz daha anlat; seni yargılamadan dinliyorum.",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-16T18:06:10.300488+00:00"
+    },
+    {
+      "id": "893dab79441841d5b78f2707dc68e93c",
+      "kind": "conversation",
+      "content": "nasılsın",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-16T18:06:14.594353+00:00"
+    },
+    {
+      "id": "ef389a95be154d148f475c95178fc69e",
+      "kind": "conversation",
+      "content": "Bunu yaşamak zor gelmiş olabilir. İstersen biraz daha anlat; seni yargılamadan dinliyorum.",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-16T18:06:14.597242+00:00"
+    },
+    {
+      "id": "4dce324b58f34420b4b8101a07061f7b",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet Ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-16T18:12:50.669450+00:00"
+    },
+    {
+      "id": "65cd1d2751f2440ba947f3648b6836ca",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet Ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-16T18:13:35.058157+00:00"
+    },
+    {
+      "id": "af74fa59c5494d1abe418b46393d7055",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet Ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-16T18:22:54.949157+00:00"
+    },
+    {
+      "id": "0fa6e506c7de4120a3d2319d03aa3704",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet Ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-16T18:23:41.396091+00:00"
+    },
+    {
+      "id": "63067f41868a4412ae5305498681ffc1",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet Ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-20T17:48:24.510662+00:00"
+    },
+    {
+      "id": "d830b4f29b2b4a60b99469fa51e0597a",
+      "kind": "conversation",
+      "content": "selam",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-20T17:48:37.399623+00:00"
+    },
+    {
+      "id": "3b26864b5e8f4a6890e6c8c66eb20aad",
+      "kind": "conversation",
+      "content": "Selam! Nasılsın?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-20T17:48:37.411959+00:00"
+    },
+    {
+      "id": "c012c4c4aee842e7afd9e8c2421a8881",
+      "kind": "conversation",
+      "content": "pek iyi değilim",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-20T17:48:57.421138+00:00"
+    },
+    {
+      "id": "4b347d90da044576ad7e02bf2c4c198e",
+      "kind": "conversation",
+      "content": "Peki, \"pek\" ve \"iyi\"nin birleşmesinden oluşur ve burada ünlü düşmesi vardır.\n\n(Kaynak: 9.sinif-biyoloji-yeni-mufredat-inorganik-bilesikler-konu-anlatimi.pdf, Ses Bilgisi.pdf)",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-20T17:49:00.702261+00:00"
+    },
+    {
+      "id": "0ef1bf1202644c6eae73c8aaa158a04a",
+      "kind": "conversation",
+      "content": "sus",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-20T17:49:04.810848+00:00"
+    },
+    {
+      "id": "a54ae86bc7ee49429c1e14f8fb92441e",
+      "kind": "conversation",
+      "content": "kötüyüm",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-20T17:49:09.918221+00:00"
+    },
+    {
+      "id": "d4de215ff6b54287abf89d0e4b281c3e",
+      "kind": "conversation",
+      "content": "bana google açar mısın",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-20T17:49:27.894965+00:00"
+    },
+    {
+      "id": "659fbe6aa6de4ae19d88dc102ea6868b",
+      "kind": "conversation",
+      "content": "Emin misiniz? Bir uygulama veya bağlantı açılacak. Risk seviyesi: MEDIUM. Devam etmek için 'evet' veya 'onayla', vazgeçmek için 'hayır' veya 'iptal' deyin.",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-20T17:49:27.935210+00:00"
+    },
+    {
+      "id": "6a34993cc1ef4983956a9479cef3fde9",
+      "kind": "conversation",
+      "content": "onaylıyorum",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-20T17:49:35.687121+00:00"
+    },
+    {
+      "id": "3776647f8bf34d31820e246486c829c4",
+      "kind": "conversation",
+      "content": "İşlem sırasında hata oluştu: 'bana google' isimli bir uygulama bulamadım. Tarayıcı listesini yenilemeyi dene: 'uygulamaları yenile'.",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-20T17:49:35.722460+00:00"
+    },
+    {
+      "id": "14b3df4e86a645cdb4b4538e0edf627d",
+      "kind": "conversation",
+      "content": "google açar mısın",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-20T17:49:46.853807+00:00"
+    },
+    {
+      "id": "3d67a7337f6c4735816aa4dd58ea4b6d",
+      "kind": "conversation",
+      "content": "Emin misiniz? Bir uygulama veya bağlantı açılacak. Risk seviyesi: MEDIUM. Devam etmek için 'evet' veya 'onayla', vazgeçmek için 'hayır' veya 'iptal' deyin.",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-20T17:49:46.860290+00:00"
+    },
+    {
+      "id": "131ef9979e7344e08a471c0a60039e0a",
+      "kind": "conversation",
+      "content": "evet",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-20T17:49:50.088502+00:00"
+    },
+    {
+      "id": "2f7072f37c3b4dda8b60d2f415996cf0",
+      "kind": "conversation",
+      "content": "İşlem tamamlandı: google chrome açılıyor...",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-20T17:49:50.170466+00:00"
+    },
+    {
+      "id": "583bbfc5c6a4419886904faa0b6dc0a3",
+      "kind": "conversation",
+      "content": "veri nedir",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-20T17:50:48.880035+00:00"
+    },
+    {
+      "id": "1e03967f8a014657bc449fffa0b4783b",
+      "kind": "conversation",
+      "content": "Metin Creative Commons Atıf-AynıLisanslaPaylaş Lisansıaltındadır ve ek koşullar uygulanabilir. Veri Tabanı Nedir ?\n\nKaynaklar:\n- Veri - Vikipedi (tr.wikipedia.org)\n- Veri Nedir? Veri Tabanı Nedir? - IIENSTITU (www.iienstitu.com)",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-20T17:50:49.729202+00:00"
+    },
+    {
+      "id": "5e4284450e0e44a880fcc50533b1d88d",
+      "kind": "conversation",
+      "content": "sus",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-20T17:50:56.816923+00:00"
+    },
+    {
+      "id": "21d686a73bc14944ab044ae347f48aa7",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet Ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-23T17:17:51.080704+00:00"
+    },
+    {
+      "id": "eda895cf0cc747529acf728482695ed0",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet Ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-23T17:20:02.598164+00:00"
+    },
+    {
+      "id": "beabc86aeaea46d9ac53e3c08d20de7d",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet Ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-28T17:00:59.710054+00:00"
+    },
+    {
+      "id": "70b2735b45344f40ba1b1bd700af95ca",
+      "kind": "conversation",
+      "content": "selam dost naber",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-28T17:02:03.840378+00:00"
+    },
+    {
+      "id": "cfefdc8ee633454693ed80cd5523c7aa",
+      "kind": "conversation",
+      "content": "selam",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-28T17:02:14.934490+00:00"
+    },
+    {
+      "id": "bda99788425140f7879c5ddd896fc62d",
+      "kind": "conversation",
+      "content": "merhaba",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-28T17:02:17.119404+00:00"
+    },
+    {
+      "id": "5b3df69e6b724120bcc21ac3b868e8bd",
+      "kind": "conversation",
+      "content": "nasılsın",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-28T17:02:23.618003+00:00"
+    },
+    {
+      "id": "d0b30692eb044fc69bab347057bd848b",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet Ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-28T17:08:20.125378+00:00"
+    },
+    {
+      "id": "b26df83a4c3946b59cb930d6a0cd4880",
+      "kind": "conversation",
+      "content": "nasılsın",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-28T17:08:37.145733+00:00"
+    },
+    {
+      "id": "9e37e1faada34dfa8ec19885531cdb73",
+      "kind": "conversation",
+      "content": "Ben iyiyim, sen nasılsın?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-28T17:08:37.152455+00:00"
+    },
+    {
+      "id": "2f77802eced54777ac69bb462329035f",
+      "kind": "conversation",
+      "content": "selam dost naber",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-28T17:08:43.082048+00:00"
+    },
+    {
+      "id": "79a381d74bfe44f09dc0f0ee8be9cdc2",
+      "kind": "conversation",
+      "content": "Selam! Nasılsın?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-28T17:08:43.090179+00:00"
+    },
+    {
+      "id": "944bccbb0b47406e9e2cc5558b5721a5",
+      "kind": "conversation",
+      "content": "iyiyim be",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-28T17:08:49.611158+00:00"
+    },
+    {
+      "id": "2ff17d71954744ce8908463387877cce",
+      "kind": "conversation",
+      "content": "Allah iyilik versin!",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-28T17:08:49.613838+00:00"
+    },
+    {
+      "id": "72b6b7eb94e746faa3f5255728464930",
+      "kind": "conversation",
+      "content": "sıkıldım be",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-28T17:08:57.597774+00:00"
+    },
+    {
+      "id": "6042b05864964a11b3592e401682a422",
+      "kind": "conversation",
+      "content": "Merak etme, sana yardımcı olabileceğim şeyler var. Müzik dinleteyim, haber okuyayım, bir şaka yapayım veya sohbet edelim. Ne yapmak istersin?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-28T17:08:57.600371+00:00"
+    },
+    {
+      "id": "11778c0a09394b9a8c0678eb26109751",
+      "kind": "conversation",
+      "content": "bana bi ferdi tayfurun bir şarkısını aç",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-28T17:09:15.626255+00:00"
+    },
+    {
+      "id": "60ca755f1760498796063867af79fa0e",
+      "kind": "conversation",
+      "content": "Emin misiniz? Bir uygulama veya bağlantı açılacak. Risk seviyesi: MEDIUM. Devam etmek için 'evet' veya 'onayla', vazgeçmek için 'hayır' veya 'iptal' deyin.",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-28T17:09:15.635701+00:00"
+    },
+    {
+      "id": "faa7feb64dbd4767a195f61bdd10e6c1",
+      "kind": "conversation",
+      "content": "evet",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-28T17:09:20.251783+00:00"
+    },
+    {
+      "id": "dc83f85de1c14fb8a733a156c65b8b68",
+      "kind": "conversation",
+      "content": "İşlem güvenlik nedeniyle tamamlanamadı: system izni etkin değil. Gizlilik/izinler ekranından etkinleştirin.",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-28T17:09:20.255790+00:00"
+    },
+    {
+      "id": "815530141fe2432c962e58c30e98851b",
+      "kind": "conversation",
+      "content": "izin sistem aç",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-28T17:10:29.949353+00:00"
+    },
+    {
+      "id": "d4c9f402d0e14f5f9dc6aa51ff0127fd",
+      "kind": "conversation",
+      "content": "Sistem izni açıldı.",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-28T17:10:29.954867+00:00"
+    },
+    {
+      "id": "c3468782624c42a8aa2661653ba0cb45",
+      "kind": "conversation",
+      "content": "bana bi fredi tayfurun şarkısını açar mısın",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-28T17:10:49.409120+00:00"
+    },
+    {
+      "id": "670e52b285bf42a58ea2e9dee1b5e23e",
+      "kind": "conversation",
+      "content": "Emin misiniz? Bir uygulama veya bağlantı açılacak. Risk seviyesi: MEDIUM. Devam etmek için 'evet' veya 'onayla', vazgeçmek için 'hayır' veya 'iptal' deyin.",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-28T17:10:49.413626+00:00"
+    },
+    {
+      "id": "c6317a87708245fd8631f491fbb7d571",
+      "kind": "conversation",
+      "content": "evet",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-28T17:10:51.505689+00:00"
+    },
+    {
+      "id": "fcb268c935984a9c8a517e2ee6f2fa61",
+      "kind": "conversation",
+      "content": "İşlem sırasında hata oluştu: 'bana bi fredi tayfurun şarkısını' isimli bir uygulama bulamadım. Tarayıcı listesini yenilemeyi dene: 'uygulamaları yenile'.",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-28T17:10:51.524010+00:00"
+    },
+    {
+      "id": "4b069e28199040e091b474269c6bcfeb",
+      "kind": "conversation",
+      "content": "şarkı aç",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-28T17:10:57.387476+00:00"
+    },
+    {
+      "id": "1659db1482a74dc0ae62c86ad8576b5b",
+      "kind": "conversation",
+      "content": "Emin misiniz? Bir uygulama veya bağlantı açılacak. Risk seviyesi: MEDIUM. Devam etmek için 'evet' veya 'onayla', vazgeçmek için 'hayır' veya 'iptal' deyin.",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-28T17:10:57.390982+00:00"
+    },
+    {
+      "id": "48ffd99df4244b2ab80da593b175e9a0",
+      "kind": "conversation",
+      "content": "evet",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-28T17:10:59.737619+00:00"
+    },
+    {
+      "id": "73033c53c1c540c7b98ef631f9d79f88",
+      "kind": "conversation",
+      "content": "İşlem sırasında hata oluştu: 'şarkı' isimli bir uygulama bulamadım. Tarayıcı listesini yenilemeyi dene: 'uygulamaları yenile'.",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-28T17:10:59.742411+00:00"
+    },
+    {
+      "id": "3ed9de38d6694715b632a60ec5b20fa7",
+      "kind": "conversation",
+      "content": "kes lan sesini",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-28T17:11:08.538113+00:00"
+    },
+    {
+      "id": "4960785d57aa436793a67743a47295de",
+      "kind": "conversation",
+      "content": "sinirlendirme beni",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-28T17:11:16.483731+00:00"
+    },
+    {
+      "id": "e533d0453bc24112acbc8646275926b7",
+      "kind": "conversation",
+      "content": "offf sıkıldım",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-28T17:11:41.518245+00:00"
+    },
+    {
+      "id": "b30f6d4a5ee9419eb0c18d24a1b249e8",
+      "kind": "conversation",
+      "content": "Merak etme, sana yardımcı olabileceğim şeyler var. Müzik dinleteyim, haber okuyayım, bir şaka yapayım veya sohbet edelim. Ne yapmak istersin?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-28T17:11:41.521759+00:00"
+    },
+    {
+      "id": "0e76981518fb4876a35357245db5e18f",
+      "kind": "conversation",
+      "content": "youtube aç",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-28T17:11:52.475879+00:00"
+    },
+    {
+      "id": "be0c4d765e7340b08b6822b129e94d63",
+      "kind": "conversation",
+      "content": "Emin misiniz? Bir uygulama veya bağlantı açılacak. Risk seviyesi: MEDIUM. Devam etmek için 'evet' veya 'onayla', vazgeçmek için 'hayır' veya 'iptal' deyin.",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-28T17:11:52.479977+00:00"
+    },
+    {
+      "id": "f22b39d1cbba48ea8007db6b1945ed7b",
+      "kind": "conversation",
+      "content": "evet",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-28T17:11:56.624634+00:00"
+    },
+    {
+      "id": "c9d76d43566e4e8caf8bac1c9272f391",
+      "kind": "conversation",
+      "content": "İşlem tamamlandı: youtube music süreci başlatıldı ve çalışıyor olarak doğrulandı.",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-28T17:11:56.639088+00:00"
+    },
+    {
+      "id": "4ece30aa8b834defa3e2394828b14192",
+      "kind": "conversation",
+      "content": "uygulamaları yenile",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-28T17:12:05.758208+00:00"
+    },
+    {
+      "id": "51a048b18afd491fb93e06391ad25426",
+      "kind": "conversation",
+      "content": "Uygulamaları yenilemek için cihazınızın uygulama mağazasını açın ve güncellemeleri kontrol edin. iOS cihazlarda App Store'u, Android cihazlarda Google Play Store'u kullanabilirsiniz. Uygulamalarınızı güncellemek için mağazadaki güncelleme seçeneğini tıklayın.\n\nKaynaklar:\n- iPhone, iPad veya iPod touch'ınızda uygulamalar arasında geçiş yapma (support.apple.com)\n- Uygulamaların arka planda yenilenmesi nasıl etkinleştirilir ️ (tecnobits.com)\n- Uygulamaları yeniden yükleyip etkinleştirme - Bilgisayar - Google Play ... (support.google.com)",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-28T17:12:08.818595+00:00"
+    },
+    {
+      "id": "ec9c522107384b338b5f917e878a207f",
+      "kind": "conversation",
+      "content": "sus",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-28T17:12:16.360792+00:00"
+    },
+    {
+      "id": "d801b383b79d4701950590312bbed70d",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet Ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-28T17:18:52.981637+00:00"
+    },
+    {
+      "id": "7cf0b1ce050e4750bb06a92619208637",
+      "kind": "conversation",
+      "content": "bana bi ferdi tayfur müziği aç",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-28T17:19:15.334608+00:00"
+    },
+    {
+      "id": "e433d183e2f846b6908cb79c3f78ee41",
+      "kind": "conversation",
+      "content": "Emin misiniz? Bir uygulama veya bağlantı açılacak. Risk seviyesi: MEDIUM. Devam etmek için 'evet' veya 'onayla', vazgeçmek için 'hayır' veya 'iptal' deyin.",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-28T17:19:15.338006+00:00"
+    },
+    {
+      "id": "b4ac7542997546a9ba5cd5db49d8ceb9",
+      "kind": "conversation",
+      "content": "evet",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-28T17:19:17.102488+00:00"
+    },
+    {
+      "id": "772ee1aae1c34097ae89e26674f3e2b3",
+      "kind": "conversation",
+      "content": "İşlem sırasında hata oluştu: 'bana bi ferdi tayfur müziği' isimli bir uygulama bulamadım. Tarayıcı listesini yenilemeyi dene: 'uygulamaları yenile'.",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-28T17:19:17.109137+00:00"
+    },
+    {
+      "id": "38992e2c66bf40f58a3d46365d76de92",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet Ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-28T17:20:26.824258+00:00"
+    },
+    {
+      "id": "4513f8cd01d74de6bc8bdb8a409302e1",
+      "kind": "conversation",
+      "content": "bana müzik aç",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-28T17:21:04.510428+00:00"
+    },
+    {
+      "id": "265c080258124c44b16dc5d50dec521f",
+      "kind": "conversation",
+      "content": "Emin misiniz? Bir uygulama veya bağlantı açılacak. Risk seviyesi: MEDIUM. Devam etmek için 'evet' veya 'onayla', vazgeçmek için 'hayır' veya 'iptal' deyin.",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-28T17:21:04.515743+00:00"
+    },
+    {
+      "id": "959c3b54ab08435e86365675de4af7b6",
+      "kind": "conversation",
+      "content": "evet",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-28T17:21:06.516613+00:00"
+    },
+    {
+      "id": "4b159fdffc6d487387c2c4c6ed896d68",
+      "kind": "conversation",
+      "content": "İşlem tamamlandı: Şarkı isteği YouTube'a yönlendirildi.",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-28T17:21:06.518612+00:00"
+    },
+    {
+      "id": "763fb1a995f443ceb0f586bc5c641595",
+      "kind": "conversation",
+      "content": "bana ferdi tayfur müzik aç",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-28T17:21:22.223453+00:00"
+    },
+    {
+      "id": "918d669b8891432db9603b8d8d7ac2cc",
+      "kind": "conversation",
+      "content": "Emin misiniz? Bir uygulama veya bağlantı açılacak. Risk seviyesi: MEDIUM. Devam etmek için 'evet' veya 'onayla', vazgeçmek için 'hayır' veya 'iptal' deyin.",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-28T17:21:22.226966+00:00"
+    },
+    {
+      "id": "f1449387d3294874b412306f0a865556",
+      "kind": "conversation",
+      "content": "evet",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-28T17:21:23.999419+00:00"
+    },
+    {
+      "id": "7be92b6b20c4487d91c88e8194e864a6",
+      "kind": "conversation",
+      "content": "İşlem tamamlandı: Şarkı isteği YouTube'a yönlendirildi.",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-28T17:21:24.003442+00:00"
+    },
+    {
+      "id": "cc911b76fb434c2089e1b372c4971674",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet Ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-28T17:28:18.687137+00:00"
+    },
+    {
+      "id": "d2fc8d3d8ffa459194deba677e931b5a",
+      "kind": "conversation",
+      "content": "bana bi fredi tayfur müziği aç",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-28T17:29:12.338686+00:00"
+    },
+    {
+      "id": "de7ea3b50fee416eb1c60f86257cd2ae",
+      "kind": "conversation",
+      "content": "'fredi tayfur' YouTube'da aranıyor...",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-28T17:29:12.343106+00:00"
+    },
+    {
+      "id": "5577537608c441a6b4aca8544d9493ac",
+      "kind": "conversation",
+      "content": "YouTube'da arama başarısız: No module named 'yt_dlp'",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-28T17:29:16.370855+00:00"
+    },
+    {
+      "id": "3b599dab22024443b70666b5ac6dff40",
+      "kind": "conversation",
+      "content": "Merhaba Mehmet Ege, Ben Anka.. Size nasıl yardımcı olabilirim?",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-28T17:30:08.995058+00:00"
+    },
+    {
+      "id": "a830161e584844c59cdb4b31a2504953",
+      "kind": "conversation",
+      "content": "bana bi ferdi tayfur müziği aç",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-28T17:30:24.606305+00:00"
+    },
+    {
+      "id": "9012331ceea24c75b3bae9557edd9877",
+      "kind": "conversation",
+      "content": "'ferdi tayfur' YouTube'da aranıyor...",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-28T17:30:24.610234+00:00"
+    },
+    {
+      "id": "dccd937197244c9ea25da78cc6772b48",
+      "kind": "conversation",
+      "content": "'ferdi tayfur' için YouTube açma isteği işletim sistemine iletildi.",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-28T17:30:31.720981+00:00"
+    },
+    {
+      "id": "bda5387ec1554c5594b87a5d67a37cb0",
+      "kind": "conversation",
+      "content": "helalsin",
+      "metadata": {
+        "speaker": "user"
+      },
+      "created_at": "2026-09-28T17:30:45.075410+00:00"
+    },
+    {
+      "id": "27bba58b51214c3c978fdded91111619",
+      "kind": "conversation",
+      "content": "Araştırma için doğrulanabilir kaynak bulunamadı. Bağlantıyı kontrol edip tekrar deneyin.",
+      "metadata": {
+        "speaker": "Mehmet Ege"
+      },
+      "created_at": "2026-09-28T17:30:45.319723+00:00"
+    }
+  ]
+}

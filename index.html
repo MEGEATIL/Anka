@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>ANKA AI</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Orbitron,sans-serif;
+}
+
+body{
+
+background:#030507;
+overflow:hidden;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+height:100vh;
+
+color:white;
+
+}
+
+/* Arkaplan */
+
+.background{
+
+position:absolute;
+width:100%;
+height:100%;
+
+background:
+radial-gradient(circle at center,#0d2731 0%,#040607 65%);
+
+overflow:hidden;
+
+}
+
+/* Grid */
+
+.grid{
+
+position:absolute;
+
+width:100%;
+height:100%;
+
+background-image:
+
+linear-gradient(rgba(0,255,255,.05) 1px,transparent 1px),
+linear-gradient(90deg,rgba(0,255,255,.05) 1px,transparent 1px);
+
+background-size:40px 40px;
+
+opacity:.4;
+
+animation:gridMove 12s linear infinite;
+
+}
+
+@keyframes gridMove{
+
+0%{
+
+transform:translateY(0);
+
+}
+
+100%{
+
+transform:translateY(40px);
+
+}
+
+}
+
+/* Merkez */
+
+.center{
+
+position:relative;
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+justify-content:center;
+
+}
+
+/* Glow */
+
+.glow{
+
+position:absolute;
+
+width:450px;
+height:450px;
+
+border-radius:50%;
+
+background:
+
+radial-gradient(circle,
+
+rgba(0,255,255,.28),
+
+transparent 70%);
+
+filter:blur(40px);
+
+animation:pulse 3s infinite;
+
+}
+
+@keyframes pulse{
+
+0%{
+
+transform:scale(.9);
+
+opacity:.3;
+
+}
+
+50%{
+
+transform:scale(1.1);
+
+opacity:1;
+
+}
+
+100%{
+
+transform:scale(.9);
+
+opacity:.3;
+
+}
+
+}
+
+/* HUD */
+
+.hud{
+
+position:absolute;
+
+width:260px;
+height:260px;
+
+border:2px solid #00ffff33;
+
+border-radius:50%;
+
+animation:rotate1 12s linear infinite;
+
+}
+
+.hud::before{
+
+content:"";
+
+position:absolute;
+
+inset:20px;
+
+border:2px solid #00ffff44;
+
+border-radius:50%;
+
+}
+
+.hud::after{
+
+content:"";
+
+position:absolute;
+
+inset:45px;
+
+border:2px dashed #00ffff55;
+
+border-radius:50%;
+
+}
+
+@keyframes rotate1{
+
+from{
+
+transform:rotate(0deg);
+
+}
+
+to{
+
+transform:rotate(360deg);
+
+}
+
+}
+
+/* Logo */
+
+.logo{
+
+font-size:64px;
+
+font-weight:900;
+
+letter-spacing:8px;
+
+color:#6efcff;
+
+text-shadow:
+
+0 0 8px cyan,
+
+0 0 20px cyan,
+
+0 0 40px cyan;
+
+opacity:0;
+
+animation:
+
+logoIn 2s forwards;
+
+animation-delay:1.3s;
+
+}
+
+@keyframes logoIn{
+
+from{
+
+opacity:0;
+
+transform:translateY(20px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
+
+.subtitle{
+
+margin-top:12px;
+
+letter-spacing:5px;
+
+color:#86dede;
+
+font-size:14px;
+
+opacity:0;
+
+animation:
+
+logoIn 2s forwards;
+
+animation-delay:1.9s;
+
+}
+
+/* Loading */
+
+.loading{
+
+position:absolute;
+
+bottom:-130px;
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+width:420px;
+
+}
+
+.loadingText{
+
+margin-bottom:14px;
+
+font-size:14px;
+
+letter-spacing:3px;
+
+color:#8ddddd;
+
+}
+
+.bar{
+
+width:100%;
+
+height:10px;
+
+border-radius:30px;
+
+background:#072127;
+
+overflow:hidden;
+
+}
+
+.fill{
+
+height:100%;
+
+width:0;
+
+background:
+
+linear-gradient(90deg,
+
+#00aaff,
+
+#00ffff);
+
+box-shadow:
+
+0 0 15px cyan;
+
+animation:load 6s forwards;
+
+}
+
+@keyframes load{
+
+0%{
+
+width:0%;
+
+}
+
+100%{
+
+width:100%;
+
+}
+
+}
+
+.percent{
+
+margin-top:12px;
+
+font-size:22px;
+
+color:#65ffff;
+
+}
+
+.modules{
+
+margin-top:28px;
+
+display:flex;
+
+flex-direction:column;
+
+gap:8px;
+
+font-size:13px;
+
+color:#9aeaea;
+
+}
+
+.module{
+
+display:flex;
+
+justify-content:space-between;
+
+width:340px;
+
+opacity:0;
+
+transform:translateX(-30px);
+
+animation:moduleIn .5s forwards;
+
+}
+
+.module:nth-child(1){animation-delay:5.6s;}
+.module:nth-child(2){animation-delay:5.9s;}
+.module:nth-child(3){animation-delay:6.2s;}
+.module:nth-child(4){animation-delay:6.5s;}
+.module:nth-child(5){animation-delay:6.8s;}
+.module:nth-child(6){animation-delay:7.1s;}
+
+@keyframes moduleIn{
+
+to{
+
+opacity:1;
+
+transform:translateX(0);
+
+}
+
+}
+
+.ok{
+
+color:#00ff88;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="background">
+
+<div class="grid"></div>
+
+</div>
+
+<div class="center">
+
+<div class="glow"></div>
+
+<div class="hud"></div>
+
+<div class="logo">
+
+ANKA AI
+
+</div>
+
+<div class="subtitle">
+
+YAPAY ZEKA ASİSTANI
+
+</div>
+
+<div class="loading">
+
+<div class="loadingText">
+
+SYSTEM INITIALIZING
+
+</div>
+
+<div class="bar">
+
+<div class="fill"></div>
+
+</div>
+
+<div class="percent" id="percent">
+
+0%
+
+</div>
+
+<div class="modules">
+
+<div class="module">
+
+<span>AI CORE</span>
+
+<span class="ok">ONLINE</span>
+
+</div>
+
+<div class="module">
+
+<span>VOICE</span>
+
+<span class="ok">ONLINE</span>
+
+</div>
+
+<div class="module">
+
+<span>MEMORY</span>
+
+<span class="ok">ONLINE</span>
+
+</div>
+
+<div class="module">
+
+<span>VISION</span>
+
+<span class="ok">ONLINE</span>
+
+</div>
+
+<div class="module">
+
+<span>SECURITY</span>
+
+<span class="ok">ONLINE</span>
+
+</div>
+
+<div class="module">
+
+<span>NETWORK</span>
+
+<span class="ok">ONLINE</span>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+let p=0;
+
+let label=document.getElementById("percent");
+
+let timer=setInterval(()=>{
+
+p++;
+
+label.innerHTML=p+"%";
+
+if(p>=100){
+
+clearInterval(timer);
+
+}
+
+},60);
+
+</script>
+
+</body>
+</html>
+/*=========================================================
+PARTICLES
+=========================================================*/
+
+.particles{
+position:absolute;
+width:100%;
+height:100%;
+overflow:hidden;
+pointer-events:none;
+}
+
+.particle{
+
+position:absolute;
+
+width:3px;
+height:3px;
+
+background:#65ffff;
+
+border-radius:50%;
+
+box-shadow:
+0 0 8px cyan,
+0 0 16px cyan;
+
+animation:particleMove linear infinite;
+
+}
+
+@keyframes particleMove{
+
+0%{
+
+transform:translateY(110vh) scale(0);
+
+opacity:0;
+
+}
+
+10%{
+
+opacity:1;
+
+transform:scale(1);
+
+}
+
+90%{
+
+opacity:1;
+
+}
+
+100%{
+
+transform:translateY(-10vh) scale(0);
+
+opacity:0;
+
+}
+
+}
+
+/*=========================================================
+SCANLINE
+=========================================================*/
+
+.scanline{
+
+position:absolute;
+
+width:100%;
+height:100%;
+
+pointer-events:none;
+
+background:
+repeating-linear-gradient(
+
+to bottom,
+
+transparent 0px,
+
+transparent 3px,
+
+rgba(0,255,255,.03) 4px
+
+);
+
+mix-blend-mode:screen;
+
+animation:scan 6s linear infinite;
+
+}
+
+@keyframes scan{
+
+0%{
+
+transform:translateY(-100%);
+
+}
+
+100%{
+
+transform:translateY(100%);
+
+}
+
+}
+
+/*=========================================================
+DIGITAL GLITCH
+=========================================================*/
+
+.glitch{
+
+animation:glitch 6s infinite;
+
+}
+
+@keyframes glitch{
+
+0%,92%,100%{
+
+transform:none;
+
+filter:none;
+
+}
+
+93%{
+
+transform:translateX(-2px);
+
+filter:hue-rotate(30deg);
+
+}
+
+94%{
+
+transform:translateX(2px);
+
+}
+
+95%{
+
+transform:translateY(2px);
+
+}
+
+96%{
+
+transform:none;
+
+}
+
+}
+
+/*=========================================================
+EAGLE SVG
+=========================================================*/
+
+.eagle{
+
+width:170px;
+
+height:170px;
+
+margin-bottom:25px;
+
+opacity:0;
+
+animation:eagleIn 1.5s forwards;
+
+animation-delay:.8s;
+
+}
+
+.eagle path{
+
+fill:none;
+
+stroke:#5cfbff;
+
+stroke-width:2.5;
+
+stroke-linecap:round;
+
+stroke-linejoin:round;
+
+stroke-dasharray:900;
+
+stroke-dashoffset:900;
+
+filter:
+
+drop-shadow(0 0 8px cyan)
+
+drop-shadow(0 0 18px cyan);
+
+animation:drawLogo 3s forwards;
+
+animation-delay:.8s;
+
+}
+
+@keyframes drawLogo{
+
+to{
+
+stroke-dashoffset:0;
+
+}
+
+}
+
+@keyframes eagleIn{
+
+to{
+
+opacity:1;
+
+}
+
+}
+
+/*=========================================================
+BOOT FLASH
+=========================================================*/
+
+.flash{
+
+position:absolute;
+
+width:100%;
+height:100%;
+
+background:white;
+
+opacity:0;
+
+pointer-events:none;
+
+animation:bootFlash 8s forwards;
+
+}
+
+@keyframes bootFlash{
+
+0%{
+
+opacity:0;
+
+}
+
+97%{
+
+opacity:0;
+
+}
+
+98%{
+
+opacity:.25;
+
+}
+
+100%{
+
+opacity:0;
+
+}
+
+}

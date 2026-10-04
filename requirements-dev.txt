@@ -1,0 +1,3 @@
+# ANKA doğrulama araçları
+pytest>=8.0
+
